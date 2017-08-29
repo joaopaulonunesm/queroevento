@@ -1,84 +1,39 @@
 <meta charset="UTF-8" />
-<div class="container">
-    <div class="row">
-    
-        <div class="col s3">
-            <a href="#/" style="color: white">
-            	<div class="card-panel center-align hoverable" style="background-color: #283E4A">
-            		Bar
-            	</div>
-            </a>
-        </div>
-        
-        <div class="col s3">
-            <a href="#/" style="color: white">
-            	<div class="card-panel center-align hoverable" style="background-color: #283E4A">
-            		Jogos
-            	</div>
-            </a>
-        </div>
-        
-        <div class="col s3">
-            <a href="#/" style="color: white">
-            	<div class="card-panel center-align hoverable" style="background-color: #283E4A">
-            		Inaugurações
-            	</div>
-            </a>
-        </div>
-        
-        <div class="col s3">
-            <a href="#/" style="color: white">
-            	<div class="card-panel center-align hoverable" style="background-color: #283E4A">
-            		Cursos
-            	</div>
-            </a>
-        </div>
+<div class="row">
 
-        <div class="col s12">
-            
-			<div slider>
-			    <ul class="slides">
-			    
-				    <li>
-				        <img src="https://lorempixel.com/1000/1000/people/1"> <!-- random image -->
-				        <div class="caption center-align">
-				        <h3>Evento 1</h3>
-				        <h5 class="light white-text text-lighten-3">Descrição do evento 1 aqui.</h5>
-				        <a class="btn waves-effect orange white-text darken-text-2">Ver mais</a>
-				        </div>
-				    </li>
-				    
-				    <li>
-				        <img src="https://lorempixel.com/1000/1000/people/2"> <!-- random image -->
-				        <div class="caption left-align">
-				        <h3>Evento 2</h3>
-				        <h5 class="light white-text text-lighten-3">Descrição do evento 2 aqui.</h5>
-				        <a class="btn waves-effect orange white-text darken-text-2">Ver mais</a>
-				        </div>
-				    </li>
-				    
-				    <li>
-				        <img src="https://lorempixel.com/1000/1000/people/3"> <!-- random image -->
-				        <div class="caption right-align">
-				        <h3>Evento 3</h3>
-				        <h5 class="light white-text text-lighten-3">Descrição do evento 3 aqui.</h5>
-				        <a class="btn waves-effect orange white-text darken-text-2">Ver mais</a>
-				        </div>
-				    </li>
-				    
-				    <li>
-				        <img src="https://lorempixel.com/1000/1000/people/4"> <!-- random image -->
-				        <div class="caption center-align">
-				        <h3>Evento 4</h3>
-				        <h5 class="light white-text text-lighten-3">Descrição do evento 4 aqui.</h5>
-				        <a class="btn waves-effect orange white-text darken-text-2">Ver mais</a>
-				        </div>
-				    </li>
-			    
-			    </ul>
+	<div class="col s3">
+		<a href="#/category/Bar" style="color: white">
+			<div class="card-panel center-align hoverable" style="background-color: #283E4A">
+				Bar
 			</div>
+		</a>
+	</div>
+	
+	<div class="col s3">
+		<a href="#/category/Jogos" style="color: white">
+			<div class="card-panel center-align hoverable" style="background-color: #283E4A">
+				Jogos
+			</div>
+		</a>
+	</div>
+	
+	<div class="col s3">
+		<a href="#/category/Inaugurações" style="color: white">
+			<div class="card-panel center-align hoverable" style="background-color: #283E4A">
+				Inaugurações
+			</div>
+		</a>
+	</div>
+	
+	<div class="col s3">
+		<a href="#/category/Cursos" style="color: white">
+			<div class="card-panel center-align hoverable" style="background-color: #283E4A">
+				Cursos
+			</div>
+		</a>
+	</div>
 
-        </div>
-
-    </div>
+	<div class="col s12">
+		<div ng-include="'views/index/component/bannerTopEventos.html'"></div>
+	</div>
 </div>
