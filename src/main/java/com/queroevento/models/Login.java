@@ -3,6 +3,7 @@ package com.queroevento.models;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -20,13 +21,15 @@ public class Login {
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "LOGINSEQ")
 	private Long id;
 
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_user")
-	private User user;
-
+	@Column(nullable = false)
 	private String email;
 
+	@Column(nullable = false)
 	private String password;
+
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_user")
+	private UserAccount user;
 
 	private Date createDate;
 
@@ -44,14 +47,6 @@ public class Login {
 		this.id = id;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
 	public String getEmail() {
 		return email;
 	}
@@ -66,6 +61,14 @@ public class Login {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public UserAccount getUser() {
+		return user;
+	}
+
+	public void setUser(UserAccount user) {
+		this.user = user;
 	}
 
 	public Date getCreateDate() {

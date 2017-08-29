@@ -1,5 +1,6 @@
 package com.queroevento.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -7,13 +8,14 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
 @Entity
-public class User {
+public class UserAccount {
 
 	@Id
 	@SequenceGenerator(name = "USERSEQ", sequenceName = "USER_SEQ", initialValue = 1, allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "USERSEQ")
 	private Long id;
 
+	@Column(nullable = false)
 	private String name;
 
 	private String imageUrl;

@@ -1,5 +1,7 @@
 package com.queroevento.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,10 @@ public class CategoryService {
 
 	public Category findOne(Long id) {
 		return categoryRepository.findOne(id);
+	}
+	
+	public List<Category> findAll() {
+		return categoryRepository.findAll();
 	}
 
 }
