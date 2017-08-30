@@ -31,6 +31,8 @@ public class Event {
 
 	private String title;
 
+	private String urlTitle;
+
 	@ManyToOne
 	@JoinColumn(name = "id_category", nullable = false)
 	private Category category;
@@ -55,7 +57,11 @@ public class Event {
 
 	@Lob
 	@Type(type = "org.hibernate.type.TextType")
-	private String description;
+	private String shortDescription;
+
+	@Lob
+	@Type(type = "org.hibernate.type.TextType")
+	private String completeDescription;
 
 	@JoinColumn(name = "people_estimate")
 	private Integer peopleEstimate;
@@ -68,7 +74,7 @@ public class Event {
 
 	@Type(type = "org.hibernate.type.StringType")
 	private StatusEvent status;
-	
+
 	@Type(type = "org.hibernate.type.StringType")
 	private CatalogStatusEvent catalogStatus;
 
@@ -94,6 +100,14 @@ public class Event {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public String getUrlTitle() {
+		return urlTitle;
+	}
+
+	public void setUrlTitle(String urlTitle) {
+		this.urlTitle = urlTitle;
 	}
 
 	public Category getCategory() {
@@ -160,12 +174,20 @@ public class Event {
 		this.createEventDate = createEventDate;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getShortDescription() {
+		return shortDescription;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setShortDescription(String shortDescription) {
+		this.shortDescription = shortDescription;
+	}
+
+	public String getCompleteDescription() {
+		return completeDescription;
+	}
+
+	public void setCompleteDescription(String completeDescription) {
+		this.completeDescription = completeDescription;
 	}
 
 	public Integer getPeopleEstimate() {
