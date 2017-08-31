@@ -26,13 +26,21 @@ public class LoginService {
 		return loginRepository.findOne(id);
 	}
 
+	public Login findByEmail(String email) {
+		return loginRepository.findByEmailIgnoreCase(email);
+	}
+	
+	public Login findByToken(String token){
+		return loginRepository.findByToken(token);
+	}
+
 	public Login validateLogin(Login login) throws ServletException {
 
 		if (login.getEmail() == null || login.getPassword() == null) {
 			throw new ServletException("Username e Senha é obrigatório.");
 		}
 
-		Login existenceLogin = loginRepository.findByEmail(login.getEmail());
+		Login existenceLogin = loginRepository.findByEmailIgnoreCase(login.getEmail());
 
 		if (existenceLogin == null) {
 			throw new ServletException("User não encontrado.");
@@ -41,7 +49,7 @@ public class LoginService {
 		if (!login.getPassword().equals(existenceLogin.getPassword())) {
 			throw new ServletException("User ou Password inválido.");
 		}
-		
+
 		return existenceLogin;
 	}
 

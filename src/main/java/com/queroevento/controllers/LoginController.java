@@ -26,20 +26,24 @@ public class LoginController {
 	@Autowired
 	private LoginService loginService;
 
-	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/logins", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Login> postLogin(@RequestBody Login login) {
 
 		if (login.getEmail() == null || login.getPassword() == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
+		if(loginService.findByEmail(login.getEmail()) != null){
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
 		login.setCreateDate(new Date());
 		login.setActive(true);
 
 		return new ResponseEntity<>(loginService.save(login), HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/login/password/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/logins/{id}/password", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Login> putLoginPassword(@RequestBody Login login, @PathVariable Long id) {
 
 		Login existenceLogin = loginService.findOne(id);
@@ -48,26 +52,16 @@ public class LoginController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 
+		if(login.getPassword() == null || login.getPassword().isEmpty()){
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
 		existenceLogin.setPassword(login.getPassword());
 
-		return new ResponseEntity<>(loginService.save(login), HttpStatus.OK);
+		return new ResponseEntity<>(loginService.save(existenceLogin), HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/login/email/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Login> putLoginEmail(@RequestBody Login login, @PathVariable Long id) {
-
-		Login existenceLogin = loginService.findOne(id);
-
-		if (existenceLogin == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-
-		existenceLogin.setEmail(login.getEmail());
-
-		return new ResponseEntity<>(loginService.save(login), HttpStatus.OK);
-	}
-
-	@RequestMapping(value = "/login/active/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/logins/{id}/active", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Login> putLoginActive(@RequestBody Login login, @PathVariable Long id) {
 
 		Login existenceLogin = loginService.findOne(id);
@@ -76,14 +70,29 @@ public class LoginController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 
-		existenceLogin.setActive(login.getActive());
+		if(login.getActive() != null && login.getActive() != existenceLogin.getActive()){
+			existenceLogin.setActive(login.getActive());
+		}
 
-		return new ResponseEntity<>(loginService.save(login), HttpStatus.OK);
+		return new ResponseEntity<>(loginService.save(existenceLogin), HttpStatus.OK);
 	}
 
-	// Autenticação de usuário
-	@RequestMapping(value = "/login/authenticate", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Login> authenticatedToken(@RequestBody Login login) throws ServletException {
+	@RequestMapping(value = "/logins/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Login> deleteLogin(@PathVariable Long id) {
+
+		Login deleteLogin = loginService.findOne(id);
+
+		if (deleteLogin == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+		loginService.delete(deleteLogin);
+
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/logins/authenticate", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Login> authenticatedLogin(@RequestBody Login login) throws ServletException {
 
 		Login existenceLogin = loginService.validateLogin(login);
 

@@ -21,15 +21,13 @@ public class Login {
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "LOGINSEQ")
 	private Long id;
 
-	@Column(nullable = false)
 	private String email;
 
-	@Column(nullable = false)
 	private String password;
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_user")
-	private UserAccount user;
+	private User user;
 
 	private Date createDate;
 
@@ -63,11 +61,11 @@ public class Login {
 		this.password = password;
 	}
 
-	public UserAccount getUser() {
+	public User getUser() {
 		return user;
 	}
 
-	public void setUser(UserAccount user) {
+	public void setUser(User user) {
 		this.user = user;
 	}
 

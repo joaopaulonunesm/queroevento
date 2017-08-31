@@ -27,7 +27,7 @@ public class Event {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_user", nullable = false)
-	private UserAccount user;
+	private User user;
 
 	private String title;
 
@@ -86,11 +86,11 @@ public class Event {
 		this.id = id;
 	}
 
-	public UserAccount getUser() {
+	public User getUser() {
 		return user;
 	}
 
-	public void setUser(UserAccount user) {
+	public void setUser(User user) {
 		this.user = user;
 	}
 
