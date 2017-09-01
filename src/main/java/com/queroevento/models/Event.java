@@ -229,5 +229,4 @@ public class Event {
 	public void setCatalogStatus(CatalogStatusEvent catalogStatus) {
 		this.catalogStatus = catalogStatus;
 	}
-
 }

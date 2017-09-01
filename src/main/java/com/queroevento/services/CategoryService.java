@@ -30,4 +30,8 @@ public class CategoryService {
 		return categoryRepository.findAll();
 	}
 
+	public Category findByNameIgnoreCase(String name) {
+		return categoryRepository.findByNameIgnoreCase(name);
+	}
+
 }

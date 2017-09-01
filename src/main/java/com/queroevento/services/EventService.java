@@ -25,9 +25,32 @@ public class EventService {
 	public Event findOne(Long id) {
 		return eventRepository.findOne(id);
 	}
-	
-	public List<Event> findAll() {
-		return eventRepository.findAll();
+
+	public List<Event> findAllOrderByEventDate() {
+		return eventRepository.findByOrderByEventDate();
+	}
+
+	public List<Event> findByCategoryIdOrderByEventDate(Long id) {
+		return eventRepository.findByCategoryIdOrderByEventDate(id);
+	}
+
+	public List<Event> findByOrderByPeopleEstimateDesc() {
+		return eventRepository.findByOrderByPeopleEstimateDesc();
+	}
+
+	public Event findByUrlTitle(String url) {
+		return eventRepository.findByUrlTitle(url);
+	}
+
+	public String titleToUrlTitle(String title) {
+
+		String urlTitle = title.replaceAll(" ", "_").replaceAll("[ãâàáä]", "a").replaceAll("[êèéë]", "e")
+				.replaceAll("[îìíï]", "i").replaceAll("[õôòóö]", "o").replaceAll("[ûúùü]", "u")
+				.replaceAll("[ÃÂÀÁÄ]", "A").replaceAll("[ÊÈÉË]", "E").replaceAll("[ÎÌÍÏ]", "I")
+				.replaceAll("[ÕÔÒÓÖ]", "O").replaceAll("[ÛÙÚÜ]", "U").replace('ç', 'c').replace('Ç', 'C')
+				.replace('ñ', 'n').replace('Ñ', 'N');
+
+		return urlTitle.toLowerCase();
 	}
 
 }

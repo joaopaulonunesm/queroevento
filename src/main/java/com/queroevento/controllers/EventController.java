@@ -1,5 +1,6 @@
 package com.queroevento.controllers;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,9 @@ public class EventController {
 
 		event.setUser(user);
 		event.setCategory(category);
+		event.setPeopleEstimate(0);
+		event.setCreateEventDate(new Date());
+		event.setUrlTitle(eventService.titleToUrlTitle(event.getTitle()));
 
 		return new ResponseEntity<>(eventService.save(event), HttpStatus.CREATED);
 	}
@@ -83,34 +87,66 @@ public class EventController {
 
 		Event existenceEvent = eventService.findOne(id);
 
-		if (user != event.getUser() || user != existenceEvent.getUser()) {
+		if (event.getUser() != null && user.getId() != event.getUser().getId()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		
+
+		if (user.getId() != existenceEvent.getUser().getId()) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		event.setId(existenceEvent.getId());
+		event.setCreateEventDate(existenceEvent.getCreateEventDate());
+		event.setPeopleEstimate(existenceEvent.getPeopleEstimate());
+		event.setCatalogStatus(existenceEvent.getCatalogStatus());
 		event.setUser(user);
 		event.setCatalogStatus(existenceEvent.getCatalogStatus());
-		
+
 		eventService.save(event);
 
 		return new ResponseEntity<>(event, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/events/{id}")
-	public ResponseEntity<Event> deleteEvent(@RequestHeader(value = "Authorization") String token, @PathVariable Long id) {
+	@RequestMapping(value = "/events/{id}/estimate", method = RequestMethod.PUT)
+	public ResponseEntity<Event> putEventPeopleEstimate(@RequestHeader(value = "Authorization") String token,
+			@PathVariable Long id) {
 
 		User user = userService.findByToken(token);
 
 		if (user == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		
+
+		Event existenceEvent = eventService.findOne(id);
+
+		if (user != existenceEvent.getUser()) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		existenceEvent.setPeopleEstimate(existenceEvent.getPeopleEstimate() + 1);
+
+		eventService.save(existenceEvent);
+
+		return new ResponseEntity<>(existenceEvent, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/events/{id}")
+	public ResponseEntity<Event> deleteEvent(@RequestHeader(value = "Authorization") String token,
+			@PathVariable Long id) {
+
+		User user = userService.findByToken(token);
+
+		if (user == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
 		Event event = eventService.findOne(id);
 
 		if (event == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		
-		if(user != event.getUser()){
+
+		if (user != event.getUser()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
@@ -120,8 +156,9 @@ public class EventController {
 	}
 
 	@RequestMapping(value = "/events/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Event> getOneEvent(@RequestHeader(value = "Authorization") String token, @PathVariable Long id) {
-		
+	public ResponseEntity<Event> getOneEvent(@RequestHeader(value = "Authorization") String token,
+			@PathVariable Long id) {
+
 		User user = userService.findByToken(token);
 
 		if (user == null) {
@@ -138,14 +175,65 @@ public class EventController {
 	}
 
 	@RequestMapping(value = "/events", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Event>> getAllEvent(@RequestHeader(value = "Authorization") String token) {
+	public ResponseEntity<List<Event>> getAllEventOrderByDate(@RequestHeader(value = "Authorization") String token) {
 
 		User user = userService.findByToken(token);
 
 		if (user == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		
-		return new ResponseEntity<>(eventService.findAll(), HttpStatus.OK);
+
+		return new ResponseEntity<>(eventService.findAllOrderByEventDate(), HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/events/category/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Event>> getAllEventByCategory(@RequestHeader(value = "Authorization") String token,
+			@PathVariable Long id) {
+
+		User user = userService.findByToken(token);
+
+		if (user == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		Category category = categoryService.findOne(id);
+
+		if (category == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+		return new ResponseEntity<>(eventService.findByCategoryIdOrderByEventDate(category.getId()), HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/events/estimate", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Event>> getAllEventOrderByConfirmedPresenceDesc(
+			@RequestHeader(value = "Authorization") String token) {
+
+		User user = userService.findByToken(token);
+
+		if (user == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		return new ResponseEntity<>(eventService.findByOrderByPeopleEstimateDesc(), HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/events/urltitle/{url}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Event> getEventByUrlTitle(@RequestHeader(value = "Authorization") String token,
+			@PathVariable String url) {
+
+		User user = userService.findByToken(token);
+
+		if (user == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		Event event = eventService.findByUrlTitle(url);
+
+		if (event == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		return new ResponseEntity<>(event, HttpStatus.OK);
 	}
 }
