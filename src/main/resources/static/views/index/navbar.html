@@ -1,18 +1,57 @@
 <div class="navbar-fixed">
     <nav>
-        <div class="container">
-            <div class="nav-wrapper">
-            <a href="#/" class="brand-logo"><img style="margin-top: 15px" src="images/navlogo.png" alt="Logo"></a>
-            <ul class="right hide-on-med-and-down">
-                <li><a href="#/">Top Eventos</a></li>
-                <li><a href="#/">Categorias</a></li>
-                <li>
-                    <a class='btn orange' href='#/login'>
-                        Publique seus eventos!
-                    </a>
-                </li>
-            </ul>
+        <div class="nav-wrapper">
+            <div class="container">
+                <a href="#/" class="brand-logo"><img style="margin-top: 15px" src="images/navlogo.png" alt="Logo"></a>
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="#/">Top Eventos</a></li>
+                    <li>
+                        <a class='dropdown-button' href='javascript:void(0);' data-activates='demoDropdown' dropdown data-hover="true">
+                            Categorias
+                        </a>
+
+                        <ul id='demoDropdown' class='dropdown-content'>
+                            <li><a href="#/category/Bar" class="collection-item blue-text">Bar</a></li>
+                            <li><a href="#/category/Balada" class="collection-item blue-text">Balada</a></li>
+                            <li><a href="#/category/Inaugurações" class="collection-item blue-text">Inaugurações</a></li>
+                            <li><a href="#/category/Jogos" class="collection-item blue-text">Jogos</a></li>
+                            <li><a href="#/category/Cursos" class="collection-item blue-text">Cursos</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class='btn orange' href='#/login'>
+                            Publique seus eventos!
+                        </a>
+                    </li>
+                </ul>
+                <a href="#" id="button-collapse" data-closeonclick="false" data-activates="slide-out" data-sidenav="left" data-menuwidth="300">
+                    <i class="material-icons">menu</i>
+                </a>
             </div>
         </div>
     </nav>
 </div>
+
+<ul id="slide-out" class="side-nav full">
+    <ul collapsible collapsible-accordion>
+
+        <li class="logo center-align">
+            <img style="margin-top: 15px" src="images/navlogo.png" alt="Logo">
+        </li>
+        <li class="bold"><a href="#/" class="collapsible-header waves-effect waves-teal">Home</a></li>
+        <li class="bold"><a href="#/" class="collapsible-header waves-effect waves-teal">Top Eventos</a></li>
+        <li class="bold"><a class="collapsible-header waves-effect waves-teal">Categorias</a>
+            <div class="collapsible-body" style="display: block;">
+            <ul>
+                <li><a href="#/category/Bar" class="collection-item blue-text">Bar</a></li>
+                <li><a href="#/category/Balada" class="collection-item blue-text">Balada</a></li>
+                <li><a href="#/category/Inaugurações" class="collection-item blue-text">Inaugurações</a></li>
+                <li><a href="#/category/Jogos" class="collection-item blue-text">Jogos</a></li>
+                <li><a href="#/category/Cursos" class="collection-item blue-text">Cursos</a></li>
+            </ul>
+            </div>
+        </li>
+        <li><div  class="divider"></div></li>
+        <li class="bold"><a href="#/login" class="collapsible-header waves-effect waves-teal">Publique seus eventos!</a></li>
+    </ul>
+</ul>
