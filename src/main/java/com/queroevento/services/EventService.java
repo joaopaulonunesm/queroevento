@@ -1,5 +1,6 @@
 package com.queroevento.services;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.queroevento.models.Event;
 import com.queroevento.repositories.EventRepository;
+import com.queroevento.utils.CatalogStatusEvent;
+import com.queroevento.utils.StatusEvent;
 
 @Service
 public class EventService {
@@ -26,8 +29,12 @@ public class EventService {
 		return eventRepository.findOne(id);
 	}
 
-	public List<Event> findAllOrderByEventDate() {
-		return eventRepository.findByOrderByEventDate();
+	public List<Event> findByEventDateAfterAndCatalogStatusAndStatusOrderByEventDate(Date date, CatalogStatusEvent catalogStatusEvent, StatusEvent statusEvent) {
+		return eventRepository.findByEventDateAfterAndCatalogStatusAndStatusOrderByEventDate(date, catalogStatusEvent,  statusEvent);
+	}
+	
+	public List<Event> findByEventDateBeforeOrderByEventDateDesc(Date date) {
+		return eventRepository.findByEventDateBeforeOrderByEventDateDesc(date);
 	}
 
 	public List<Event> findByCategoryIdOrderByEventDate(Long id) {
@@ -40,6 +47,11 @@ public class EventService {
 
 	public Event findByUrlTitle(String url) {
 		return eventRepository.findByUrlTitle(url);
+	}
+
+	
+	public List<Event> findByTurbineTypeIsNotNullOrderByTurbineTypeDesc() {
+		return eventRepository.findByTurbineTypeIsNotNullOrderByTurbineTypeDesc();
 	}
 
 	public String titleToUrlTitle(String title) {

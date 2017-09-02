@@ -32,6 +32,8 @@ public class User {
 
 	private String phoneNumber;
 
+	private Boolean moderator = false;
+
 	public Long getId() {
 		return id;
 	}
@@ -94,6 +96,14 @@ public class User {
 
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+
+	public Boolean getModerator() {
+		return moderator;
+	}
+
+	public void setModerator(Boolean moderator) {
+		this.moderator = moderator;
 	}
 
 }

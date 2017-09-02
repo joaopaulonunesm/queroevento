@@ -2,6 +2,8 @@ package com.queroevento.controllers;
 
 import java.util.List;
 
+import javax.servlet.ServletException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,7 +21,6 @@ import com.queroevento.services.CategoryService;
 import com.queroevento.services.UserService;
 
 @Controller
-@RequestMapping(value = "v1")
 public class CategoryController {
 
 	@Autowired
@@ -28,13 +29,17 @@ public class CategoryController {
 	@Autowired
 	private UserService userService;
 
-	@RequestMapping(value = "/categories", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "v1/categories", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Category> postCategory(@RequestHeader(value = "Authorization") String token,
-			@RequestBody Category category) {
+			@RequestBody Category category) throws ServletException {
 
 		User user = userService.findByToken(token);
 
 		if (user == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		if(user.getModerator() == false){
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
@@ -48,12 +53,14 @@ public class CategoryController {
 
 		}
 
+		category.setUrlName(categoryService.nameToUrlName(category.getName()));
+
 		return new ResponseEntity<>(categoryService.save(category), HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/categories/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "v1/categories/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Category> deleteCategory(@RequestHeader(value = "Authorization") String token,
-			@PathVariable Long id) {
+			@PathVariable Long id) throws ServletException {
 
 		User user = userService.findByToken(token);
 
@@ -61,6 +68,10 @@ public class CategoryController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
+		if(user.getModerator() == false){
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
 		Category category = categoryService.findOne(id);
 
 		if (category == null) {
@@ -72,9 +83,9 @@ public class CategoryController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/categories/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "v1/categories/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Category> putCategory(@RequestHeader(value = "Authorization") String token,
-			@RequestBody Category category, @PathVariable Long id) {
+			@RequestBody Category category, @PathVariable Long id) throws ServletException {
 
 		User user = userService.findByToken(token);
 
@@ -82,6 +93,10 @@ public class CategoryController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
+		if(user.getModerator() == false){
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
 		Category existingCategory = categoryService.findOne(id);
 
 		if (existingCategory == null) {
@@ -91,7 +106,7 @@ public class CategoryController {
 		category.setId(existingCategory.getId());
 
 		List<Category> categories = categoryService.findAll();
-		
+
 		for (Category existenceCategory : categories) {
 
 			if (existenceCategory.getName().equals(category.getName())) {
@@ -105,7 +120,7 @@ public class CategoryController {
 
 	@RequestMapping(value = "/categories/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Category> getOneCategory(@RequestHeader(value = "Authorization") String token,
-			@PathVariable Long id) {
+			@PathVariable Long id) throws ServletException {
 
 		User user = userService.findByToken(token);
 
@@ -122,9 +137,9 @@ public class CategoryController {
 		return new ResponseEntity<>(category, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/categories/name/{name}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Category> getOneCategoryByName(@RequestHeader(value = "Authorization") String token,
-			@PathVariable String name) {
+	@RequestMapping(value = "/categories/urlname/{urlName}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Category> getOneCategoryByUrlName(@RequestHeader(value = "Authorization") String token,
+			@PathVariable String urlName) throws ServletException {
 
 		User user = userService.findByToken(token);
 
@@ -132,7 +147,7 @@ public class CategoryController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		Category category = categoryService.findByNameIgnoreCase(name);
+		Category category = categoryService.findByUrlNameIgnoreCase(urlName);
 
 		if (category == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -142,7 +157,8 @@ public class CategoryController {
 	}
 
 	@RequestMapping(value = "/categories", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Category>> getCategories(@RequestHeader(value = "Authorization") String token) {
+	public ResponseEntity<List<Category>> getCategories(@RequestHeader(value = "Authorization") String token)
+			throws ServletException {
 
 		User user = userService.findByToken(token);
 

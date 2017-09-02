@@ -1,5 +1,7 @@
 package com.queroevento.services;
 
+import javax.servlet.ServletException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,11 +26,16 @@ public class UserService {
 		return userRepository.findOne(id);
 	}
 
-	public User findByToken(String token) {
+	public User findByToken(String token) throws ServletException {
 
 		String formattedToken = token.substring(7);
 
 		Login login = loginService.findByToken(formattedToken);
+		
+		if (login == null) {
+			throw new ServletException("Token não existente.");
+		}
+
 		
 		return login.getUser();
 	}

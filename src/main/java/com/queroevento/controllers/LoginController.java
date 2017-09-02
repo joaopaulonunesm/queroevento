@@ -9,8 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -33,60 +33,62 @@ public class LoginController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		if(loginService.findByEmail(login.getEmail()) != null){
+		if (loginService.findByEmail(login.getEmail()) != null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		
+
 		login.setCreateDate(new Date());
 		login.setActive(true);
 
 		return new ResponseEntity<>(loginService.save(login), HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/logins/{id}/password", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Login> putLoginPassword(@RequestBody Login login, @PathVariable Long id) {
+	@RequestMapping(value = "v1/logins/password", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Login> putLoginPassword(@RequestHeader(value = "Authorization") String token,
+			@RequestBody Login login) {
 
-		Login existenceLogin = loginService.findOne(id);
+		Login existenceLogin = loginService.findByToken(token);
 
 		if (existenceLogin == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 
-		if(login.getPassword() == null || login.getPassword().isEmpty()){
+		if (login.getPassword() == null || login.getPassword().isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		
+
 		existenceLogin.setPassword(login.getPassword());
 
 		return new ResponseEntity<>(loginService.save(existenceLogin), HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/logins/{id}/active", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Login> putLoginActive(@RequestBody Login login, @PathVariable Long id) {
+	@RequestMapping(value = "v1/logins/active", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Login> putLoginActive(@RequestHeader(value = "Authorization") String token,
+			@RequestBody Login login) {
 
-		Login existenceLogin = loginService.findOne(id);
+		Login existenceLogin = loginService.findByToken(token);
 
 		if (existenceLogin == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 
-		if(login.getActive() != null && login.getActive() != existenceLogin.getActive()){
+		if (login.getActive() != null && login.getActive() != existenceLogin.getActive()) {
 			existenceLogin.setActive(login.getActive());
 		}
 
 		return new ResponseEntity<>(loginService.save(existenceLogin), HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/logins/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Login> deleteLogin(@PathVariable Long id) {
+	@RequestMapping(value = "v1/logins", method = RequestMethod.DELETE)
+	public ResponseEntity<Login> deleteLogin(@RequestHeader(value = "Authorization") String token) {
 
-		Login deleteLogin = loginService.findOne(id);
+		Login existenceLogin = loginService.findByToken(token);
 
-		if (deleteLogin == null) {
+		if (existenceLogin == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 
-		loginService.delete(deleteLogin);
+		loginService.delete(existenceLogin);
 
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

@@ -3,6 +3,8 @@ package com.queroevento.controllers;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.ServletException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,9 +22,10 @@ import com.queroevento.models.User;
 import com.queroevento.services.CategoryService;
 import com.queroevento.services.EventService;
 import com.queroevento.services.UserService;
+import com.queroevento.utils.CatalogStatusEvent;
+import com.queroevento.utils.StatusEvent;
 
 @Controller
-@RequestMapping(value = "v1")
 public class EventController {
 
 	@Autowired
@@ -34,9 +37,9 @@ public class EventController {
 	@Autowired
 	private CategoryService categoryService;
 
-	@RequestMapping(value = "/events", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "v1/events", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Event> postEvent(@RequestHeader(value = "Authorization") String token,
-			@RequestBody Event event) {
+			@RequestBody Event event) throws ServletException {
 
 		User user = userService.findByToken(token);
 
@@ -66,18 +69,24 @@ public class EventController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 
+		if (event.getEventDate().before(new Date())) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
 		event.setUser(user);
 		event.setCategory(category);
 		event.setPeopleEstimate(0);
 		event.setCreateEventDate(new Date());
 		event.setUrlTitle(eventService.titleToUrlTitle(event.getTitle()));
+		event.setCatalogStatus(CatalogStatusEvent.CATALOGING);
+		event.setStatus(StatusEvent.ACTIVE);
 
 		return new ResponseEntity<>(eventService.save(event), HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/events/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "v1/events/{urlTitle}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Event> putEvent(@RequestHeader(value = "Authorization") String token,
-			@RequestBody Event event, @PathVariable Long id) {
+			@RequestBody Event event, @PathVariable String urlTitle) throws ServletException {
 
 		User user = userService.findByToken(token);
 
@@ -85,13 +94,17 @@ public class EventController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		Event existenceEvent = eventService.findOne(id);
+		Event existenceEvent = eventService.findByUrlTitle(urlTitle);
 
 		if (event.getUser() != null && user.getId() != event.getUser().getId()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
 		if (user.getId() != existenceEvent.getUser().getId()) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		if (event.getEventDate().before(new Date())) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
@@ -107,9 +120,9 @@ public class EventController {
 		return new ResponseEntity<>(event, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/events/{id}/estimate", method = RequestMethod.PUT)
+	@RequestMapping(value = "v1/events/{id}/estimate", method = RequestMethod.PUT)
 	public ResponseEntity<Event> putEventPeopleEstimate(@RequestHeader(value = "Authorization") String token,
-			@PathVariable Long id) {
+			@PathVariable Long id) throws ServletException {
 
 		User user = userService.findByToken(token);
 
@@ -118,6 +131,10 @@ public class EventController {
 		}
 
 		Event existenceEvent = eventService.findOne(id);
+
+		if (existenceEvent == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 
 		if (user != existenceEvent.getUser()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -130,9 +147,100 @@ public class EventController {
 		return new ResponseEntity<>(existenceEvent, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/events/{id}")
+	@RequestMapping(value = "v1/events/{id}/status", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Event> putEventStatus(@RequestHeader(value = "Authorization") String token,
+			@RequestBody Event event, @PathVariable Long id) throws ServletException {
+
+		User user = userService.findByToken(token);
+
+		if (user == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		Event existenceEvent = eventService.findOne(id);
+
+		if (existenceEvent == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+		if (user != existenceEvent.getUser()) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		if (event.getStatus() == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		existenceEvent.setStatus(event.getStatus());
+
+		eventService.save(existenceEvent);
+
+		return new ResponseEntity<>(existenceEvent, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "v1/events/{id}/status/catalog", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Event> putEventStatusCalog(@RequestHeader(value = "Authorization") String token,
+			@RequestBody Event event, @PathVariable Long id) throws ServletException {
+
+		User user = userService.findByToken(token);
+
+		if (user == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		Event existenceEvent = eventService.findOne(id);
+
+		if (existenceEvent == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+		if(!user.getModerator()){
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+		if (event.getCatalogStatus() == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		existenceEvent.setCatalogStatus(event.getCatalogStatus());
+
+		eventService.save(existenceEvent);
+
+		return new ResponseEntity<>(existenceEvent, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "v1/events/{id}/turbine", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Event> putEventTurbineType(@RequestHeader(value = "Authorization") String token,
+			@RequestBody Event event, @PathVariable Long id) throws ServletException {
+
+		User user = userService.findByToken(token);
+
+		if (user == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		Event existenceEvent = eventService.findOne(id);
+
+		if (existenceEvent == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+		// Implementar regras para nao permitir turbinar se usuário não pagou
+
+		if (event.getTurbineType() == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		existenceEvent.setTurbineType(event.getTurbineType());
+
+		eventService.save(existenceEvent);
+
+		return new ResponseEntity<>(existenceEvent, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "v1/events/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Event> deleteEvent(@RequestHeader(value = "Authorization") String token,
-			@PathVariable Long id) {
+			@PathVariable Long id) throws ServletException {
 
 		User user = userService.findByToken(token);
 
@@ -157,7 +265,7 @@ public class EventController {
 
 	@RequestMapping(value = "/events/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Event> getOneEvent(@RequestHeader(value = "Authorization") String token,
-			@PathVariable Long id) {
+			@PathVariable Long id) throws ServletException {
 
 		User user = userService.findByToken(token);
 
@@ -175,7 +283,8 @@ public class EventController {
 	}
 
 	@RequestMapping(value = "/events", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Event>> getAllEventOrderByDate(@RequestHeader(value = "Authorization") String token) {
+	public ResponseEntity<List<Event>> getAllEventOrderByDate(@RequestHeader(value = "Authorization") String token)
+			throws ServletException {
 
 		User user = userService.findByToken(token);
 
@@ -183,12 +292,26 @@ public class EventController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		return new ResponseEntity<>(eventService.findAllOrderByEventDate(), HttpStatus.OK);
+		return new ResponseEntity<>(eventService.findByEventDateAfterAndCatalogStatusAndStatusOrderByEventDate(
+				new Date(), CatalogStatusEvent.PUBLISHED, StatusEvent.ACTIVE), HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/events/past", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Event>> getAllPastEventOrderByDate(@RequestHeader(value = "Authorization") String token)
+			throws ServletException {
+
+		User user = userService.findByToken(token);
+
+		if (user == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		return new ResponseEntity<>(eventService.findByEventDateBeforeOrderByEventDateDesc(new Date()), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/events/category/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Event>> getAllEventByCategory(@RequestHeader(value = "Authorization") String token,
-			@PathVariable Long id) {
+			@PathVariable Long id) throws ServletException {
 
 		User user = userService.findByToken(token);
 
@@ -207,7 +330,7 @@ public class EventController {
 
 	@RequestMapping(value = "/events/estimate", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Event>> getAllEventOrderByConfirmedPresenceDesc(
-			@RequestHeader(value = "Authorization") String token) {
+			@RequestHeader(value = "Authorization") String token) throws ServletException {
 
 		User user = userService.findByToken(token);
 
@@ -218,9 +341,35 @@ public class EventController {
 		return new ResponseEntity<>(eventService.findByOrderByPeopleEstimateDesc(), HttpStatus.OK);
 	}
 
+	@RequestMapping(value = "/events/type/turbine", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Event>> getByTurbineTypeIsNotNullOrderByTurbineType(
+			@RequestHeader(value = "Authorization") String token) throws ServletException {
+
+		User user = userService.findByToken(token);
+
+		if (user == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		return new ResponseEntity<>(eventService.findByTurbineTypeIsNotNullOrderByTurbineTypeDesc(), HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/events/type/plan", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Event>> getByPlanType(@RequestHeader(value = "Authorization") String token)
+			throws ServletException {
+
+		User user = userService.findByToken(token);
+
+		if (user == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		return new ResponseEntity<>(eventService.findByTurbineTypeIsNotNullOrderByTurbineTypeDesc(), HttpStatus.OK);
+	}
+
 	@RequestMapping(value = "/events/urltitle/{url}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Event> getEventByUrlTitle(@RequestHeader(value = "Authorization") String token,
-			@PathVariable String url) {
+			@PathVariable String url) throws ServletException {
 
 		User user = userService.findByToken(token);
 
@@ -236,4 +385,5 @@ public class EventController {
 
 		return new ResponseEntity<>(event, HttpStatus.OK);
 	}
+
 }

@@ -8,6 +8,6 @@ import com.queroevento.models.Category;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-	Category findByNameIgnoreCase(String name);
+	Category findByUrlNameIgnoreCase(String urlName);
 
 }

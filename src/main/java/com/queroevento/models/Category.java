@@ -19,6 +19,8 @@ public class Category {
 
 	private String name;
 
+	private String urlName;
+
 	@Lob
 	@Type(type = "org.hibernate.type.TextType")
 	private String description;
@@ -41,6 +43,14 @@ public class Category {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getUrlName() {
+		return urlName;
+	}
+
+	public void setUrlName(String urlName) {
+		this.urlName = urlName;
 	}
 
 	public String getDescription() {

@@ -11,11 +11,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Type;
 
 import com.queroevento.utils.CatalogStatusEvent;
 import com.queroevento.utils.StatusEvent;
+import com.queroevento.utils.TurbineType;
 
 @Entity
 public class Event {
@@ -50,9 +53,11 @@ public class Event {
 	private Double price;
 
 	@JoinColumn(name = "event_date")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date eventDate;
 
 	@JoinColumn(name = "create_event_date")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date createEventDate;
 
 	@Lob
@@ -72,11 +77,14 @@ public class Event {
 	@JoinColumn(name = "show_email")
 	private Boolean showEmail;
 
-	@Type(type = "org.hibernate.type.StringType")
+	@Type(type =  "org.hibernate.type.EnumType")
 	private StatusEvent status;
-
-	@Type(type = "org.hibernate.type.StringType")
+	
+	@Type(type =  "org.hibernate.type.EnumType")
 	private CatalogStatusEvent catalogStatus;
+
+	@Type(type =  "org.hibernate.type.EnumType")
+	private TurbineType turbineType;
 
 	public Long getId() {
 		return id;
@@ -229,4 +237,13 @@ public class Event {
 	public void setCatalogStatus(CatalogStatusEvent catalogStatus) {
 		this.catalogStatus = catalogStatus;
 	}
+
+	public TurbineType getTurbineType() {
+		return turbineType;
+	}
+
+	public void setTurbineType(TurbineType turbineType) {
+		this.turbineType = turbineType;
+	}
+
 }
