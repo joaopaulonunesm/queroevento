@@ -15,21 +15,25 @@
 <script src="lib/js/angular-route.js"></script>
 
 <script src="js/app.js"></script>
+<script src="js/configs/interceptorConfig.js"></script>
 <script src="js/configs/routeConfig.js"></script>
 <script src="js/configs/baseUrl.js"></script>
 
 <script src="js/interceptors/tokenInterceptor.js"></script>
+
+<script src="js/controllers/login/loginCtrl.js"></script>
 
 <script src="js/services/categoryAPIService.js"></script>
 <script src="js/services/eventAPIService.js"></script>
 <script src="js/services/loginAPIService.js"></script>
 <script src="js/services/userAPIService.js"></script>
 
+
 <link rel="stylesheet" href="lib/css/styles.css" />
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 
 </head>
-<body>
+<body ng-controller="loginCtrl">
 
 	<div ng-include="'views/index/navbar.html'"></div>
 

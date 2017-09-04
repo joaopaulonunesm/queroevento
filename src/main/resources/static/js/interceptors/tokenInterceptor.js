@@ -3,7 +3,7 @@ angular.module("queroEventoApp").factory("tokenInterceptor", function($q, $locat
 	return {
 
 		'request': function(config){
-
+			
 			config.headers.Authorization = 'Bearer ' + localStorage.getItem("token");
 
 			return config;
@@ -11,10 +11,9 @@ angular.module("queroEventoApp").factory("tokenInterceptor", function($q, $locat
 
 
 		'responseError': function(rejection){
-
+			
 			if(rejection.status == 401){
 				localStorage.removeItem("token");
-				$location.path("/login");
 			}
 
 			if(rejection.status < 0){

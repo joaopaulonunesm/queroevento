@@ -117,5 +117,20 @@ public class LoginController {
 
 		return new ResponseEntity<>(loginService.save(existenceLogin), HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "v1/logins", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Login> getOneEvent(@RequestHeader(value = "Authorization") String token) throws ServletException {
+
+		String formattedToken = token.substring(7);
+		
+		Login login = loginService.findByToken(formattedToken);
+		
+		
+		if(login == null){
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+		return new ResponseEntity<>(login, HttpStatus.OK);
+	}
 
 }

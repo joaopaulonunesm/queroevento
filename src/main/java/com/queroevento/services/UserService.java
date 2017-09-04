@@ -31,12 +31,11 @@ public class UserService {
 		String formattedToken = token.substring(7);
 
 		Login login = loginService.findByToken(formattedToken);
-		
+
 		if (login == null) {
 			throw new ServletException("Token não existente.");
 		}
 
-		
 		return login.getUser();
 	}
 }

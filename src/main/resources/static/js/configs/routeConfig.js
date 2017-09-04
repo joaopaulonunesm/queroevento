@@ -5,7 +5,8 @@ angular.module("queroEventoApp").config(function ($routeProvider) {
 	});
 
 	$routeProvider.when("/login", {
-		templateUrl: "views/index/login.html"
+		templateUrl: "views/index/login.html",
+		controller: "loginCtrl"
 	});
 
 	$routeProvider.when("/category/:name", {
