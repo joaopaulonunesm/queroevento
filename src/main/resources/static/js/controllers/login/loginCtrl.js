@@ -4,8 +4,6 @@ angular.module("queroEventoApp").controller("loginCtrl", function ($scope, $loca
 
 	$scope.user = {};
 	
-	$scope.admin = "/";
-	
 	$scope.createLogin = function() {
 
 		loginAPI.postNewLogin($scope.login).then(function(response) {
@@ -24,9 +22,7 @@ angular.module("queroEventoApp").controller("loginCtrl", function ($scope, $loca
 
 			localStorage.setItem("token", response.data.token);
 
-			$scope.admin = "/admin";
-			
-			$(location).attr('href', configs.baseUrl + '/admin');
+			$(location).attr('href', configs.siteUrl + '/admin');
 
 		}, function(response) {
 			console.log(response.data);
@@ -38,7 +34,7 @@ angular.module("queroEventoApp").controller("loginCtrl", function ($scope, $loca
 
 		if(localStorage.getItem("token")){
 			
-			$(location).attr('href', configs.baseUrl + '/admin');
+			$(location).attr('href', configs.siteUrl + '/admin');
 
 		} else {
 			$location.path("/login");
@@ -49,13 +45,13 @@ angular.module("queroEventoApp").controller("loginCtrl", function ($scope, $loca
 		
 		if(localStorage.getItem("token")){
 		
-		loginAPI.getLogin().then(function(response) {
-
-			$scope.login = response.data;
-
-		}, function(response) {
-			console.log(response.data);
-		});
+			loginAPI.getLogin().then(function(response) {
+	
+				$scope.login = response.data;
+	
+			}, function(response) {
+				
+			});
 		
 		}
 	};
@@ -63,8 +59,10 @@ angular.module("queroEventoApp").controller("loginCtrl", function ($scope, $loca
 	$scope.validateLogin();
 
 	$scope.logout = function(){
+		
 		localStorage.removeItem("token");
-		$(location).attr('href', configs.baseUrl + '/');
+		
+		$(location).attr('href', configs.siteUrl + '/');
 	};
 
 });

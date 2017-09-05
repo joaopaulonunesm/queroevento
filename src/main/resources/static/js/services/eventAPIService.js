@@ -59,8 +59,16 @@ angular.module("queroEventoApp").factory("eventAPI", function ($http, configs){
 	var _getEventByUrlTitle = function (urlTitle){
 		return $http.get(configs.baseUrl + '/events/urltitle/' + urlTitle);
 	}
+
+	var _getEventByCatalogStatusPending = function (){
+		return $http.get(configs.baseUrl + configs.version + '/events/status/catalog/pending');
+	}
 	
-    return {
+	var _getEventByStatusCanceled = function (){
+		return $http.get(configs.baseUrl + configs.version + '/events/status/canceled');
+	}
+
+	return {
     	postEvent: _postEvent,
     	putEvent: _putEvent,
     	putEventEstimate: _putEventEstimate,

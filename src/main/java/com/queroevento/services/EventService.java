@@ -29,10 +29,12 @@ public class EventService {
 		return eventRepository.findOne(id);
 	}
 
-	public List<Event> findByEventDateAfterAndCatalogStatusAndStatusOrderByEventDate(Date date, CatalogStatusEvent catalogStatusEvent, StatusEvent statusEvent) {
-		return eventRepository.findByEventDateAfterAndCatalogStatusAndStatusOrderByEventDate(date, catalogStatusEvent,  statusEvent);
+	public List<Event> findByEventDateAfterAndCatalogStatusAndStatusOrderByEventDate(Date date,
+			CatalogStatusEvent catalogStatusEvent, StatusEvent statusEvent) {
+		return eventRepository.findByEventDateAfterAndCatalogStatusAndStatusOrderByEventDate(date, catalogStatusEvent,
+				statusEvent);
 	}
-	
+
 	public List<Event> findByEventDateBeforeOrderByEventDateDesc(Date date) {
 		return eventRepository.findByEventDateBeforeOrderByEventDateDesc(date);
 	}
@@ -49,9 +51,16 @@ public class EventService {
 		return eventRepository.findByUrlTitle(url);
 	}
 
-	
 	public List<Event> findByTurbineTypeIsNotNullOrderByTurbineTypeDesc() {
 		return eventRepository.findByTurbineTypeIsNotNullOrderByTurbineTypeDesc();
+	}
+
+	public List<Event> findByCatalogStatusOrderByCreateEventDate(CatalogStatusEvent catalogStatus) {
+		return eventRepository.findByCatalogStatusOrderByCreateEventDate(catalogStatus);
+	}
+	
+	public List<Event> findByStatusOrderByEventDate(StatusEvent status) {
+		return eventRepository.findByStatusOrderByEventDate(status);
 	}
 
 	public String titleToUrlTitle(String title) {

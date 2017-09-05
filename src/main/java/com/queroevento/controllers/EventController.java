@@ -385,5 +385,41 @@ public class EventController {
 
 		return new ResponseEntity<>(event, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "v1/events/status/catalog/pending", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Event>> getEventByCatalogStatus(@RequestHeader(value = "Authorization") String token) throws ServletException {
+
+		User user = userService.findByToken(token);
+
+		if (user == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+		if(!user.getModerator()){
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		List<Event> events = eventService.findByCatalogStatusOrderByCreateEventDate(CatalogStatusEvent.CATALOGING);
+
+		return new ResponseEntity<>(events, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "v1/events/status/canceled", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Event>> getEventByStatus(@RequestHeader(value = "Authorization") String token) throws ServletException {
+
+		User user = userService.findByToken(token);
+
+		if (user == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+		if(!user.getModerator()){
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		List<Event> events = eventService.findByStatusOrderByEventDate(StatusEvent.CANCELED);
+
+		return new ResponseEntity<>(events, HttpStatus.OK);
+	}
 
 }

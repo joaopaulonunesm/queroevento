@@ -39,7 +39,7 @@ public class CategoryController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		if(user.getModerator() == false){
+		if(!user.getModerator()){
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 

@@ -12,7 +12,12 @@ public class HtmlController {
 	}
 
 	@RequestMapping("/admin")
-	public String otherMapping() {
+	public String admin() {
 		return "admin";
+	}
+	
+	@RequestMapping("/moderator")
+	public String moderator() {
+		return "moderator";
 	}
 }
