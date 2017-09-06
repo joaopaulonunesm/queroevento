@@ -17,45 +17,111 @@
 
         </div>
 
-        <div class="col s4" style="margin-top: 8px">
+        <div class="col s4">
+
+            <div class="card" style="background-color: #283E4B">
+                <div class="card-content white-text">
+
+                    <span class="card-title"><h5>Filtros</h5></span>
+
+                    <div class="row">
+
+                        <div class="input-field col s12">
+                            <input id="keyword" type="text" class="validate">
+                            <label for="keyword">Palavra chave</label>
+                        </div>
+
+                        <div class="input-field col s12">
+                            <input id="keyword" type="text" class="validate">
+                            <label for="keyword">Cidade</label>
+                        </div>
+
+                        <div class="input-field col s12">   
+                            Preço                     
+                        </div>
+                        <div class="input-field col s6">
+                            <input placeholder="Mínimo" type="number" class="validate">
+                        </div>
+                        <div class="input-field col s6">
+                            <input placeholder="Máximo" type="number" class="validate">
+                        </div>
+
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">date_range</i>
+                            <label for="inputCreated">Data do Evento</label>
+                            
+                            <input input-date
+                                type="text"
+                                name="created"
+                                id="inputCreated"
+                                ng-model="currentTime"
+                                container=""
+                                format="dd/mm/yyyy"
+                                months-full="{{ month }}"
+                                months-short="{{ monthShort }}"
+                                weekdays-full="{{ weekdaysFull }}"
+                                weekdays-short="{{ weekdaysShort }}"
+                                weekdays-letter="{{ weekdaysLetter }}"
+                                disable="disable"
+                                min="{{ minDate }}"
+                                max="{{ maxDate }}"
+                                today="today"
+                                first-day="1"
+                                clear="clear"
+                                close="close"
+                                select-years="15"
+                                on-start="onStart()"
+                                on-render="onRender()"
+                                on-open="onOpen()"
+                                on-close="onClose()"
+                                on-set="onSet()"
+                                on-stop="onStop()" />
+                        </div>
+
+                    </div>
+                </div>
+                <div class="card-action" style="text-align: right">
+                    <a class="waves-effect waves-light btn orange" style="background-color: orange" href="">Filtrar</a>
+                </div>
+            </div>
 
             <div ng-include="'views/index/component/bannerTopEventos.html'"></div>
-				
-			<br/>
-			
-			<div class="divider"></div>
-			
-			<br/>
-			
-		    <div class="card-panel blue white-text">
-		    	<h5 class="center-align">Eventos mais esperados</h5>
-		    </div>
+                
+            <br/>
+            
+            <div class="divider"></div>
+            
+            <br/>
+            
+            <div class="card-panel blue white-text">
+                <h5 class="center-align">Eventos mais esperados</h5>
+            </div>
                     
             <div class="card hoverable">
                 <div class="card-image waves-effect waves-block waves-light">
                     <a href="#/event/nomedoevento"><img class="activator" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbK4KTbNtRe6Pu-c8h_y2CA-fyech2z_PVsiupWi9QeLoUQdisAA"></a>
                 </div>
                 <div class="card-content">
-                	<a class="card-title activator grey-text text-darken-4" href="#/event/nomedoevento"><strong>Show do Martin Garrix</strong></a>
-      	  	 			<p><h6>Data: 02/12/2017 as 20:00</h6></p>
-	            	<p><h6>Valor: R$20,00</h6></p>
-	                <p>Local: Pavilhão Azul no Parque de exposição</p>
-	                <br />
-                    <p><a class="waves-effect waves-light btn orange" href="#/event/nomedoevento">Ver mais</a></p>
+                    <a class="card-title activator grey-text text-darken-4" href="#/event/nomedoevento"><strong>Show do Martin Garrix</strong></a>
+                        <p><h6>Data: 02/12/2017 as 20:00</h6></p>
+                    <p><h6>Valor: R$20,00</h6></p>
+                    <p>Local: Pavilhão Azul no Parque de exposição</p>
+                    <br />
+                    <p style="text-align: right"><a class="waves-effect waves-light btn orange" href="#/event/nomedoevento">Ver mais</a></p>
                 </div>
             </div>
-                       
+                    
             <div class="card hoverable">
                 <div class="card-image waves-effect waves-block waves-light">
                     <a href="#/event/nomedoevento"><img class="activator" src="http://shipit.resultadosdigitais.com.br/images/posts/tdc-logo-post.png"></a>
                 </div>
                 <div class="card-content">
-                	<a class="card-title activator grey-text text-darken-4" href="#/event/nomedoevento"><strong>The Developer's Conference</strong></a>
-      	  	 			<p><h6>Data: 02/12/2017 as 20:00</h6></p>
-	            	<p><h6>Valor: R$20,00</h6></p>
-	                <p>Local: Pavilhão Azul no Parque de exposição</p>
-	                <br />
-                    <p><a class="waves-effect waves-light btn orange" href="#/event/nomedoevento">Ver mais</a></p>
+                    <a class="card-title activator grey-text text-darken-4" href="#/event/nomedoevento"><strong>The Developer's Conference</strong></a>
+                        <p><h6>Data: 02/12/2017 as 20:00</h6></p>
+                    <p><h6>Valor: R$20,00</h6></p>
+                    <p>Local: Pavilhão Azul no Parque de exposição</p>
+                    <br />
+                    <p style="text-align: right"><a class="waves-effect waves-light btn orange" href="#/event/nomedoevento">Ver mais</a></p>
                 </div>
             </div>
 
@@ -64,17 +130,16 @@
                     <a href="#/event/nomedoevento"><img class="activator" src="http://www.paulomarquesnoticias.com.br/informativos/ima_informativos/1399404153_46.jpg"></a>
                 </div>
                 <div class="card-content">
-                	<a class="card-title activator grey-text text-darken-4" href="#/event/nomedoevento"><strong>Balada The Nigth Glow</strong></a>
-      	  	 			<p><h6>Data: 02/12/2017 as 20:00</h6></p>
-	            	<p><h6>Valor: R$20,00</h6></p>
-	                <p>Local: Pavilhão Azul no Parque de exposição</p>
-	                <br />
-                    <p><a class="waves-effect waves-light btn orange" href="#/event/nomedoevento">Ver mais</a></p>
+                    <a class="card-title activator grey-text text-darken-4" href="#/event/nomedoevento"><strong>Balada The Nigth Glow</strong></a>
+                        <p><h6>Data: 02/12/2017 as 20:00</h6></p>
+                    <p><h6>Valor: R$20,00</h6></p>
+                    <p>Local: Pavilhão Azul no Parque de exposição</p>
+                    <br />
+                    <p style="text-align: right"><a class="waves-effect waves-light btn orange" href="#/event/nomedoevento">Ver mais</a></p>
                 </div>
             </div>
 
         </div>
-
     </div>
 </div>
 
