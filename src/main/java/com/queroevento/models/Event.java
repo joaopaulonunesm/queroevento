@@ -52,6 +52,8 @@ public class Event {
 
 	private Double price;
 
+	private String keyword;
+
 	@JoinColumn(name = "event_date")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date eventDate;
@@ -77,13 +79,13 @@ public class Event {
 	@JoinColumn(name = "show_email")
 	private Boolean showEmail;
 
-	@Type(type =  "org.hibernate.type.EnumType")
+	@Type(type = "org.hibernate.type.EnumType")
 	private StatusEvent status;
-	
-	@Type(type =  "org.hibernate.type.EnumType")
+
+	@Type(type = "org.hibernate.type.EnumType")
 	private CatalogStatusEvent catalogStatus;
 
-	@Type(type =  "org.hibernate.type.EnumType")
+	@Type(type = "org.hibernate.type.EnumType")
 	private TurbineType turbineType;
 
 	public Long getId() {
@@ -164,6 +166,14 @@ public class Event {
 
 	public void setPrice(Double price) {
 		this.price = price;
+	}
+
+	public String getKeyword() {
+		return keyword;
+	}
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
 	}
 
 	public Date getEventDate() {

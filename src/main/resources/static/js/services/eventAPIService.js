@@ -67,6 +67,14 @@ angular.module("queroEventoApp").factory("eventAPI", function ($http, configs){
 	var _getEventByStatusCanceled = function (){
 		return $http.get(configs.baseUrl + configs.version + '/events/status/canceled');
 	}
+	
+	var _getEventByKeyword = function (keyword){
+		return $http.get(configs.baseUrl + configs.version + '/events/keyword/' + keyword);
+	}
+	
+	var _getEventByUser = function (){
+		return $http.get(configs.baseUrl + configs.version + '/events/user');
+	}
 
 	return {
     	postEvent: _postEvent,
@@ -83,7 +91,9 @@ angular.module("queroEventoApp").factory("eventAPI", function ($http, configs){
     	getEventsOrderByEstimate: _getEventsOrderByEstimate,
     	getEventsOrderByTurbineType: _getEventsOrderByTurbineType,
     	getEventsOrderByPlanType: _getEventsOrderByPlanType,
-    	getEventByUrlTitle: _getEventsOrderByPlanType
+    	getEventByUrlTitle: _getEventsOrderByPlanType,
+    	getEventByKeyword: _getEventByKeyword,
+    	getEventByUser: _getEventByUser
     };
 	
 });

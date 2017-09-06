@@ -1,4 +1,4 @@
-angular.module("queroEventoApp").controller("loginCtrl", function ($scope, $location, loginAPI, configs) {
+angular.module("queroEventoApp").controller("loginCtrl", function ($scope, $location, loginAPI, userAPI, configs) {
 
 	$scope.login = {};
 
@@ -10,6 +10,17 @@ angular.module("queroEventoApp").controller("loginCtrl", function ($scope, $loca
 
 			$scope.authentication();
 
+		}, function(response) {
+			console.log(response.data);
+			console.log(response.status);
+		});
+	};
+	
+	$scope.putUser = function() {
+
+		userAPI.putUser($scope.login.user).then(function(response) {
+
+			
 		}, function(response) {
 			console.log(response.data);
 			console.log(response.status);

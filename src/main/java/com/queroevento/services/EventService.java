@@ -62,10 +62,18 @@ public class EventService {
 	public List<Event> findByStatusOrderByEventDate(StatusEvent status) {
 		return eventRepository.findByStatusOrderByEventDate(status);
 	}
+	
+	public List<Event> getEventByKeywordIgnoreCase(String keyword) {
+		return eventRepository.getEventByKeywordIgnoreCase(keyword);
+	}
+
+	public List<Event> findByUserId(Long id) {
+		return eventRepository.findByUserIdOrderByEventDate(id);
+	}
 
 	public String titleToUrlTitle(String title) {
 
-		String urlTitle = title.replaceAll(" ", "_").replaceAll("[ãâàáä]", "a").replaceAll("[êèéë]", "e")
+		String urlTitle = title.replaceAll(" ", "-").replaceAll("[ãâàáä]", "a").replaceAll("[êèéë]", "e")
 				.replaceAll("[îìíï]", "i").replaceAll("[õôòóö]", "o").replaceAll("[ûúùü]", "u")
 				.replaceAll("[ÃÂÀÁÄ]", "A").replaceAll("[ÊÈÉË]", "E").replaceAll("[ÎÌÍÏ]", "I")
 				.replaceAll("[ÕÔÒÓÖ]", "O").replaceAll("[ÛÙÚÜ]", "U").replace('ç', 'c').replace('Ç', 'C')
@@ -73,5 +81,6 @@ public class EventService {
 
 		return urlTitle.toLowerCase();
 	}
+
 
 }

@@ -421,5 +421,33 @@ public class EventController {
 
 		return new ResponseEntity<>(events, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/events/keyword/{keyword}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Event>> getEventByKeywordIgnoreCase(@RequestHeader(value = "Authorization") String token, String keyword) throws ServletException {
+
+		User user = userService.findByToken(token);
+
+		if (user == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		List<Event> events = eventService.getEventByKeywordIgnoreCase(keyword);
+
+		return new ResponseEntity<>(events, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "v1/events/user", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Event>> getEventByUser(@RequestHeader(value = "Authorization") String token) throws ServletException {
+
+		User user = userService.findByToken(token);
+
+		if (user == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		List<Event> events = eventService.findByUserId(user.getId());
+
+		return new ResponseEntity<>(events, HttpStatus.OK);
+	}
 
 }

@@ -3,6 +3,10 @@ angular.module("queroEventoApp").config(function ($routeProvider) {
 	$routeProvider.when("/", {
 		templateUrl: "views/admin/home.html"
 	});
+	
+	$routeProvider.when("/login", {
+		templateUrl: "views/admin/login.html"
+	});
 
 	$routeProvider.when("/event/insert", {
 		templateUrl: "views/admin/component/novoEvento.html"

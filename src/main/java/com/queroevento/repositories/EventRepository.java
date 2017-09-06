@@ -30,5 +30,9 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
 	List<Event> findByStatusOrderByEventDate(StatusEvent status);
 
+	List<Event> getEventByKeywordIgnoreCase(String keyword);
+
+	List<Event> findByUserIdOrderByEventDate(Long id);
+
 
 }
