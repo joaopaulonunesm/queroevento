@@ -55,16 +55,16 @@ public class EventService {
 		return eventRepository.findByTurbineTypeIsNotNullOrderByTurbineTypeDesc();
 	}
 
-	public List<Event> findByCatalogStatusOrderByCreateEventDate(CatalogStatusEvent catalogStatus) {
-		return eventRepository.findByCatalogStatusOrderByCreateEventDate(catalogStatus);
+	public List<Event> findByCatalogStatusOrderByEventDate(CatalogStatusEvent catalogStatus) {
+		return eventRepository.findByCatalogStatusOrderByEventDate(catalogStatus);
 	}
 	
 	public List<Event> findByStatusOrderByEventDate(StatusEvent status) {
 		return eventRepository.findByStatusOrderByEventDate(status);
 	}
 	
-	public List<Event> getEventByKeywordIgnoreCase(String keyword) {
-		return eventRepository.getEventByKeywordIgnoreCase(keyword);
+	public List<Event> getEventByKeywordIgnoreCaseOrderByEventDate(String keyword) {
+		return eventRepository.getEventByKeywordIgnoreCaseOrderByEventDate(keyword);
 	}
 
 	public List<Event> findByUserId(Long id) {
@@ -80,6 +80,11 @@ public class EventService {
 				.replace('ñ', 'n').replace('Ñ', 'N');
 
 		return urlTitle.toLowerCase();
+	}
+
+	public List<Event> findByEventDateAfterAndCatalogStatusAndStatusAndCategoryIdOrderByEventDate(Date date,
+			CatalogStatusEvent catalogStatus, StatusEvent status, Long idCategory) {
+		return eventRepository.findByEventDateAfterAndCatalogStatusAndStatusAndCategoryIdOrderByEventDate(date, catalogStatus, status, idCategory);
 	}
 
 

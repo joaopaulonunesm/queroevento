@@ -29,6 +29,8 @@ public class Category {
 	@Type(type = "org.hibernate.type.TextType")
 	private String imageUrl;
 
+	private int ammountEvents;
+
 	public Long getId() {
 		return id;
 	}
@@ -67,6 +69,14 @@ public class Category {
 
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
+	}
+
+	public int getAmmountEvents() {
+		return ammountEvents;
+	}
+
+	public void setAmmountEvents(int ammountEvents) {
+		this.ammountEvents = ammountEvents;
 	}
 
 }

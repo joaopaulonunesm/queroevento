@@ -1,88 +1,101 @@
 <meta charset="UTF-8" />
-<h4>Configurações</h4>
 
-<div class="divider"></div>
+<div class="container">
+    <div class="row">
+    
+    	<div class="col s12">
 
-<br />
-
-<ul collapsible data-collapsible="accordion">
-    <li>
-        <div class="collapsible-header"><i class="material-icons">account_box</i>Informações Cadastrais</div>
-        <div class="collapsible-body">
-
-            <div class="row">
-                <div class="input-field col s12">
-                    <input id="first_name" type="text" class="validate" ng-model="login.user.name">
-                    <label for="first_name">Nome</label>
-                </div>
-                <div class="input-field col s6">
-                    <form action="#">
-                        <div class="file-field input-field">
-                        <div class="btn orange">
-                            <span><i class="material-icons">photo_camera</i></span>
-                            <input type="file">
-                        </div>
-                        <div class="file-path-wrapper">
-                            <input class="file-path validate" type="text">
-                        </div>
-                        </div>
-                        <img materialboxed class="materialboxed responsive-img" width="650" ng-src="{{ login.user.imageUrl }}">
-                    </form>
-                </div>
-                <div class="input-field col s6">
-                    <div input-field>
-                        <i class="material-icons prefix">phone</i>
-                        <input id="first_name" type="text" class="validate" ng-model="login.user.phoneNumber">
-                        <label for="first_name">Celular</label>
-                    </div>
-                    <div input-field>
-                        <input id="first_name" type="text" class="validate" ng-model="login.user.state">
-                        <label for="first_name">Estado</label>
-                    </div>
-                    <div input-field>
-                        <input id="first_name" type="text" class="validate" ng-model="login.user.city">
-                        <label for="first_name">Cidade</label>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="input-field col s6">
-                    <input id="first_name" type="text" class="validate" ng-model="login.user.company">
-                    <label for="first_name">Empresa</label>
-                </div>
-                <div class="input-field col s6">
-                    <input id="first_name" type="text" class="validate" ng-model="login.user.jobInCompany">
-                    <label for="first_name">Cargo na empresa</label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col s6 offset-s6" style="text-align: right">
-                    <a href="#/" class="waves-effect waves-light btn grey">Cancelar</a>
-                    <a class="waves-effect waves-light btn orange" ng-click="putUser()">Salvar</a>
-                </div>
-            </div>
-            
-        </div>
-    </li>
-</ul>
-
-<br />
-
-<ul collapsible data-collapsible="accordion">
-    <li>
-        <div class="collapsible-header"><i class="material-icons">settings</i>Parâmetros</div>
-        <div class="collapsible-body">
-        
-            <div class="row">
-                <div class="col s6" style="text-align: center">
-                    <a href="#/" class="waves-effect waves-light btn red"><i class="material-icons left">close</i>Inativar conta</a>
-                </div>
-                <div class="col s6" style="text-align: center">
-                    <a class="waves-effect waves-light btn grey lighten-2"><i class="material-icons left">do_not_disturb</i>Excluir conta</a>
-                </div>
-            </div>
-            
-
-        </div>
-    </li>
-</ul>
+			<nav style="margin-top: 8px">
+				<div class="nav-wrapper">
+			   		<div class="col s12">
+			     	<a href="#/" class="breadcrumb">Home</a>
+			     	<a href="" class="breadcrumb">Configurações</a>
+			  		</div>
+				</div>
+			</nav>
+			
+			<br />
+			
+			<ul collapsible data-collapsible="accordion">
+			    <li>
+			        <div class="collapsible-header"><i class="material-icons">account_box</i>Informações Cadastrais</div>
+			        <div class="collapsible-body">
+			
+			            <div class="row">
+			                <div class="input-field col s12">
+			                    <input id="first_name" type="text" class="validate" ng-model="login.user.name">
+			                    <label for="first_name">Nome</label>
+			                </div>
+			                <div class="input-field col s6">
+								<div input-field>
+							    	<i class="material-icons prefix">camera_alt</i>
+									<input id="image" type="url" class="validate" ng-model="login.user.imageUrl">
+							        <label for="image">Imagem (URL)</label>
+							        <img materialboxed class="materialboxed responsive-img" width="650" ng-src="{{ login.user.imageUrl }}">
+								</div>
+			                </div>
+			                <div class="input-field col s6">
+			                    <div input-field>
+			                        <i class="material-icons prefix">phone</i>
+			                        <input id="first_name" type="text" class="validate" ng-model="login.user.phoneNumber">
+			                        <label for="first_name">Celular</label>
+			                    </div>
+			                    <div input-field>
+			                        <input id="first_name" type="text" class="validate" ng-model="login.user.state">
+			                        <label for="first_name">Estado</label>
+			                    </div>
+			                    <div input-field>
+			                        <input id="first_name" type="text" class="validate" ng-model="login.user.city">
+			                        <label for="first_name">Cidade</label>
+			                    </div>
+			                </div>
+			            </div>
+			            <div class="row">
+			                <div class="input-field col s6">
+			                    <input id="first_name" type="text" class="validate" ng-model="login.user.company">
+			                    <label for="first_name">Empresa</label>
+			                </div>
+			                <div class="input-field col s6">
+			                    <input id="first_name" type="text" class="validate" ng-model="login.user.jobInCompany">
+			                    <label for="first_name">Cargo na empresa</label>
+			                </div>
+			               	<div class="input-field col s12">
+			                    <input id="email" type="email" class="validate" ng-model="login.user.contactEmail">
+			                    <label for="email">Email para Contato</label>
+			                </div>
+			            </div>
+			            <div class="row">
+			                <div class="col s6 offset-s6" style="text-align: right">
+			                    <a href="#/" class="waves-effect waves-light btn grey">Cancelar</a>
+			                    <a class="waves-effect waves-light btn orange" ng-click="putUser()">Salvar</a>
+			                </div>
+			            </div>
+			            
+			        </div>
+			    </li>
+			</ul>
+			
+			<br />
+			
+			<ul collapsible data-collapsible="accordion">
+			    <li>
+			        <div class="collapsible-header"><i class="material-icons">settings</i>Parâmetros</div>
+			        <div class="collapsible-body">
+			        
+			            <div class="row">
+			                <div class="col s6" style="text-align: center">
+			                    <a href="#/" class="waves-effect waves-light btn red"><i class="material-icons left">close</i>Inativar conta</a>
+			                </div>
+			                <div class="col s6" style="text-align: center">
+			                    <a class="waves-effect waves-light btn grey lighten-2"><i class="material-icons left">do_not_disturb</i>Excluir conta</a>
+			                </div>
+			            </div>
+			            
+			
+			        </div>
+			    </li>
+			</ul>
+			
+		</div>
+	</div>
+</div>

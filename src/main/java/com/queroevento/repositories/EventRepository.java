@@ -26,13 +26,16 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
 	List<Event> findByTurbineTypeIsNotNullOrderByTurbineTypeDesc();
 
-	List<Event> findByCatalogStatusOrderByCreateEventDate(CatalogStatusEvent catalogStatus);
+	List<Event> findByCatalogStatusOrderByEventDate(CatalogStatusEvent catalogStatus);
 
 	List<Event> findByStatusOrderByEventDate(StatusEvent status);
 
-	List<Event> getEventByKeywordIgnoreCase(String keyword);
+	List<Event> getEventByKeywordIgnoreCaseOrderByEventDate(String keyword);
 
 	List<Event> findByUserIdOrderByEventDate(Long id);
+
+	List<Event> findByEventDateAfterAndCatalogStatusAndStatusAndCategoryIdOrderByEventDate(Date date,
+			CatalogStatusEvent catalogStatus, StatusEvent status, Long idCategory);
 
 
 }

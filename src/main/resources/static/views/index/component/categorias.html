@@ -1,8 +1,5 @@
+<meta charset="UTF-8" />
 <ul class="collection with-header">
     <li class="collection-header" style="background-color: #009DC1"><h5 style="color: white">Categorias</h5></li>
-    <a href="#/category/Bar" class="collection-item orange-text">Bar</a>
-    <a href="#/category/Balada" class="collection-item orange-text">Balada</a>
-    <a href="#/category/Inaugurações" class="collection-item orange-text">Inaugurações</a>
-    <a href="#/category/Jogos" class="collection-item orange-text">Jogos</a>
-    <a href="#/category/Cursos" class="collection-item orange-text">Cursos</a>
+    <a ng-href="#/category/{{ category.urlName }}" class="collection-item orange-text" ng-repeat="category in categories">{{ category.name }} ({{ category.ammountEvents}})</a>
 </ul>

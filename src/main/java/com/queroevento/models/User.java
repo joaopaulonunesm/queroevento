@@ -32,6 +32,10 @@ public class User {
 
 	private String phoneNumber;
 
+	private String cellPhoneNumber;
+
+	private String contactEmail;
+
 	private Boolean moderator = false;
 
 	public Long getId() {
@@ -98,8 +102,24 @@ public class User {
 		this.phoneNumber = phoneNumber;
 	}
 
+	public String getCellPhoneNumber() {
+		return cellPhoneNumber;
+	}
+
+	public void setCellPhoneNumber(String cellPhoneNumber) {
+		this.cellPhoneNumber = cellPhoneNumber;
+	}
+
 	public Boolean getModerator() {
 		return moderator;
+	}
+
+	public String getContactEmail() {
+		return contactEmail;
+	}
+
+	public void setContactEmail(String contactEmail) {
+		this.contactEmail = contactEmail;
 	}
 
 	public void setModerator(Boolean moderator) {

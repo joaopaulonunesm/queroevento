@@ -13,9 +13,20 @@ angular.module("queroEventoApp").config(function ($routeProvider) {
 	});
 
 	$routeProvider.when("/event/list", {
-		templateUrl: "views/admin/component/eventos.html"
+		templateUrl: "views/admin/component/eventos.html",
+		controller: "adminEventCtrl"
+	});
+	
+	$routeProvider.when("/event/edit/:url", {
+		templateUrl: "views/admin/component/editarEvento.html",
+		controller: "adminEditEventCtrl"
 	});
 
+	$routeProvider.when("/event/preview/:url", {
+		templateUrl: "views/admin/component/visualizarEvento.html",
+		controller: "adminEditEventCtrl"
+	});
+	
 	$routeProvider.when("/offer", {
 		templateUrl: "views/admin/component/ofertas.html"
 	});

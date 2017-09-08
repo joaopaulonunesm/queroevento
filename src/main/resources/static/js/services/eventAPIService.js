@@ -40,8 +40,8 @@ angular.module("queroEventoApp").factory("eventAPI", function ($http, configs){
 		return $http.get(configs.baseUrl + '/events/past');
 	}
 	
-	var _getEventsByCategory = function (idCategory){
-		return $http.get(configs.baseUrl + '/events/category/' + idCategory);
+	var _getEventsByCategory = function (url){
+		return $http.get(configs.baseUrl + '/events/category/' + url);
 	}
 	
 	var _getEventsOrderByEstimate = function (){
@@ -62,6 +62,10 @@ angular.module("queroEventoApp").factory("eventAPI", function ($http, configs){
 
 	var _getEventByCatalogStatusPending = function (){
 		return $http.get(configs.baseUrl + configs.version + '/events/status/catalog/pending');
+	}
+	
+	var _getEventByCatalogStatusRefused = function (){
+		return $http.get(configs.baseUrl + configs.version + '/events/status/catalog/refused');
 	}
 	
 	var _getEventByStatusCanceled = function (){
@@ -91,7 +95,10 @@ angular.module("queroEventoApp").factory("eventAPI", function ($http, configs){
     	getEventsOrderByEstimate: _getEventsOrderByEstimate,
     	getEventsOrderByTurbineType: _getEventsOrderByTurbineType,
     	getEventsOrderByPlanType: _getEventsOrderByPlanType,
-    	getEventByUrlTitle: _getEventsOrderByPlanType,
+    	getEventByUrlTitle: _getEventByUrlTitle,
+    	getEventByCatalogStatusPending: _getEventByCatalogStatusPending,
+    	getEventByCatalogStatusRefused: _getEventByCatalogStatusRefused,
+    	getEventByStatusCanceled: _getEventByStatusCanceled,
     	getEventByKeyword: _getEventByKeyword,
     	getEventByUser: _getEventByUser
     };

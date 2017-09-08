@@ -1,14 +1,16 @@
 angular.module("queroEventoApp").controller("loginCtrl", function ($scope, $location, loginAPI, userAPI, configs) {
 
 	$scope.login = {};
+	
+	$scope.signin = {};
 
 	$scope.user = {};
 	
 	$scope.createLogin = function() {
 
 		loginAPI.postNewLogin($scope.login).then(function(response) {
-
-			$scope.authentication();
+			
+			$scope.authenticationNewLogin(response.data);
 
 		}, function(response) {
 			console.log(response.data);
@@ -26,10 +28,24 @@ angular.module("queroEventoApp").controller("loginCtrl", function ($scope, $loca
 			console.log(response.status);
 		});
 	};
+	
+	$scope.authenticationNewLogin = function(login) {
+
+		loginAPI.postAuthenticate(login).then(function(response) {
+
+			localStorage.setItem("token", response.data.token);
+
+			$(location).attr('href', configs.siteUrl + '/admin');
+
+		}, function(response) {
+			console.log(response.data);
+			console.log(response.status);
+		});
+	};
 
 	$scope.authentication = function() {
 
-		loginAPI.postAuthenticate($scope.login).then(function(response) {
+		loginAPI.postAuthenticate($scope.signin).then(function(response) {
 
 			localStorage.setItem("token", response.data.token);
 

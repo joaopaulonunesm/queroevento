@@ -26,8 +26,8 @@ public class CategoryService {
 		return categoryRepository.findOne(id);
 	}
 	
-	public List<Category> findAll() {
-		return categoryRepository.findAll();
+	public List<Category> findByOrderByAmmountEventsDesc() {
+		return categoryRepository.findByOrderByAmmountEventsDesc();
 	}
 
 	public Category findByUrlNameIgnoreCase(String urlName) {

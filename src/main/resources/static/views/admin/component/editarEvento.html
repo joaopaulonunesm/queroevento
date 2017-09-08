@@ -1,10 +1,8 @@
 <meta charset="UTF-8" />
 
-<meta charset="UTF-8" />
-
 <div class="container">
     <div class="row">
-    
+
 		<form class="col s12">
 		
 			<nav style="margin-top: 8px">
@@ -12,13 +10,13 @@
 			   		<div class="col s12">
 			     	<a href="#/" class="breadcrumb">Home</a>
 			     	<a href="#/event/list" class="breadcrumb">Meus Eventos</a>
-			     	<a href="" class="breadcrumb">Novo Evento</a>
+			     	<a href="" class="breadcrumb">Editar Evento</a>
 			  		</div>
 				</div>
 			</nav>
 			
 			<br />
-		    
+			    
 			<div class="row">
 				<div class="input-field col s12">
 				    <input id="title" type="text" class="validate" ng-model="event.title">
@@ -124,11 +122,11 @@
 			        <label for="showCompany">Mostrar a empresa que eu trabalho no evento.</label>
 			    </div>
 			</div>
-		
+			
 			<div class="row">
 			    <div class="col s6 offset-s6" style="text-align: right">
 			        <a href="#/event/list" class="waves-effect waves-light btn grey">Cancelar</a>
-			        <a class="waves-effect waves-light btn orange" ng-click="createEvent()">Salvar Evento</a>
+			        <a class="waves-effect waves-light btn orange" ng-click="putEvent(event.urlTitle)">Salvar Evento</a>
 			    </div>
 			</div>
 		</form>

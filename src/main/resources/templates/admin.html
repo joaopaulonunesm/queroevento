@@ -23,6 +23,8 @@
 
 <script src="js/controllers/login/loginCtrl.js"></script>
 <script src="js/controllers/event/adminEventCtrl.js"></script>
+<script src="js/controllers/event/adminEditEventCtrl.js"></script>
+<script src="js/controllers/category/categoryCtrl.js"></script>
 
 <script src="js/services/categoryAPIService.js"></script>
 <script src="js/services/eventAPIService.js"></script>
@@ -38,7 +40,7 @@
 
 	<div ng-include="'views/admin/navbar.html'"></div>
 
-	<div class="col s12 container" ng-controller="adminEventCtrl">
+	<div ng-controller="adminEventCtrl">
 		<ng-view></ng-view>
 	</div>
 

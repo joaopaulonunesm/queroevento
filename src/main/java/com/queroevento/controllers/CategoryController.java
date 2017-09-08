@@ -43,7 +43,7 @@ public class CategoryController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		List<Category> categories = categoryService.findAll();
+		List<Category> categories = categoryService.findByOrderByAmmountEventsDesc();
 
 		for (Category existenceCategory : categories) {
 
@@ -83,9 +83,9 @@ public class CategoryController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "v1/categories/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "v1/categories/{url}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Category> putCategory(@RequestHeader(value = "Authorization") String token,
-			@RequestBody Category category, @PathVariable Long id) throws ServletException {
+			@RequestBody Category category, @PathVariable String url) throws ServletException {
 
 		User user = userService.findByToken(token);
 
@@ -97,23 +97,13 @@ public class CategoryController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
-		Category existingCategory = categoryService.findOne(id);
+		Category existingCategory = categoryService.findByUrlNameIgnoreCase(url);
 
 		if (existingCategory == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 
 		category.setId(existingCategory.getId());
-
-		List<Category> categories = categoryService.findAll();
-
-		for (Category existenceCategory : categories) {
-
-			if (existenceCategory.getName().equals(category.getName())) {
-				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-			}
-
-		}
 
 		return new ResponseEntity<>(categoryService.save(category), HttpStatus.OK);
 	}
@@ -138,14 +128,7 @@ public class CategoryController {
 	}
 
 	@RequestMapping(value = "/categories/urlname/{urlName}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Category> getOneCategoryByUrlName(@RequestHeader(value = "Authorization") String token,
-			@PathVariable String urlName) throws ServletException {
-
-		User user = userService.findByToken(token);
-
-		if (user == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+	public ResponseEntity<Category> getOneCategoryByUrlName(@PathVariable String urlName) throws ServletException {
 
 		Category category = categoryService.findByUrlNameIgnoreCase(urlName);
 
@@ -157,16 +140,10 @@ public class CategoryController {
 	}
 
 	@RequestMapping(value = "/categories", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Category>> getCategories(@RequestHeader(value = "Authorization") String token)
+	public ResponseEntity<List<Category>> getCategories()
 			throws ServletException {
 
-		User user = userService.findByToken(token);
-
-		if (user == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-
-		return new ResponseEntity<>(categoryService.findAll(), HttpStatus.OK);
+		return new ResponseEntity<>(categoryService.findByOrderByAmmountEventsDesc(), HttpStatus.OK);
 	}
 
 }

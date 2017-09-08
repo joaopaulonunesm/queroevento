@@ -79,6 +79,9 @@ public class Event {
 	@JoinColumn(name = "show_email")
 	private Boolean showEmail;
 
+	@JoinColumn(name = "show_company")
+	private Boolean showCompany;
+
 	@Type(type = "org.hibernate.type.EnumType")
 	private StatusEvent status;
 
@@ -230,6 +233,14 @@ public class Event {
 
 	public void setShowEmail(Boolean showEmail) {
 		this.showEmail = showEmail;
+	}
+
+	public Boolean getShowCompany() {
+		return showCompany;
+	}
+
+	public void setShowCompany(Boolean showCompany) {
+		this.showCompany = showCompany;
 	}
 
 	public StatusEvent getStatus() {

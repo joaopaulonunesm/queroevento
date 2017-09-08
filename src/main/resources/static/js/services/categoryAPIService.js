@@ -8,8 +8,8 @@ angular.module("queroEventoApp").factory("categoryAPI", function ($http, configs
 		return $http.delete(configs.baseUrl + configs.version + '/categories/' + id);
 	}
 
-	var _putCategory = function (id, category){
-		return $http.put(configs.baseUrl + configs.version + '/categories/' + id, category);
+	var _putCategory = function (urlName, category){
+		return $http.put(configs.baseUrl + configs.version + '/categories/' + urlName, category);
 	}
 	
 	var _getCategoryById = function (id){

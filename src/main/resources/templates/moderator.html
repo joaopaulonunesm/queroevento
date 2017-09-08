@@ -22,19 +22,21 @@
 <script src="js/interceptors/tokenInterceptor.js"></script>
 
 <script src="js/controllers/login/loginCtrl.js"></script>
-<script src="js/controllers/event/eventCtrl.js"></script>
+<script src="js/controllers/login/loginModeratorCtrl.js"></script>
+<script src="js/controllers/event/moderatorEventCtrl.js"></script>
+<script src="js/controllers/category/categoryCtrl.js"></script>
+<script src="js/controllers/category/categoryEditCtrl.js"></script>
 
 <script src="js/services/categoryAPIService.js"></script>
 <script src="js/services/eventAPIService.js"></script>
 <script src="js/services/loginAPIService.js"></script>
 <script src="js/services/userAPIService.js"></script>
 
-
 <link rel="stylesheet" href="lib/css/styles.css" />
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 
 </head>
-<body ng-controller="loginCtrl">
+<body ng-controller="loginModeratorCtrl">
 
 	<div ng-include="'views/moderator/navbar.html'"></div>
 	
@@ -45,6 +47,6 @@
 	<div class="col s12 container">
 		<ng-view></ng-view>
 	</div>
-
+	
 </body>
 </html>

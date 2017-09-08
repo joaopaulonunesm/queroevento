@@ -5,80 +5,39 @@
 
 <br />
 
-<ul collapsible data-collapsible="accordion">
-    <li>
-        <div class="collapsible-header white-text blue"><i class="material-icons">add</i>Nova Categoria</div>
-        <div class="collapsible-body">
-
-			<div class="row">
-			    <form class="col s12">
-			        <div class="row">
-			            <div class="input-field col s12">
-			                <input id="first_name" type="text" class="validate">
-			                <label for="first_name">Título</label>
-			            </div>
-			            <div class="input-field col s6">
-			                <form action="#">
-			                    <div class="file-field input-field">
-			                    <div class="btn orange">
-			                        <span><i class="material-icons">photo_camera</i></span>
-			                        <input type="file">
-			                    </div>
-			                    <div class="file-path-wrapper">
-			                        <input class="file-path validate" type="text">
-			                    </div>
-			                    </div>
-			                    <img materialboxed class="materialboxed responsive-img" width="650" src="https://upload.wikimedia.org/wikipedia/commons/b/b4/Rock_in_Rio_-_Madrid_2012.jpg">
-			                </form>
-			            </div>
-				        <div class="input-field col s6">
-				          <textarea id="textarea1" class="materialize-textarea"></textarea>
-				          <label for="textarea1">Descrição</label>
-				        </div>
-			        </div>
-				</form>        
-				<div class="row">
-				    <div class="col s6 offset-s6" style="text-align: right">
-				        <a href="#/" class="waves-effect waves-light btn grey">Cancelar</a>
-				        <a class="waves-effect waves-light btn orange">Salvar Evento</a>
-				    </div>
-				</div>
-			</div>
-            
-        </div>
-    </li>
-</ul>
-
-<br />
-
 <div class="row">
-    <div class="col s12">
+    <div class="col s6">
+        <a class="btn orange" href="#/category/insert">Nova Categoria</a>
+    </div>
+    <div class="col s6">
         <div class="input-field col s12">
             <i class="material-icons prefix">search</i>
-            <input id="first_name" type="text">
-            <label for="first_name">Procure a categoria</label>
+            <input id="first_name" type="text" ng-model="search">
+            <label for="first_name">Procurar categoria</label>
         </div>
     </div>
 </div>
 
 <div class="row">
     <div class="col s12">
-        <div class="card-panel hoverable grey lighten-5 z-depth-1">
+    
+        <div class="card-panel hoverable grey lighten-5 z-depth-1" ng-repeat="category in categories | filter: search">
             <div class="row valign-wrapper">
-                <div class="col s8">
-                    <img materialboxed class="materialboxed responsive-img" src="https://pegcar.com/blog/wp-content/uploads/2016/08/As-melhores-baladas-de-S%E2%88%86o-Paulo.jpg" alt="">
+                <div class="col s2">
+                    <img materialboxed class="materialboxed responsive-img" ng-src="{{ category.imageUrl }}" width="200" alt="">
                 </div>
-                <div class="col s7">
-                    <span class="title"><h5>Baladas</h5></span>
-                    <p>Ut lacinia blandit accumsan. Curabitur consequat lacinia odio et condimentum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Fusce finibus.</p>
+                <div class="col s12">
+                    <span class="title"><h5>{{ category.name }}</h5></span>
+                    <p>{{ category.description }}</p>
                 </div>
             </div>
             <div class="divider"></div>
             <br />
             <div style="text-align: right;">
-	            <a class="waves-effect waves-light btn red"><i class="material-icons left">remove</i>Excluir</a>
-	            <a class="waves-effect waves-light btn orange"><i class="material-icons left">edit</i>Editar</a>
+	            <a class="waves-effect waves-light btn red" ng-click="deleteCategory(category.id)"><i class="material-icons left">remove</i>Excluir</a>
+	            <a class="waves-effect waves-light btn orange" ng-href="#/category/edit/{{ category.urlName }}"><i class="material-icons left">edit</i>Editar</a>
             </div>
         </div>
+        
     </div>
 </div>

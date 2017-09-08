@@ -8,38 +8,42 @@
 		    	<div class="nav-wrapper">
 	        		<div class="col s12">
 			        	<a href="#!" class="breadcrumb">Home</a>
-			        	<a href="#/category/nome" class="breadcrumb">Nome da Categoria Clicada</a>
-			        	<a href="" class="breadcrumb">Evento</a>
+			        	<a ng-href="#/category/{{ eventByUrl.category.urlName }}" class="breadcrumb">{{ eventByUrl.category.name }}</a>
+			        	<a href="" class="breadcrumb">Event</a>
 		      		</div>
 		    	</div>
 		    </nav>
 
             <div class="card hoverable">
                 <div class="card-image">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbK4KTbNtRe6Pu-c8h_y2CA-fyech2z_PVsiupWi9QeLoUQdisAA">
+                    <img materialboxed class="materialboxed responsive-img" ng-src="{{ eventByUrl.imageUrl }}" alt="">
                     <span class="card-title" style="background-color: #009DC1">
-                        Show do Martin Garrix
+                        {{ eventByUrl.title }}
                     </span>
                 </div>
                 <div class="card-content">
-                    <p>Descrição Curta</p>
-                    <p>"Venha curtir as melhores músicas eletronicas do mundo ao som de Martin Garrix."</p>
+                    <p>Data: {{ eventByUrl.eventDate | date }}</p>                    
+                    <p>Preço: {{ eventByUrl.price }}</p>
+                    <p>Local: {{ eventByUrl.local }}</p>
+                    <p>Cidade: {{ eventByUrl.city }}</p>
+                    <p>Estado: {{ eventByUrl.state }}</p>
+                    <br />
+                    <p>Categoria: {{ eventByUrl.category.name }}</p>
+                    <p>Palavra Chave: {{ eventByUrl.keyword }}</p>
+                    <p>Quantidade estimada de pessoas: {{ eventByUrl.peopleEstimate }}</p>
+                    <br />
+					<p>Descrição Curta</p>
+                    <p>{{ eventByUrl.shortDescription }}</p>
                     <br />
                     <p>Descrição Detalhada</p>
-                    <p>"Venha curtir as melhores músicas eletronicas do mundo ao som de Martin Garrix."</p>
+                    <p>{{ eventByUrl.completeDescription }}</p>
                     <br />
-                    <p>Data do Evento 02/12/2017 as 20:00</p>
-                    <p>Local do Evento Pavilhão Azul no Parque de exposição</p>
-                    <br />
-                    <p>Entrar em contato com João Marques (Se habilitou para aparecer)</p>
-                    <p>Celular: 99876542</p>
-                    <p>Email: joao@hotmail.com</p>
-                    <br />
-                    <p>Preços</p>
-                    <p>1º Lote: R$25,00</p>
-                    <p>2º Lote: R$50,00</p>
-                    <p>3º Lote: R$75,00</p>
-                    <p>Obs.: Na hora será cobrado R$150,00</p>
+                    <p ng-if="eventByUrl.showCompany == true || eventByUrl.showPhoneNumber == true || eventByUrl.showEmail == true">Contato</p>
+                    <p ng-if="eventByUrl.showCompany == true || eventByUrl.showPhoneNumber == true || eventByUrl.showEmail == true">Nome: {{ eventByUrl.user.name }}</p>
+                    <p ng-if="eventByUrl.showCompany == true">Empresa: {{ eventByUrl.user.company }}</p>
+                    <p ng-if="eventByUrl.showCompany == true">Cargo: {{ eventByUrl.user.jobInCompany }}</p>
+                    <p ng-if="eventByUrl.showPhoneNumber == true">Celular: {{ eventByUrl.user.phoneNumber }}</p>
+                    <p ng-if="eventByUrl.showEmail == true">Email: {{ eventByUrl.user.contactEmail }}</p>
                 </div>
                 <div class="card-action" style="text-align: right">
                     <a class="waves-effect waves-light btn orange"><i class="material-icons left">check</i>Marcar Presença</a>

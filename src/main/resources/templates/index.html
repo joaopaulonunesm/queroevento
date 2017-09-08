@@ -22,7 +22,10 @@
 <script src="js/interceptors/tokenInterceptor.js"></script>
 
 <script src="js/controllers/login/loginCtrl.js"></script>
-<script src="js/controllers/event/eventCtrl.js"></script>
+<script src="js/controllers/event/index/eventCtrl.js"></script>
+<script src="js/controllers/event/index/eventByCategoryCtrl.js"></script>
+<script src="js/controllers/event/index/eventByUrlTitleCtrl.js"></script>
+<script src="js/controllers/category/categoryCtrl.js"></script>
 
 <script src="js/services/categoryAPIService.js"></script>
 <script src="js/services/eventAPIService.js"></script>
@@ -34,11 +37,15 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 
 </head>
-<body ng-controller="loginCtrl">
-
-	<div ng-include="'views/index/navbar.html'"></div>
-
-	<ng-view></ng-view>
+<body ng-controller="eventCtrl">
+	
+	<div ng-controller="categoryCtrl">
+	
+		<div ng-include="'views/index/navbar.html'"></div>
+	
+		<ng-view></ng-view>
+		
+	</div>
 
 </body>
 </html>

@@ -68,6 +68,8 @@ public class EventController {
 		if (category == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+		
+		category.setAmmountEvents(category.getAmmountEvents() + 1);
 
 		if (event.getEventDate().before(new Date())) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -113,7 +115,8 @@ public class EventController {
 		event.setPeopleEstimate(existenceEvent.getPeopleEstimate());
 		event.setCatalogStatus(existenceEvent.getCatalogStatus());
 		event.setUser(user);
-		event.setCatalogStatus(existenceEvent.getCatalogStatus());
+		event.setCatalogStatus(CatalogStatusEvent.CATALOGING);
+		event.setUrlTitle(eventService.titleToUrlTitle(event.getTitle()));
 
 		eventService.save(event);
 
@@ -194,10 +197,10 @@ public class EventController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 
-		if(!user.getModerator()){
+		if (!user.getModerator()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		
+
 		if (event.getCatalogStatus() == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
@@ -263,15 +266,102 @@ public class EventController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/events/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Event> getOneEvent(@RequestHeader(value = "Authorization") String token,
-			@PathVariable Long id) throws ServletException {
+	@RequestMapping(value = "v1/events/status/catalog/pending", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Event>> getEventByCatalogStatusPending(
+			@RequestHeader(value = "Authorization") String token) throws ServletException {
 
 		User user = userService.findByToken(token);
 
 		if (user == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+
+		if (!user.getModerator()) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		List<Event> events = eventService.findByCatalogStatusOrderByEventDate(CatalogStatusEvent.CATALOGING);
+
+		return new ResponseEntity<>(events, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "v1/events/status/catalog/refused", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Event>> getEventByCatalogStatusRefused(
+			@RequestHeader(value = "Authorization") String token) throws ServletException {
+
+		User user = userService.findByToken(token);
+
+		if (user == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		if (!user.getModerator()) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		List<Event> events = eventService.findByCatalogStatusOrderByEventDate(CatalogStatusEvent.REFUSED);
+
+		return new ResponseEntity<>(events, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "v1/events/status/canceled", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Event>> getEventByStatus(@RequestHeader(value = "Authorization") String token)
+			throws ServletException {
+
+		User user = userService.findByToken(token);
+
+		if (user == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		if (!user.getModerator()) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		List<Event> events = eventService.findByStatusOrderByEventDate(StatusEvent.CANCELED);
+
+		return new ResponseEntity<>(events, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "v1/events/user", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Event>> getEventByUser(@RequestHeader(value = "Authorization") String token)
+			throws ServletException {
+
+		User user = userService.findByToken(token);
+
+		if (user == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		List<Event> events = eventService.findByUserId(user.getId());
+
+		return new ResponseEntity<>(events, HttpStatus.OK);
+	}
+
+	// Publicos
+
+	@RequestMapping(value = "/events/keyword/{keyword}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Event>> getEventByKeywordIgnoreCase(String keyword) throws ServletException {
+
+		List<Event> events = eventService.getEventByKeywordIgnoreCaseOrderByEventDate(keyword);
+
+		return new ResponseEntity<>(events, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/events/urltitle/{url}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Event> getEventByUrlTitle(@PathVariable String url) throws ServletException {
+
+		Event event = eventService.findByUrlTitle(url);
+
+		if (event == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		return new ResponseEntity<>(event, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/events/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Event> getOneEvent(@PathVariable Long id) throws ServletException {
 
 		Event event = eventService.findOne(id);
 
@@ -283,171 +373,45 @@ public class EventController {
 	}
 
 	@RequestMapping(value = "/events", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Event>> getAllEventOrderByDate(@RequestHeader(value = "Authorization") String token)
-			throws ServletException {
-
-		User user = userService.findByToken(token);
-
-		if (user == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+	public ResponseEntity<List<Event>> getAllEventOrderByDate() throws ServletException {
 
 		return new ResponseEntity<>(eventService.findByEventDateAfterAndCatalogStatusAndStatusOrderByEventDate(
 				new Date(), CatalogStatusEvent.PUBLISHED, StatusEvent.ACTIVE), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/events/past", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Event>> getAllPastEventOrderByDate(@RequestHeader(value = "Authorization") String token)
-			throws ServletException {
-
-		User user = userService.findByToken(token);
-
-		if (user == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+	public ResponseEntity<List<Event>> getAllPastEventOrderByDate() throws ServletException {
 
 		return new ResponseEntity<>(eventService.findByEventDateBeforeOrderByEventDateDesc(new Date()), HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/events/category/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Event>> getAllEventByCategory(@RequestHeader(value = "Authorization") String token,
-			@PathVariable Long id) throws ServletException {
+	@RequestMapping(value = "/events/category/{url}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Event>> getAllEventByCategory(@PathVariable String url) throws ServletException {
 
-		User user = userService.findByToken(token);
+		Category category = categoryService.findByUrlNameIgnoreCase(url);
 
-		if (user == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-
-		Category category = categoryService.findOne(id);
-
-		if (category == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-
-		return new ResponseEntity<>(eventService.findByCategoryIdOrderByEventDate(category.getId()), HttpStatus.OK);
+		return new ResponseEntity<>(
+				eventService.findByEventDateAfterAndCatalogStatusAndStatusAndCategoryIdOrderByEventDate(new Date(),
+						CatalogStatusEvent.PUBLISHED, StatusEvent.ACTIVE, category.getId()),
+				HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/events/estimate", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Event>> getAllEventOrderByConfirmedPresenceDesc(
-			@RequestHeader(value = "Authorization") String token) throws ServletException {
-
-		User user = userService.findByToken(token);
-
-		if (user == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+	public ResponseEntity<List<Event>> getAllEventOrderByConfirmedPresenceDesc() throws ServletException {
 
 		return new ResponseEntity<>(eventService.findByOrderByPeopleEstimateDesc(), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/events/type/turbine", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Event>> getByTurbineTypeIsNotNullOrderByTurbineType(
-			@RequestHeader(value = "Authorization") String token) throws ServletException {
-
-		User user = userService.findByToken(token);
-
-		if (user == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+	public ResponseEntity<List<Event>> getByTurbineTypeIsNotNullOrderByTurbineType() throws ServletException {
 
 		return new ResponseEntity<>(eventService.findByTurbineTypeIsNotNullOrderByTurbineTypeDesc(), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/events/type/plan", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Event>> getByPlanType(@RequestHeader(value = "Authorization") String token)
-			throws ServletException {
-
-		User user = userService.findByToken(token);
-
-		if (user == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+	public ResponseEntity<List<Event>> getByPlanType() throws ServletException {
 
 		return new ResponseEntity<>(eventService.findByTurbineTypeIsNotNullOrderByTurbineTypeDesc(), HttpStatus.OK);
-	}
-
-	@RequestMapping(value = "/events/urltitle/{url}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Event> getEventByUrlTitle(@RequestHeader(value = "Authorization") String token,
-			@PathVariable String url) throws ServletException {
-
-		User user = userService.findByToken(token);
-
-		if (user == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-
-		Event event = eventService.findByUrlTitle(url);
-
-		if (event == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-
-		return new ResponseEntity<>(event, HttpStatus.OK);
-	}
-	
-	@RequestMapping(value = "v1/events/status/catalog/pending", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Event>> getEventByCatalogStatus(@RequestHeader(value = "Authorization") String token) throws ServletException {
-
-		User user = userService.findByToken(token);
-
-		if (user == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-		
-		if(!user.getModerator()){
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-
-		List<Event> events = eventService.findByCatalogStatusOrderByCreateEventDate(CatalogStatusEvent.CATALOGING);
-
-		return new ResponseEntity<>(events, HttpStatus.OK);
-	}
-	
-	@RequestMapping(value = "v1/events/status/canceled", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Event>> getEventByStatus(@RequestHeader(value = "Authorization") String token) throws ServletException {
-
-		User user = userService.findByToken(token);
-
-		if (user == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-		
-		if(!user.getModerator()){
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-
-		List<Event> events = eventService.findByStatusOrderByEventDate(StatusEvent.CANCELED);
-
-		return new ResponseEntity<>(events, HttpStatus.OK);
-	}
-	
-	@RequestMapping(value = "/events/keyword/{keyword}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Event>> getEventByKeywordIgnoreCase(@RequestHeader(value = "Authorization") String token, String keyword) throws ServletException {
-
-		User user = userService.findByToken(token);
-
-		if (user == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-
-		List<Event> events = eventService.getEventByKeywordIgnoreCase(keyword);
-
-		return new ResponseEntity<>(events, HttpStatus.OK);
-	}
-	
-	@RequestMapping(value = "v1/events/user", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Event>> getEventByUser(@RequestHeader(value = "Authorization") String token) throws ServletException {
-
-		User user = userService.findByToken(token);
-
-		if (user == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-
-		List<Event> events = eventService.findByUserId(user.getId());
-
-		return new ResponseEntity<>(events, HttpStatus.OK);
 	}
 
 }

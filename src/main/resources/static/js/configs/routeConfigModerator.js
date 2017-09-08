@@ -5,11 +5,23 @@ angular.module("queroEventoApp").config(function ($routeProvider) {
 	});
 	
 	$routeProvider.when("/events", {
-		templateUrl: "views/moderator/component/evento.html"
+		templateUrl: "views/moderator/component/evento.html",
+		controller: "moderatorEventCtrl"
 	});
 	
-	$routeProvider.when("/categories", {
-		templateUrl: "views/moderator/component/categoria.html"
+	$routeProvider.when("/category/list", {
+		templateUrl: "views/moderator/component/categoria.html",
+		controller: "categoryCtrl"
+	});
+	
+	$routeProvider.when("/category/insert", {
+		templateUrl: "views/moderator/component/novaCategoria.html",
+		controller: "categoryCtrl"
+	});
+	
+	$routeProvider.when("/category/edit/:url", {
+		templateUrl: "views/moderator/component/editarCategoria.html",
+		controller: "categoryEditCtrl"
 	});
 	
 	$routeProvider.when("/offers", {

@@ -1,0 +1,75 @@
+<meta charset="UTF-8" />
+<div class="container">
+    <div class="row">
+
+		<div class="col s12">
+		    <nav style="margin-top: 8px">
+		    	<div class="nav-wrapper">
+	        		<div class="col s12">
+			        	<a href="#!" class="breadcrumb">Home</a>
+			        	<a href="#/event/list" class="breadcrumb">Meus Eventos</a>
+			        	<a href="" class="breadcrumb">Pré-visualização</a>
+		      		</div>
+		    	</div>
+		    </nav>
+		</div>
+
+        <div class="col s8">
+
+            <div class="card hoverable">
+                <div class="card-image">
+                    <img ng-src="{{ event.imageUrl }}">
+                    <span class="card-title" style="background-color: #009DC1">
+                    	{{ event.title }}
+                    </span>
+                </div>
+                <div class="card-content">
+                    <p>Data: {{ event.eventDate | date }}</p>                    
+                    <p>Preço: {{ event.price }}</p>
+                    <p>Local: {{ event.local }}</p>
+                    <p>Cidade: {{ event.city }}</p>
+                    <p>Estado: {{ event.state }}</p>
+                    <br />
+                    <p>Categoria: {{ event.category.name }}</p>
+                    <p>Palavra Chave: {{ event.keyword }}</p>
+                    <p>Quantidade estimada de pessoas: {{ event.peopleEstimate }}</p>
+                    <br />
+					<p>Descrição Curta</p>
+                    <p>{{ event.shortDescription }}</p>
+                    <br />
+                    <p>Descrição Detalhada</p>
+                    <p>{{ event.completeDescription }}</p>
+                    <br />
+                    <p ng-if="event.showCompany == true || event.showPhoneNumber == true || event.showEmail == true">Contato</p>
+                    <p ng-if="event.showCompany == true || event.showPhoneNumber == true || event.showEmail == true">Nome: {{ login.user.name }}</p>
+                    <p ng-if="event.showCompany == true">Empresa: {{ login.user.company }}</p>
+                    <p ng-if="event.showCompany == true">Cargo: {{ login.user.jobInCompany }}</p>
+                    <p ng-if="event.showPhoneNumber == true">Celular: {{ login.user.phoneNumber }}</p>
+                    <p ng-if="event.showEmail == true">Email: {{ login.email }}</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col s4">
+
+            <div class="card" style="background-color: #283E4B">
+                <div class="card-content white-text">
+
+                    <span class="card-title"><h5>Opções</h5></span>
+					
+					<a class="waves-effect waves-light btn orange" style="background-color: orange; margin-top: 20px" href=""><i class="material-icons left">flash_on</i> Turbinar</a>
+					
+					<a class="waves-effect waves-light btn orange" style="background-color: orange; margin-top: 20px" ng-href="#/event/edit/{{ event.urlTitle }}"><i class="material-icons left">edit</i> Editar</a>
+					
+					<a class="waves-effect waves-light btn orange" style="background-color: orange; margin-top: 20px" href="" ng-click="deleteEvent(event.id)"><i class="material-icons left">delete</i> Excluir</a>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div ng-include="'views/index/footer.html'"></div>

@@ -1,9 +1,15 @@
 <meta charset="UTF-8" />
+
 <nav >
     <div class="nav-wrapper">
         <div class="container">
             <a href="#/" class="brand-logo"><img style="margin-top: 15px" src="images/navlogo.png" alt="Logo"></a>
             <ul class="right hide-on-med-and-down">
+                <li ng-if="login.user.moderator == true">
+                    <a href="/moderator">
+                        Moderator
+                    </a>
+                </li>
                 <li>
                     <a class="btn orange waves-effect waves-light" href="#" id="button-collapse" data-activates="slide-out" data-sidenav="left" data-menuwidth="300" data-closeonclick="false">
                         Menu
@@ -34,6 +40,12 @@
             </div>
         </li>
         <li class="bold"><a href="#/settings" class="collapsible-header active waves-effect waves-teal">Configurações</a></li>
+        <li ng-if="login.user.moderator == true" class="divider"></li>
+        <li class="bold" ng-if="login.user.moderator == true">
+	        <a href="/moderator" class="collapsible-header active waves-effect waves-teal">
+	       		Moderator
+	        </a>
+        </li>
         <li class="divider"></li>
         <li class="bold"><a href="" ng-click="logout()" class="collapsible-header active waves-effect waves-teal">Sair</a></li>
     </ul>

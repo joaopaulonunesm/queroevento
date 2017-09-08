@@ -1,0 +1,30 @@
+<meta charset="UTF-8" />
+<div class="row">
+    <form class="col s12">
+        <div class="row">
+            <div class="input-field col s12">
+                <input id="name" type="text" class="validate" ng-model="category.name">
+                <label for="name">Título</label>
+            </div>
+     				<div class="input-field col s12">
+	          <textarea id="description" class="materialize-textarea" ng-model="category.description"></textarea>
+	          <label for="description">Descrição</label>
+	        </div>
+			<div class="input-field col s6">
+				<div input-field>
+			    	<i class="material-icons prefix">camera_alt</i>
+					<input id="image" type="text" ng-model="category.imageUrl">
+			        <label for="image">Imagem (URL)</label>
+			        <img materialboxed class="materialboxed responsive-img" width="400" ng-src="{{ category.imageUrl }}">
+				</div>
+			</div>
+
+        </div>
+		<div class="row">
+		    <div class="col s8 offset-s4" style="text-align: right">
+		        <a href="#/category/list" class="waves-effect waves-light btn grey">Cancelar</a>
+		        <a class="waves-effect waves-light btn orange" ng-click="updateCategory(category.urlName)">Salvar Categoria</a>
+		    </div>
+		</div>
+	</form>        
+</div>
