@@ -1,5 +1,6 @@
 package com.queroevento.controllers;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -24,6 +25,7 @@ import com.queroevento.services.EventService;
 import com.queroevento.services.UserService;
 import com.queroevento.utils.CatalogStatusEvent;
 import com.queroevento.utils.StatusEvent;
+import com.queroevento.utils.TurbineType;
 
 @Controller
 public class EventController {
@@ -68,7 +70,7 @@ public class EventController {
 		if (category == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		
+
 		category.setAmmountEvents(category.getAmmountEvents() + 1);
 
 		if (event.getEventDate().before(new Date())) {
@@ -340,6 +342,13 @@ public class EventController {
 
 	// Publicos
 
+	@RequestMapping(value = "/events", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Event>> getAllEventOrderByDate() throws ServletException {
+
+		return new ResponseEntity<>(eventService.findByEventDateAfterAndCatalogStatusAndStatusOrderByEventDate(
+				new Date(), CatalogStatusEvent.PUBLISHED, StatusEvent.ACTIVE), HttpStatus.OK);
+	}
+
 	@RequestMapping(value = "/events/keyword/{keyword}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Event>> getEventByKeywordIgnoreCase(String keyword) throws ServletException {
 
@@ -372,17 +381,11 @@ public class EventController {
 		return new ResponseEntity<>(event, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/events", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Event>> getAllEventOrderByDate() throws ServletException {
-
-		return new ResponseEntity<>(eventService.findByEventDateAfterAndCatalogStatusAndStatusOrderByEventDate(
-				new Date(), CatalogStatusEvent.PUBLISHED, StatusEvent.ACTIVE), HttpStatus.OK);
-	}
-
 	@RequestMapping(value = "/events/past", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Event>> getAllPastEventOrderByDate() throws ServletException {
 
-		return new ResponseEntity<>(eventService.findByEventDateBeforeOrderByEventDateDesc(new Date()), HttpStatus.OK);
+		return new ResponseEntity<>(eventService.findByEventDateBeforeAndCatalogStatusOrderByEventDateDesc(new Date(),
+				CatalogStatusEvent.PUBLISHED), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/events/category/{url}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -402,16 +405,42 @@ public class EventController {
 		return new ResponseEntity<>(eventService.findByOrderByPeopleEstimateDesc(), HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/events/type/turbine", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Event>> getByTurbineTypeIsNotNullOrderByTurbineType() throws ServletException {
+	@RequestMapping(value = "/events/type/turbine/gold", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Event>> getByTurbineTypeGold() throws ServletException {
 
-		return new ResponseEntity<>(eventService.findByTurbineTypeIsNotNullOrderByTurbineTypeDesc(), HttpStatus.OK);
+		List<Event> events = eventService.findByCatalogStatusAndTurbineTypeAndEventDateAfterOrderByEventDate(
+				CatalogStatusEvent.PUBLISHED, TurbineType.GOLD, new Date());
+
+		Collections.shuffle(events);
+
+		return new ResponseEntity<>(events, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/events/type/plan", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Event>> getByPlanType() throws ServletException {
+	@RequestMapping(value = "/events/type/turbine/silver", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Event>> getByTurbineTypeSilver() throws ServletException {
 
-		return new ResponseEntity<>(eventService.findByTurbineTypeIsNotNullOrderByTurbineTypeDesc(), HttpStatus.OK);
+		List<Event> events = eventService.findByCatalogStatusAndTurbineTypeAndEventDateAfterOrderByEventDate(
+				CatalogStatusEvent.PUBLISHED, TurbineType.SILVER, new Date());
+
+		List<Event> eventsGold = eventService.findByCatalogStatusAndTurbineTypeAndEventDateAfterOrderByEventDate(
+				CatalogStatusEvent.PUBLISHED, TurbineType.GOLD, new Date());
+
+		events.addAll(eventsGold);
+
+		Collections.shuffle(events);
+
+		return new ResponseEntity<>(events, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/events/type/turbine/bronze", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Event>> getByTurbineTypeBronze() throws ServletException {
+
+		List<Event> events = eventService.findByCatalogStatusAndTurbineTypeAndEventDateAfterOrderByEventDate(
+				CatalogStatusEvent.PUBLISHED, TurbineType.BRONZE, new Date());
+
+		Collections.shuffle(events);
+
+		return new ResponseEntity<>(events, HttpStatus.OK);
 	}
 
 }

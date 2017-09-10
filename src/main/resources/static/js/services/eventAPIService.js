@@ -28,6 +28,26 @@ angular.module("queroEventoApp").factory("eventAPI", function ($http, configs){
 		return $http.delete(configs.baseUrl + configs.version + '/events/' + id);
 	}
 	
+	var _getEventByCatalogStatusPending = function (){
+		return $http.get(configs.baseUrl + configs.version + '/events/status/catalog/pending');
+	}
+	
+	var _getEventByCatalogStatusRefused = function (){
+		return $http.get(configs.baseUrl + configs.version + '/events/status/catalog/refused');
+	}
+	
+	var _getEventByStatusCanceled = function (){
+		return $http.get(configs.baseUrl + configs.version + '/events/status/canceled');
+	}
+	
+	var _getEventByKeyword = function (keyword){
+		return $http.get(configs.baseUrl + configs.version + '/events/keyword/' + keyword);
+	}
+	
+	var _getEventByUser = function (){
+		return $http.get(configs.baseUrl + configs.version + '/events/user');
+	}
+	
 	var _getEventById = function (id){
 		return $http.get(configs.baseUrl + '/events/' + id);
 	}
@@ -48,36 +68,20 @@ angular.module("queroEventoApp").factory("eventAPI", function ($http, configs){
 		return $http.get(configs.baseUrl + '/events/estimate');
 	}
 	
-	var _getEventsOrderByTurbineType = function (){
-		return $http.get(configs.baseUrl + '/events/type/turbine');
-	}
-	
-	var _getEventsOrderByPlanType = function (){
-		return $http.get(configs.baseUrl + '/events/type/plan');
-	}
-
 	var _getEventByUrlTitle = function (urlTitle){
 		return $http.get(configs.baseUrl + '/events/urltitle/' + urlTitle);
 	}
-
-	var _getEventByCatalogStatusPending = function (){
-		return $http.get(configs.baseUrl + configs.version + '/events/status/catalog/pending');
+	
+	var _getEventsGold = function (){
+		return $http.get(configs.baseUrl  + '/events/type/turbine/gold');
 	}
 	
-	var _getEventByCatalogStatusRefused = function (){
-		return $http.get(configs.baseUrl + configs.version + '/events/status/catalog/refused');
+	var _getEventsSilver = function (){
+		return $http.get(configs.baseUrl  + '/events/type/turbine/silver');
 	}
 	
-	var _getEventByStatusCanceled = function (){
-		return $http.get(configs.baseUrl + configs.version + '/events/status/canceled');
-	}
-	
-	var _getEventByKeyword = function (keyword){
-		return $http.get(configs.baseUrl + configs.version + '/events/keyword/' + keyword);
-	}
-	
-	var _getEventByUser = function (){
-		return $http.get(configs.baseUrl + configs.version + '/events/user');
+	var _getEventsBronze = function (){
+		return $http.get(configs.baseUrl  + '/events/type/turbine/bronze');
 	}
 
 	return {
@@ -93,14 +97,15 @@ angular.module("queroEventoApp").factory("eventAPI", function ($http, configs){
     	getEventsPast: _getEventsPast,
     	getEventsByCategory: _getEventsByCategory,
     	getEventsOrderByEstimate: _getEventsOrderByEstimate,
-    	getEventsOrderByTurbineType: _getEventsOrderByTurbineType,
-    	getEventsOrderByPlanType: _getEventsOrderByPlanType,
     	getEventByUrlTitle: _getEventByUrlTitle,
     	getEventByCatalogStatusPending: _getEventByCatalogStatusPending,
     	getEventByCatalogStatusRefused: _getEventByCatalogStatusRefused,
     	getEventByStatusCanceled: _getEventByStatusCanceled,
     	getEventByKeyword: _getEventByKeyword,
-    	getEventByUser: _getEventByUser
+    	getEventByUser: _getEventByUser,
+    	getEventsGold: _getEventsGold,
+    	getEventsSilver: _getEventsSilver,
+    	getEventsBronze: _getEventsBronze
     };
 	
 });

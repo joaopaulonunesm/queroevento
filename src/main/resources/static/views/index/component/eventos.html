@@ -4,41 +4,22 @@
 
     <div class="col s12">
 
-        <div class="card hoverable">
+        <div class="card hoverable" ng-repeat="event in eventsBronze | limitTo: 10">
             <div class="card-image">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbK4KTbNtRe6Pu-c8h_y2CA-fyech2z_PVsiupWi9QeLoUQdisAA">
+                <img ng-src="{{ event.imageUrl }}">
                 <span class="card-title" style="background-color: #009DC1">
-                    <h5>Show do Martin Garrix</h5> 
+                    <h5>{{ event.title }}</h5> 
                 </span>
             </div>
             <div class="card-content">
-            	<p><h6>Data: 02/12/2017 as 20:00</h6></p>
-            	<p><h6>Valor: R$20,00</h6></p>
-                <p>Local: Pavilhão Azul no Parque de exposição</p>
+            	<p><h6>Data: {{ event.eventDate | date }}</h6></p>
+            	<p><h6>Valor: R${{ event.price }}</h6></p>
+                <p>Local: {{ event.local }}</p>
                 <br />
-				<p>"Venha curtir as melhores músicas eletronicas do mundo ao som de Martin Garrix."</p>                
+				<p>{{ event.shortDescription }}</p>                
             </div>
             <div class="card-action" style="text-align: right;">
-                <a class="waves-effect waves-light btn orange" href="#/event/nomedoevento">Ver mais</a>
-            </div>
-        </div>
-        
-        <div class="card hoverable">
-            <div class="card-image">
-                <img src="http://www.wcity.com/images/stories/fashion/ck_perf_slider.jpg">
-                <span class="card-title" style="background-color: #009DC1">
-                    <h5>Inauguração da Loja Calvin Klein</h5> 
-                </span>
-            </div>
-            <div class="card-content">
-            	<p><h6>Data: 03/08/2017 as 08:00</h6></p>
-            	<p><h6>Valor: GRÁTIS</h6></p>
-                <p>Local: Local do Evento Shopping Avenida Center</p>
-                <br />
-				<p>"Venha prestigiar a nossa inauguração no Avenida Center, descontos de até 20% em nossos produtos."</p>                
-            </div>
-            <div class="card-action" style="text-align: right;">
-                <a class="waves-effect waves-light btn orange" href="#/event/nomedoevento">Ver mais</a>
+                <a class="waves-effect waves-light btn orange" ng-href="#/event/{{ event.urlTitle }}">Ver mais</a>
             </div>
         </div>
 

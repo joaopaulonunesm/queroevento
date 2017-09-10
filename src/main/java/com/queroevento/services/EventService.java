@@ -10,6 +10,7 @@ import com.queroevento.models.Event;
 import com.queroevento.repositories.EventRepository;
 import com.queroevento.utils.CatalogStatusEvent;
 import com.queroevento.utils.StatusEvent;
+import com.queroevento.utils.TurbineType;
 
 @Service
 public class EventService {
@@ -35,8 +36,8 @@ public class EventService {
 				statusEvent);
 	}
 
-	public List<Event> findByEventDateBeforeOrderByEventDateDesc(Date date) {
-		return eventRepository.findByEventDateBeforeOrderByEventDateDesc(date);
+	public List<Event> findByEventDateBeforeAndCatalogStatusOrderByEventDateDesc(Date date, CatalogStatusEvent status) {
+		return eventRepository.findByEventDateBeforeAndCatalogStatusOrderByEventDateDesc(date, status);
 	}
 
 	public List<Event> findByCategoryIdOrderByEventDate(Long id) {
@@ -51,24 +52,32 @@ public class EventService {
 		return eventRepository.findByUrlTitle(url);
 	}
 
-	public List<Event> findByTurbineTypeIsNotNullOrderByTurbineTypeDesc() {
-		return eventRepository.findByTurbineTypeIsNotNullOrderByTurbineTypeDesc();
-	}
-
 	public List<Event> findByCatalogStatusOrderByEventDate(CatalogStatusEvent catalogStatus) {
 		return eventRepository.findByCatalogStatusOrderByEventDate(catalogStatus);
 	}
-	
+
 	public List<Event> findByStatusOrderByEventDate(StatusEvent status) {
 		return eventRepository.findByStatusOrderByEventDate(status);
 	}
-	
+
 	public List<Event> getEventByKeywordIgnoreCaseOrderByEventDate(String keyword) {
 		return eventRepository.getEventByKeywordIgnoreCaseOrderByEventDate(keyword);
 	}
 
 	public List<Event> findByUserId(Long id) {
 		return eventRepository.findByUserIdOrderByEventDate(id);
+	}
+
+	public List<Event> findByEventDateAfterAndCatalogStatusAndStatusAndCategoryIdOrderByEventDate(Date date,
+			CatalogStatusEvent catalogStatus, StatusEvent status, Long idCategory) {
+		return eventRepository.findByEventDateAfterAndCatalogStatusAndStatusAndCategoryIdOrderByEventDate(date,
+				catalogStatus, status, idCategory);
+	}
+
+	public List<Event> findByCatalogStatusAndTurbineTypeAndEventDateAfterOrderByEventDate(
+			CatalogStatusEvent catalogStatus, TurbineType turbineType, Date date) {
+		return eventRepository.findByCatalogStatusAndTurbineTypeAndEventDateAfterOrderByEventDate(catalogStatus,
+				turbineType, date);
 	}
 
 	public String titleToUrlTitle(String title) {
@@ -81,11 +90,5 @@ public class EventService {
 
 		return urlTitle.toLowerCase();
 	}
-
-	public List<Event> findByEventDateAfterAndCatalogStatusAndStatusAndCategoryIdOrderByEventDate(Date date,
-			CatalogStatusEvent catalogStatus, StatusEvent status, Long idCategory) {
-		return eventRepository.findByEventDateAfterAndCatalogStatusAndStatusAndCategoryIdOrderByEventDate(date, catalogStatus, status, idCategory);
-	}
-
 
 }

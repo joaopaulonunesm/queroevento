@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.queroevento.models.Event;
 import com.queroevento.utils.CatalogStatusEvent;
 import com.queroevento.utils.StatusEvent;
+import com.queroevento.utils.TurbineType;
 
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
@@ -22,9 +23,7 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
 	Event findByUrlTitle(String url);
 
-	List<Event> findByEventDateBeforeOrderByEventDateDesc(Date date);
-
-	List<Event> findByTurbineTypeIsNotNullOrderByTurbineTypeDesc();
+	List<Event> findByEventDateBeforeAndCatalogStatusOrderByEventDateDesc(Date date, CatalogStatusEvent status);
 
 	List<Event> findByCatalogStatusOrderByEventDate(CatalogStatusEvent catalogStatus);
 
@@ -36,6 +35,8 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
 	List<Event> findByEventDateAfterAndCatalogStatusAndStatusAndCategoryIdOrderByEventDate(Date date,
 			CatalogStatusEvent catalogStatus, StatusEvent status, Long idCategory);
+
+	List<Event> findByCatalogStatusAndTurbineTypeAndEventDateAfterOrderByEventDate(CatalogStatusEvent catalogStatus, TurbineType turbineType, Date date);
 
 
 }
