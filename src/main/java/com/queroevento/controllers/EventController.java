@@ -3,6 +3,7 @@ package com.queroevento.controllers;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -352,7 +353,7 @@ public class EventController {
 	}
 
 	@RequestMapping(value = "/events/search/{word}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Event>> getAllEventsByWord(@PathVariable String word) throws ServletException {
+	public ResponseEntity<Set<Event>> getAllEventsByWord(@PathVariable String word) throws ServletException {
 		
 		Set<Event> byTitle = eventService.findByEventDateAfterAndCatalogStatusAndStatusAndTitleIgnoreCaseContainingOrderByEventDate(
 				new Date(), CatalogStatusEvent.PUBLISHED, StatusEvent.ACTIVE, word);
@@ -364,15 +365,17 @@ public class EventController {
 		Set<Event> byKeyword = eventService.findByEventDateAfterAndCatalogStatusAndStatusAndKeywordIgnoreCaseContainingOrderByEventDate(
 				new Date(), CatalogStatusEvent.PUBLISHED, StatusEvent.ACTIVE, word);
 
-		List<Event> events = new ArrayList<>();
-		events.addAll(byTitle);
-		events.addAll(byCategory);
-		events.addAll(byKeyword);
+		List<Event> eventsList = new ArrayList<>();
+		eventsList.addAll(byTitle);
+		eventsList.addAll(byCategory);
+		eventsList.addAll(byKeyword);
 
-		//implementar a remoção de eventos repetidos
+		eventService.orderByEventDate(eventsList);
+
+		Set<Event> events =  new LinkedHashSet<>();
 		
-		eventService.orderByEventDate(events);
-
+		events.addAll(eventsList);
+		
 		return new ResponseEntity<>(events, HttpStatus.OK);
 	}
 
