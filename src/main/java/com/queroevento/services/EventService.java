@@ -82,28 +82,31 @@ public class EventService {
 				turbineType, date);
 	}
 
-	public Set<Event> findByEventDateAfterAndCatalogStatusAndStatusAndTitleIgnoreCaseContainingOrderByEventDate(Date date,
-			CatalogStatusEvent catalogEvent, StatusEvent status, String word) {
-		return eventRepository.findByEventDateAfterAndCatalogStatusAndStatusAndTitleIgnoreCaseContainingOrderByEventDate(date, catalogEvent,
-				status, word);
+	public Set<Event> findByEventDateAfterAndCatalogStatusAndStatusAndTitleIgnoreCaseContainingOrderByEventDate(
+			Date date, CatalogStatusEvent catalogEvent, StatusEvent status, String word) {
+		return eventRepository
+				.findByEventDateAfterAndCatalogStatusAndStatusAndTitleIgnoreCaseContainingOrderByEventDate(date,
+						catalogEvent, status, word);
 	}
 
-	public Set<Event> findByEventDateAfterAndCatalogStatusAndStatusAndCategoryNameIgnoreCaseContainingOrderByEventDate(Date date,
-			CatalogStatusEvent catalogEvent, StatusEvent status, String word) {
-		return eventRepository.findByEventDateAfterAndCatalogStatusAndStatusAndCategoryNameIgnoreCaseContainingOrderByEventDate(date,
-				catalogEvent, status, word);
+	public Set<Event> findByEventDateAfterAndCatalogStatusAndStatusAndCategoryNameIgnoreCaseContainingOrderByEventDate(
+			Date date, CatalogStatusEvent catalogEvent, StatusEvent status, String word) {
+		return eventRepository
+				.findByEventDateAfterAndCatalogStatusAndStatusAndCategoryNameIgnoreCaseContainingOrderByEventDate(date,
+						catalogEvent, status, word);
 	}
 
-	public Set<Event> findByEventDateAfterAndCatalogStatusAndStatusAndKeywordIgnoreCaseContainingOrderByEventDate(Date date,
-			CatalogStatusEvent catalogEvent, StatusEvent status, String word) {
-		return eventRepository.findByEventDateAfterAndCatalogStatusAndStatusAndKeywordIgnoreCaseContainingOrderByEventDate(date,
-				catalogEvent, status, word);
+	public Set<Event> findByEventDateAfterAndCatalogStatusAndStatusAndKeywordIgnoreCaseContainingOrderByEventDate(
+			Date date, CatalogStatusEvent catalogEvent, StatusEvent status, String word) {
+		return eventRepository
+				.findByEventDateAfterAndCatalogStatusAndStatusAndKeywordIgnoreCaseContainingOrderByEventDate(date,
+						catalogEvent, status, word);
 	}
 
 	public String titleToUrlTitle(String title) {
 
 		int count = 0;
-		
+
 		String urlTitle = title.replaceAll(" ", "-").replaceAll("[ãâàáä]", "a").replaceAll("[êèéë]", "e")
 				.replaceAll("[îìíï]", "i").replaceAll("[õôòóö]", "o").replaceAll("[ûúùü]", "u")
 				.replaceAll("[ÃÂÀÁÄ]", "A").replaceAll("[ÊÈÉË]", "E").replaceAll("[ÎÌÍÏ]", "I")
@@ -111,9 +114,9 @@ public class EventService {
 				.replace('ñ', 'n').replace('Ñ', 'N');
 
 		urlTitle = urlTitle.toLowerCase() + count;
-		
+
 		count++;
-		
+
 		return urlTitle;
 	}
 
@@ -137,6 +140,18 @@ public class EventService {
 		};
 
 		events.sort(comparator);
+	}
+
+	public Set<Event> findByEventDateAfterAndCatalogStatusAndStatusAndStateIgnoreCaseContainingOrderByEventDate(
+			Date date, CatalogStatusEvent catalogEvent, StatusEvent status, String word) {
+		return eventRepository.findByEventDateAfterAndCatalogStatusAndStatusAndStateIgnoreCaseContainingOrderByEventDate(date,
+				catalogEvent, status, word);
+	}
+
+	public Set<Event> findByEventDateAfterAndCatalogStatusAndStatusAndCityIgnoreCaseContainingOrderByEventDate(
+			Date date, CatalogStatusEvent catalogEvent, StatusEvent status, String word) {
+		return eventRepository.findByEventDateAfterAndCatalogStatusAndStatusAndCityIgnoreCaseContainingOrderByEventDate(date,
+				catalogEvent, status, word);
 	}
 
 }

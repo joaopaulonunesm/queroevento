@@ -364,11 +364,19 @@ public class EventController {
 
 		Set<Event> byKeyword = eventService.findByEventDateAfterAndCatalogStatusAndStatusAndKeywordIgnoreCaseContainingOrderByEventDate(
 				new Date(), CatalogStatusEvent.PUBLISHED, StatusEvent.ACTIVE, word);
+		
+		Set<Event> byState = eventService.findByEventDateAfterAndCatalogStatusAndStatusAndStateIgnoreCaseContainingOrderByEventDate(
+				new Date(), CatalogStatusEvent.PUBLISHED, StatusEvent.ACTIVE, word);
+		
+		Set<Event> byCity = eventService.findByEventDateAfterAndCatalogStatusAndStatusAndCityIgnoreCaseContainingOrderByEventDate(
+				new Date(), CatalogStatusEvent.PUBLISHED, StatusEvent.ACTIVE, word);
 
 		List<Event> eventsList = new ArrayList<>();
 		eventsList.addAll(byTitle);
 		eventsList.addAll(byCategory);
 		eventsList.addAll(byKeyword);
+		eventsList.addAll(byState);
+		eventsList.addAll(byCity);
 
 		eventService.orderByEventDate(eventsList);
 

@@ -48,5 +48,11 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 	Set<Event> findByEventDateAfterAndCatalogStatusAndStatusAndKeywordIgnoreCaseContainingOrderByEventDate(Date date,
 			CatalogStatusEvent catalogEvent, StatusEvent status, String word);
 
+	Set<Event> findByEventDateAfterAndCatalogStatusAndStatusAndStateIgnoreCaseContainingOrderByEventDate(Date date,
+			CatalogStatusEvent catalogEvent, StatusEvent status, String word);
+
+	Set<Event> findByEventDateAfterAndCatalogStatusAndStatusAndCityIgnoreCaseContainingOrderByEventDate(Date date,
+			CatalogStatusEvent catalogEvent, StatusEvent status, String word);
+
 
 }
