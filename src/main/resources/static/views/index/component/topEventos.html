@@ -8,15 +8,15 @@
             <div class="col s4" ng-repeat="event in eventsSilver | limitTo: 6">
 	            <div class="card hoverable">
 	                <div class="card-image waves-effect waves-block waves-light">
-	                    <a ng-href="#/event/{{ event.urlTitle }}"><img class="activator responsive-img" ng-src="{{ event.imageUrl }}"></a>
+	                    <a ng-href="#/event/title/{{ event.urlTitle }}"><img class="activator responsive-img" ng-src="{{ event.imageUrl }}"></a>
 	                </div>
 	                <div class="card-content">
-	                	<a class="card-title activator grey-text text-darken-4" ng-href="#/event/{{ event.urlTitle }}"><strong>{{ event.title }}</strong></a>
+	                	<a class="card-title activator grey-text text-darken-4" ng-href="#/event/title/{{ event.urlTitle }}"><strong>{{ event.title }}</strong></a>
        	  	 			<p><h6>Data: {{ event.eventDate | date }}</h6></p>
 		            	<p><h6>Valor: R${{ event.price }}</h6></p>
 		                <p>Local: {{ event.local }}</p>
 		                <br />
-	                    <p style="text-align: right"><a class="waves-effect waves-light btn orange" ng-href="#/event/{{ event.urlTitle }}">Ver mais</a></p>
+	                    <p style="text-align: right"><a class="waves-effect waves-light btn orange" ng-href="#/event/title/{{ event.urlTitle }}">Ver mais</a></p>
 	                </div>
 	            </div>
             </div>

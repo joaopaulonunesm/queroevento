@@ -1,4 +1,4 @@
-angular.module("queroEventoApp").controller("eventCtrl", function ($scope, $http, eventAPI) {
+angular.module("queroEventoApp").controller("eventCtrl", function ($scope, $http, eventAPI, $location) {
 	
 	$scope.events = [];
 	
@@ -7,6 +7,10 @@ angular.module("queroEventoApp").controller("eventCtrl", function ($scope, $http
 	$scope.eventsSilver = [];
 	
 	$scope.eventsBronze = [];
+	
+	$scope.search = {word: ""};
+	
+	$scope.eventsByWord = [];
 
 	$scope.getPublishedEvents = function() {
 		
@@ -67,4 +71,25 @@ angular.module("queroEventoApp").controller("eventCtrl", function ($scope, $http
 	};
 
 	$scope.getEventsBronze();
+	
+	$scope.getEventsByWord = function() {
+		
+		if($scope.search.word != ""){
+			
+			eventAPI.getEventsByWord($scope.search.word).then(function(response) {
+				
+				$scope.eventsByWord = response.data;
+				
+				$location.path("/event/search");
+				
+			}, function(response) {
+				console.log(response.data);
+				console.log(response.status);
+			});
+		}
+		
+
+	};
+	
+
 });

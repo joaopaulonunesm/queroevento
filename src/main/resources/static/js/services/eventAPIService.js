@@ -84,6 +84,10 @@ angular.module("queroEventoApp").factory("eventAPI", function ($http, configs){
 		return $http.get(configs.baseUrl  + '/events/type/turbine/bronze');
 	}
 
+	var _getEventsByWord = function (word){
+		return $http.get(configs.baseUrl  + '/events/search/' + word);
+	}
+
 	return {
     	postEvent: _postEvent,
     	putEvent: _putEvent,
@@ -105,7 +109,8 @@ angular.module("queroEventoApp").factory("eventAPI", function ($http, configs){
     	getEventByUser: _getEventByUser,
     	getEventsGold: _getEventsGold,
     	getEventsSilver: _getEventsSilver,
-    	getEventsBronze: _getEventsBronze
+    	getEventsBronze: _getEventsBronze,
+    	getEventsByWord: _getEventsByWord
     };
 	
 });

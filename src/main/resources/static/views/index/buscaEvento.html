@@ -7,13 +7,13 @@
      	    <nav style="margin-top: 8px">
 		    	<div class="nav-wrapper">
 	        		<div class="col s12">
-			        	<a href="#!" class="breadcrumb">Home</a>
-			        	<a href="#/category/nome" class="breadcrumb">{{ category.name }}</a>
+			        	<a href="#/" class="breadcrumb">Home</a>
+			        	<a href="" class="breadcrumb">Busca</a>
 		      		</div>
 		    	</div>
 		    </nav>
 
-	        <div class="card hoverable" ng-repeat="event in eventsByCategory">
+	        <div class="card hoverable" ng-repeat="event in eventsByWord">
 	            <div class="card-image">
 	                <img ng-src="{{ event.imageUrl }}">
 	                <span class="card-title" style="background-color: #009DC1">

@@ -1,7 +1,9 @@
 package com.queroevento.services;
 
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -80,15 +82,61 @@ public class EventService {
 				turbineType, date);
 	}
 
+	public Set<Event> findByEventDateAfterAndCatalogStatusAndStatusAndTitleIgnoreCaseContainingOrderByEventDate(Date date,
+			CatalogStatusEvent catalogEvent, StatusEvent status, String word) {
+		return eventRepository.findByEventDateAfterAndCatalogStatusAndStatusAndTitleIgnoreCaseContainingOrderByEventDate(date, catalogEvent,
+				status, word);
+	}
+
+	public Set<Event> findByEventDateAfterAndCatalogStatusAndStatusAndCategoryNameIgnoreCaseContainingOrderByEventDate(Date date,
+			CatalogStatusEvent catalogEvent, StatusEvent status, String word) {
+		return eventRepository.findByEventDateAfterAndCatalogStatusAndStatusAndCategoryNameIgnoreCaseContainingOrderByEventDate(date,
+				catalogEvent, status, word);
+	}
+
+	public Set<Event> findByEventDateAfterAndCatalogStatusAndStatusAndKeywordIgnoreCaseContainingOrderByEventDate(Date date,
+			CatalogStatusEvent catalogEvent, StatusEvent status, String word) {
+		return eventRepository.findByEventDateAfterAndCatalogStatusAndStatusAndKeywordIgnoreCaseContainingOrderByEventDate(date,
+				catalogEvent, status, word);
+	}
+
 	public String titleToUrlTitle(String title) {
 
+		int count = 0;
+		
 		String urlTitle = title.replaceAll(" ", "-").replaceAll("[ãâàáä]", "a").replaceAll("[êèéë]", "e")
 				.replaceAll("[îìíï]", "i").replaceAll("[õôòóö]", "o").replaceAll("[ûúùü]", "u")
 				.replaceAll("[ÃÂÀÁÄ]", "A").replaceAll("[ÊÈÉË]", "E").replaceAll("[ÎÌÍÏ]", "I")
 				.replaceAll("[ÕÔÒÓÖ]", "O").replaceAll("[ÛÙÚÜ]", "U").replace('ç', 'c').replace('Ç', 'C')
 				.replace('ñ', 'n').replace('Ñ', 'N');
 
-		return urlTitle.toLowerCase();
+		urlTitle = urlTitle.toLowerCase() + count;
+		
+		count++;
+		
+		return urlTitle;
+	}
+
+	public void orderByEventDate(List<Event> events) {
+
+		Comparator<Event> comparator = new Comparator<Event>() {
+
+			@Override
+			public int compare(Event event1, Event event2) {
+
+				if (event1.getEventDate().before(event2.getEventDate())) {
+					return -1;
+				}
+
+				if (event1.getEventDate().after(event2.getEventDate())) {
+					return 1;
+				}
+
+				return 0;
+			}
+		};
+
+		events.sort(comparator);
 	}
 
 }

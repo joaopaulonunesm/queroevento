@@ -12,7 +12,7 @@
                 	<li>
 	 					<div class="input-field col s12">
 				          <i class="material-icons prefix">search</i>
-				          <input id="icon_prefix" placeholder="Onde você quer ir?" type="text" class="validate">
+				          <input id="icon_prefix" ng-keyup="getEventsByWord()" ng-enter="getEventsByWord()" ng-model="search.word" placeholder="Onde você quer ir?" type="text">
 				        </div>
 					</li>
                 

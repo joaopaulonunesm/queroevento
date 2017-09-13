@@ -14,9 +14,13 @@ angular.module("queroEventoApp").config(function ($routeProvider) {
 		controller: "eventByCategoryCtrl"
 	});
 
-	$routeProvider.when("/event/:urlTitle", {
+	$routeProvider.when("/event/title/:urlTitle", {
 		templateUrl: "views/index/evento.html",
 		controller: "eventByUrlTitleCtrl"
+	});
+	
+	$routeProvider.when("/event/search", {
+		templateUrl: "views/index/buscaEvento.html",
 	});
 		
 	$routeProvider.otherwise({redirectTo: "/"});

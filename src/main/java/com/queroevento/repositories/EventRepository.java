@@ -2,6 +2,7 @@ package com.queroevento.repositories;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -37,6 +38,15 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 			CatalogStatusEvent catalogStatus, StatusEvent status, Long idCategory);
 
 	List<Event> findByCatalogStatusAndTurbineTypeAndEventDateAfterOrderByEventDate(CatalogStatusEvent catalogStatus, TurbineType turbineType, Date date);
+
+	Set<Event> findByEventDateAfterAndCatalogStatusAndStatusAndTitleIgnoreCaseContainingOrderByEventDate(Date date,
+			CatalogStatusEvent catalogEvent, StatusEvent status, String word);
+
+	Set<Event> findByEventDateAfterAndCatalogStatusAndStatusAndCategoryNameIgnoreCaseContainingOrderByEventDate(Date date,
+			CatalogStatusEvent catalogEvent, StatusEvent status, String word);
+
+	Set<Event> findByEventDateAfterAndCatalogStatusAndStatusAndKeywordIgnoreCaseContainingOrderByEventDate(Date date,
+			CatalogStatusEvent catalogEvent, StatusEvent status, String word);
 
 
 }
