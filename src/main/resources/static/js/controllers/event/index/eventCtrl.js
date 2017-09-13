@@ -86,6 +86,8 @@ angular.module("queroEventoApp").controller("eventCtrl", function ($scope, $http
 				console.log(response.data);
 				console.log(response.status);
 			});
+		} else {
+			$location.path("/");
 		}
 		
 
