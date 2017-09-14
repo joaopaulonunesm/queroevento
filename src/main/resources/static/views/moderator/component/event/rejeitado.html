@@ -39,11 +39,11 @@
                     <p>{{ event.completeDescription }}</p>
                     <br />
                     <p ng-if="event.showCompany == true || event.showPhoneNumber == true || event.showEmail == true">Contato</p>
-                    <p ng-if="event.showCompany == true || event.showPhoneNumber == true || event.showEmail == true">Nome: {{ login.user.name }}</p>
-                    <p ng-if="event.showCompany == true">Empresa: {{ login.user.company }}</p>
-                    <p ng-if="event.showCompany == true">Cargo: {{ login.user.jobInCompany }}</p>
-                    <p ng-if="event.showPhoneNumber == true">Celular: {{ login.user.phoneNumber }}</p>
-                    <p ng-if="event.showEmail == true">Email: {{ login.email }}</p>
+                    <p ng-if="event.showCompany == true || event.showPhoneNumber == true || event.showEmail == true">Nome: {{ event.user.name }}</p>
+                    <p ng-if="event.showCompany == true">Empresa: {{ event.user.company }}</p>
+                    <p ng-if="event.showCompany == true">Cargo: {{ event.user.jobInCompany }}</p>
+                    <p ng-if="event.showPhoneNumber == true">Celular: {{ event.user.phoneNumber }}</p>
+                    <p ng-if="event.showEmail == true">Email: {{ event.user.contactEmail }}</p>
                 </div>
             </div>
             <div class="divider"></div>

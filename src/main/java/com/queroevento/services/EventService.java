@@ -103,19 +103,16 @@ public class EventService {
 						catalogEvent, status, word);
 	}
 
-	public String titleToUrlTitle(String title) {
+	public String titleToUrlTitle(Event event) {
 
-		int count = 0;
 
-		String urlTitle = title.replaceAll(" ", "-").replaceAll("[ãâàáä]", "a").replaceAll("[êèéë]", "e")
+		String urlTitle = event.getTitle().replaceAll(" ", "-").replaceAll("[ãâàáä]", "a").replaceAll("[êèéë]", "e")
 				.replaceAll("[îìíï]", "i").replaceAll("[õôòóö]", "o").replaceAll("[ûúùü]", "u")
 				.replaceAll("[ÃÂÀÁÄ]", "A").replaceAll("[ÊÈÉË]", "E").replaceAll("[ÎÌÍÏ]", "I")
 				.replaceAll("[ÕÔÒÓÖ]", "O").replaceAll("[ÛÙÚÜ]", "U").replace('ç', 'c').replace('Ç', 'C')
 				.replace('ñ', 'n').replace('Ñ', 'N');
 
-		urlTitle = urlTitle.toLowerCase() + count;
-
-		count++;
+		urlTitle = urlTitle.toLowerCase() + "-" + event.hashCode();
 
 		return urlTitle;
 	}

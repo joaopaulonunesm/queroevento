@@ -84,7 +84,7 @@ public class EventController {
 		event.setCategory(category);
 		event.setPeopleEstimate(0);
 		event.setCreateEventDate(new Date());
-		event.setUrlTitle(eventService.titleToUrlTitle(event.getTitle()));
+		event.setUrlTitle(eventService.titleToUrlTitle(event));
 		event.setCatalogStatus(CatalogStatusEvent.CATALOGING);
 		event.setStatus(StatusEvent.ACTIVE);
 
@@ -121,7 +121,7 @@ public class EventController {
 		event.setCatalogStatus(existenceEvent.getCatalogStatus());
 		event.setUser(user);
 		event.setCatalogStatus(CatalogStatusEvent.CATALOGING);
-		event.setUrlTitle(eventService.titleToUrlTitle(event.getTitle()));
+		event.setUrlTitle(eventService.titleToUrlTitle(event));
 
 		eventService.save(event);
 

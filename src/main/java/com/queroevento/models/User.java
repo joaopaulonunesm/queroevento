@@ -26,15 +26,13 @@ public class User {
 
 	private String city;
 
-	private String company;
-
-	private String jobInCompany;
-
 	private String phoneNumber;
 
 	private String cellPhoneNumber;
 
 	private String contactEmail;
+
+	private String representativeName;
 
 	private Boolean moderator = false;
 
@@ -78,22 +76,6 @@ public class User {
 		this.city = city;
 	}
 
-	public String getCompany() {
-		return company;
-	}
-
-	public void setCompany(String company) {
-		this.company = company;
-	}
-
-	public String getJobInCompany() {
-		return jobInCompany;
-	}
-
-	public void setJobInCompany(String jobInCompany) {
-		this.jobInCompany = jobInCompany;
-	}
-
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
@@ -124,6 +106,14 @@ public class User {
 
 	public void setModerator(Boolean moderator) {
 		this.moderator = moderator;
+	}
+
+	public String getRepresentativeName() {
+		return representativeName;
+	}
+
+	public void setRepresentativeName(String representativeName) {
+		this.representativeName = representativeName;
 	}
 
 }
