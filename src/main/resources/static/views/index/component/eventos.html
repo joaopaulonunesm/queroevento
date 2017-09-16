@@ -12,10 +12,11 @@
                 </span>
             </div>
             <div class="card-content">
-            	<p><h6>Data: {{ event.eventDate | date }}</h6></p>
-            	<p><h6>Valor: R${{ event.price }}</h6></p>
-                <p>Local: {{ event.local }}</p>
-                <br />
+		        <p>Publicado por <a ng-href="#/company/profile/{{ event.company.nameUrl }}">{{ event.company.name }}</a></p>
+		 	 	<p>Data: {{ event.eventDate | date }}</p>
+		     	<p>Valor: R${{ event.price }}</p>
+		        <p>Local: {{ event.local }}</p>
+		        <br />
 				<p>{{ event.shortDescription }}</p>                
             </div>
             <div class="card-action" style="text-align: right;">

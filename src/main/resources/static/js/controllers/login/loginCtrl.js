@@ -1,10 +1,10 @@
-angular.module("queroEventoApp").controller("loginCtrl", function ($scope, $location, loginAPI, userAPI, configs) {
+angular.module("queroEventoApp").controller("loginCtrl", function ($scope, $location, loginAPI, companyAPI, configs) {
 
 	$scope.login = {};
 	
 	$scope.signin = {};
 
-	$scope.user = {};
+	$scope.company = {};
 	
 	$scope.createLogin = function() {
 
@@ -18,10 +18,11 @@ angular.module("queroEventoApp").controller("loginCtrl", function ($scope, $loca
 		});
 	};
 	
-	$scope.putUser = function() {
+	$scope.putCompany = function() {
 
-		userAPI.putUser($scope.login.user).then(function(response) {
+		companyAPI.putCompany($scope.login.company).then(function(response) {
 
+			alert("Perfil atualizado com sucesso!");
 			
 		}, function(response) {
 			console.log(response.data);

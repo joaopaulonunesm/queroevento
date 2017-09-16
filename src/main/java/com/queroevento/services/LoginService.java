@@ -43,11 +43,11 @@ public class LoginService {
 		Login existenceLogin = loginRepository.findByEmailIgnoreCase(login.getEmail());
 
 		if (existenceLogin == null) {
-			throw new ServletException("User não encontrado.");
+			throw new ServletException("Empresa não encontrada.");
 		}
 
 		if (!login.getPassword().equals(existenceLogin.getPassword())) {
-			throw new ServletException("User ou Password inválido.");
+			throw new ServletException("Username ou Password inválido.");
 		}
 
 		return existenceLogin;

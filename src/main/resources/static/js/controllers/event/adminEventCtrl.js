@@ -8,7 +8,7 @@ angular.module("queroEventoApp").controller("adminEventCtrl", function ($scope, 
 	
 	$scope.getMyEvents = function() {
 
-		eventAPI.getEventByUser().then(function(response) {
+		eventAPI.getEventByCompany().then(function(response) {
 
 			$scope.myEvents = response.data;
 

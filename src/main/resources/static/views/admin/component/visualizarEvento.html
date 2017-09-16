@@ -3,7 +3,7 @@
     <div class="row">
 
 		<div class="col s12">
-		    <nav style="margin-top: 8px">
+		    <nav style="margin-top: 10px">
 		    	<div class="nav-wrapper">
 	        		<div class="col s12">
 			        	<a href="#!" class="breadcrumb">Home</a>
@@ -40,12 +40,11 @@
                     <p>Descrição Detalhada</p>
                     <p>{{ event.completeDescription }}</p>
                     <br />
-                    <p ng-if="event.showCompany == true || event.showPhoneNumber == true || event.showEmail == true">Contato</p>
-                    <p ng-if="event.showCompany == true || event.showPhoneNumber == true || event.showEmail == true">Nome: {{ login.user.name }}</p>
-                    <p ng-if="event.showCompany == true">Empresa: {{ login.user.company }}</p>
-                    <p ng-if="event.showCompany == true">Cargo: {{ login.user.jobInCompany }}</p>
-                    <p ng-if="event.showPhoneNumber == true">Celular: {{ login.user.phoneNumber }}</p>
-                    <p ng-if="event.showEmail == true">Email: {{ login.email }}</p>
+                    <p>Empresa</p>
+                    <p><a ng-href="/#/company/profile/{{ event.company.nameUrl }}">{{ event.company.name }} (Visualizar meu perfil)</a></p>
+                    <p ng-if="event.showPhoneNumber == true">Celular: {{ event.company.cellPhoneNumber }}</p>
+                    <p ng-if="event.showPhoneNumber == true">Telefone: {{ event.company.phoneNumber }}</p>
+                    <p ng-if="event.showEmail == true">Email: {{ event.company.contactEmail }}</p>
                 </div>
             </div>
 
@@ -59,9 +58,9 @@
                     <span class="card-title"><h5>Opções</h5></span>
 					
 					<a class="waves-effect waves-light btn orange" style="background-color: orange; margin-top: 20px" href=""><i class="material-icons left">flash_on</i> Turbinar</a>
-					
+					<br>
 					<a class="waves-effect waves-light btn orange" style="background-color: orange; margin-top: 20px" ng-href="#/event/edit/{{ event.urlTitle }}"><i class="material-icons left">edit</i> Editar</a>
-					
+					<br>
 					<a class="waves-effect waves-light btn orange" style="background-color: orange; margin-top: 20px" href="" ng-click="deleteEvent(event.id)"><i class="material-icons left">delete</i> Excluir</a>
 
                 </div>

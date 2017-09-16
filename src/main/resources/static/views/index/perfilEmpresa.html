@@ -1,0 +1,65 @@
+<meta charset="UTF-8" />
+<div class="container">
+    <div class="row">
+
+        <div class="col s8">
+
+     	    <nav style="margin-top: 10px">
+		    	<div class="nav-wrapper">
+	        		<div class="col s12">
+			        	<a href="#/" class="breadcrumb">Home</a>
+			        	<a href="" class="breadcrumb">Perfil</a>
+		      		</div>
+		    	</div>
+		    </nav>
+
+	        <div class="card hoverable" ng-repeat="event in eventsByCompany">
+	            <div class="card-image">
+	                <img ng-src="{{ event.imageUrl }}">
+	                <span class="card-title" style="background-color: #009DC1">
+	                    <h5>{{ event.title }}</h5> 
+	                </span>
+	            </div>
+	            <div class="card-content">
+	            	<p><h6>Data: {{ event.eventDate | date }}</h6></p>
+	            	<p><h6>Valor: R${{ event.price }}</h6></p>
+	                <p>Local: {{ event.local }}</p>
+	                <br />
+					<p>{{ event.shortDescription }}</p>                
+	            </div>
+	            <div class="card-action" style="text-align: right;">
+	                <a class="waves-effect waves-light btn orange" ng-href="#/event/title/{{ event.urlTitle }}">Ver mais</a>
+	            </div>
+	        </div>
+
+        </div>
+
+        <div class="col s4">
+        
+         	<div class="card" style="background-color: #283E4B">
+                <div class="card-content white-text">
+                	<img ng-if="company.imageUrl != null" class="responsive-img" ng-src="{{ company.imageUrl }}">
+                    <span class="card-title"><h5>{{ company.name }}</h5></span>
+                    <p ng-if="company.phoneNumber != null">Celular: {{ company.phoneNumber }}</p>
+	            	<p ng-if="company.cellPhoneNumber != null">Telefone: {{ company.cellPhoneNumber }}</p>
+	                <p ng-if="company.contactEmail != null">Email: {{ company.contactEmail }}</p>
+	                <br ng-if="eventsByCompany > 1">
+	                <p ng-if="eventsByCompany > 1">{{ eventsByCompany.length }} Publicações</p>
+                </div>
+            </div>
+
+            <div ng-include="'views/index/component/bannerTopEventos.html'"></div>
+                
+            <br/>
+            
+            <div class="divider"></div>
+            
+            <br/>
+            
+			<div ng-include="'views/index/component/topEventosPage.html'"></div>
+
+        </div>
+    </div>
+</div>
+
+<div ng-include="'views/index/footer.html'"></div>

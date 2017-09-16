@@ -6,11 +6,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
 
 @Entity
-@Table(name = "user_account")
-public class User {
+public class Company {
 
 	@Id
 	@SequenceGenerator(name = "USERSEQ", sequenceName = "USER_SEQ", initialValue = 1, allocationSize = 1)
@@ -19,6 +17,8 @@ public class User {
 
 	@Column(nullable = false)
 	private String name;
+
+	private String nameUrl;
 
 	private String imageUrl;
 
@@ -50,6 +50,14 @@ public class User {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getNameUrl() {
+		return nameUrl;
+	}
+
+	public void setNameUrl(String nameUrl) {
+		this.nameUrl = nameUrl;
 	}
 
 	public String getImageUrl() {

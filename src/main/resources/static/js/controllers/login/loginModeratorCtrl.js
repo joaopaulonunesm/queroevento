@@ -1,4 +1,4 @@
-angular.module("queroEventoApp").controller("loginModeratorCtrl", function ($scope, $location, loginAPI, userAPI, configs) {
+angular.module("queroEventoApp").controller("loginModeratorCtrl", function ($scope, $location, loginAPI, companyAPI, configs) {
 	
 	$scope.validateLogin = function(){
 		
@@ -8,7 +8,7 @@ angular.module("queroEventoApp").controller("loginModeratorCtrl", function ($sco
 	
 				$scope.login = response.data;
 				
-				if($scope.login.user.moderator == false ){
+				if($scope.login.company.moderator == false ){
 					$(location).attr('href', configs.siteUrl + '/');
 				}
 				

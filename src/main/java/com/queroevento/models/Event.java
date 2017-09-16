@@ -29,8 +29,8 @@ public class Event {
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_user", nullable = false)
-	private User user;
+	@JoinColumn(name = "id_company", nullable = false)
+	private Company company;
 
 	private String title;
 
@@ -53,6 +53,8 @@ public class Event {
 	private Double price;
 
 	private String keyword;
+
+	private Long views;
 
 	@JoinColumn(name = "event_date")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -79,9 +81,6 @@ public class Event {
 	@JoinColumn(name = "show_email")
 	private Boolean showEmail;
 
-	@JoinColumn(name = "show_company")
-	private Boolean showCompany;
-
 	@Type(type = "org.hibernate.type.EnumType")
 	private StatusEvent status;
 
@@ -99,12 +98,12 @@ public class Event {
 		this.id = id;
 	}
 
-	public User getUser() {
-		return user;
+	public Company getCompany() {
+		return company;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 
 	public String getTitle() {
@@ -235,14 +234,6 @@ public class Event {
 		this.showEmail = showEmail;
 	}
 
-	public Boolean getShowCompany() {
-		return showCompany;
-	}
-
-	public void setShowCompany(Boolean showCompany) {
-		this.showCompany = showCompany;
-	}
-
 	public StatusEvent getStatus() {
 		return status;
 	}
@@ -265,6 +256,14 @@ public class Event {
 
 	public void setTurbineType(TurbineType turbineType) {
 		this.turbineType = turbineType;
+	}
+
+	public Long getViews() {
+		return views;
+	}
+
+	public void setViews(Long views) {
+		this.views = views;
 	}
 
 }

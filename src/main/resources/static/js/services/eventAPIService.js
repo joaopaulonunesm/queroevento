@@ -44,8 +44,8 @@ angular.module("queroEventoApp").factory("eventAPI", function ($http, configs){
 		return $http.get(configs.baseUrl + configs.version + '/events/keyword/' + keyword);
 	}
 	
-	var _getEventByUser = function (){
-		return $http.get(configs.baseUrl + configs.version + '/events/user');
+	var _getEventByCompany = function (){
+		return $http.get(configs.baseUrl + configs.version + '/events/company');
 	}
 	
 	var _getEventById = function (id){
@@ -87,6 +87,10 @@ angular.module("queroEventoApp").factory("eventAPI", function ($http, configs){
 	var _getEventsByWord = function (word){
 		return $http.get(configs.baseUrl  + '/events/search/' + word);
 	}
+	
+	var _getEventsByCompanyUrl = function (url){
+		return $http.get(configs.baseUrl  + '/events/company/' + url);
+	}
 
 	return {
     	postEvent: _postEvent,
@@ -106,11 +110,12 @@ angular.module("queroEventoApp").factory("eventAPI", function ($http, configs){
     	getEventByCatalogStatusRefused: _getEventByCatalogStatusRefused,
     	getEventByStatusCanceled: _getEventByStatusCanceled,
     	getEventByKeyword: _getEventByKeyword,
-    	getEventByUser: _getEventByUser,
+    	getEventByCompany: _getEventByCompany,
     	getEventsGold: _getEventsGold,
     	getEventsSilver: _getEventsSilver,
     	getEventsBronze: _getEventsBronze,
-    	getEventsByWord: _getEventsByWord
+    	getEventsByWord: _getEventsByWord,
+    	getEventsByCompanyUrl: _getEventsByCompanyUrl
     };
 	
 });

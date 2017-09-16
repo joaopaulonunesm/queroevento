@@ -14,4 +14,6 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 
 	List<Category> findByOrderByAmmountEventsDesc();
 
+	Category findByName(String name);
+
 }

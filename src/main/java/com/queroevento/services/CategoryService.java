@@ -25,7 +25,7 @@ public class CategoryService {
 	public Category findOne(Long id) {
 		return categoryRepository.findOne(id);
 	}
-	
+
 	public List<Category> findByOrderByAmmountEventsDesc() {
 		return categoryRepository.findByOrderByAmmountEventsDesc();
 	}
@@ -43,6 +43,10 @@ public class CategoryService {
 				.replace('ñ', 'n').replace('Ñ', 'N');
 
 		return urlName.toLowerCase();
+	}
+
+	public Category findByName(String name) {
+		return categoryRepository.findByName(name);
 	}
 
 }

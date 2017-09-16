@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.queroevento.models.Company;
 import com.queroevento.models.Login;
+import com.queroevento.services.CompanyService;
 import com.queroevento.services.LoginService;
 
 import io.jsonwebtoken.Jwts;
@@ -26,10 +28,16 @@ public class LoginController {
 	@Autowired
 	private LoginService loginService;
 
+	@Autowired
+	private CompanyService companyService;
+
 	@RequestMapping(value = "/logins", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Login> postLogin(@RequestBody Login login) {
 
-		if (login.getEmail() == null || login.getPassword() == null) {
+		Company company = login.getCompany();
+
+		if (login.getEmail() == null || login.getPassword() == null || company.getName() == null
+				|| company.getName().isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
@@ -37,8 +45,14 @@ public class LoginController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
+		if (companyService.findByNameIgnoreCase(company.getName()) != null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
 		login.setCreateDate(new Date());
 		login.setActive(true);
+
+		company.setNameUrl(companyService.nameToUrlName(company.getName()));
 
 		return new ResponseEntity<>(loginService.save(login), HttpStatus.CREATED);
 	}
@@ -117,16 +131,16 @@ public class LoginController {
 
 		return new ResponseEntity<>(loginService.save(existenceLogin), HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "v1/logins", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Login> getOneEvent(@RequestHeader(value = "Authorization") String token) throws ServletException {
+	public ResponseEntity<Login> getOneEvent(@RequestHeader(value = "Authorization") String token)
+			throws ServletException {
 
 		String formattedToken = token.substring(7);
-		
+
 		Login login = loginService.findByToken(formattedToken);
-		
-		
-		if(login == null){
+
+		if (login == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 

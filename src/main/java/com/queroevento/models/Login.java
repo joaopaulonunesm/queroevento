@@ -25,8 +25,8 @@ public class Login {
 	private String password;
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_user")
-	private User user;
+	@JoinColumn(name = "id_company")
+	private Company company;
 
 	private Date createDate;
 
@@ -60,12 +60,12 @@ public class Login {
 		this.password = password;
 	}
 
-	public User getUser() {
-		return user;
+	public Company getCompany() {
+		return company;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 
 	public Date getCreateDate() {

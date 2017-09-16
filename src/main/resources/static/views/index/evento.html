@@ -4,7 +4,7 @@
 
         <div class="col s8">
         
-      	     <nav style="margin-top: 8px">
+      	     <nav style="margin-top: 10px">
 		    	<div class="nav-wrapper">
 	        		<div class="col s12">
 			        	<a href="#!" class="breadcrumb">Home</a>
@@ -38,12 +38,11 @@
                     <p>Descrição Detalhada</p>
                     <p>{{ eventByUrl.completeDescription }}</p>
                     <br />
-                    <p ng-if="eventByUrl.showCompany == true || eventByUrl.showPhoneNumber == true || eventByUrl.showEmail == true">Contato</p>
-                    <p ng-if="eventByUrl.showCompany == true || eventByUrl.showPhoneNumber == true || eventByUrl.showEmail == true">Nome: {{ eventByUrl.user.name }}</p>
-                    <p ng-if="eventByUrl.showCompany == true">Empresa: {{ eventByUrl.user.company }}</p>
-                    <p ng-if="eventByUrl.showCompany == true">Cargo: {{ eventByUrl.user.jobInCompany }}</p>
-                    <p ng-if="eventByUrl.showPhoneNumber == true">Celular: {{ eventByUrl.user.phoneNumber }}</p>
-                    <p ng-if="eventByUrl.showEmail == true">Email: {{ eventByUrl.user.contactEmail }}</p>
+                    <p>Empresa</p>
+                    <p><a ng-href="#/company/profile/{{ eventByUrl.company.nameUrl }}">{{ eventByUrl.company.name }}</a></p>
+                    <p ng-if="event.showPhoneNumber == true">Celular: {{ eventByUrl.company.cellPhoneNumber }}</p>
+                    <p ng-if="event.showPhoneNumber == true">Telefone: {{ eventByUrl.company.phoneNumber }}</p>
+                    <p ng-if="event.showEmail == true">Email: {{ eventByUrl.company.contactEmail }}</p>
                 </div>
                 <div class="card-action" style="text-align: right">
                     <a class="waves-effect waves-light btn orange"><i class="material-icons left">check</i>Marcar Presença</a>
@@ -52,7 +51,7 @@
 
         </div>
 
-        <div class="col s4" style="margin-top: 8px">
+        <div class="col s4" style="margin-top: 10px">
 
             <div ng-include="'views/index/component/bannerTopEventos.html'"></div>
                 

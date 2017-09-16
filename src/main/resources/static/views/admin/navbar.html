@@ -5,7 +5,7 @@
         <div class="container">
             <a href="#/" class="brand-logo"><img style="margin-top: 15px" src="images/navlogo.png" alt="Logo"></a>
             <ul class="right hide-on-med-and-down">
-                <li ng-if="login.user.moderator == true">
+                <li ng-if="login.company.moderator == true">
                     <a href="/moderator">
                         Moderator
                     </a>
@@ -40,8 +40,8 @@
             </div>
         </li>
         <li class="bold"><a href="#/settings" class="collapsible-header active waves-effect waves-teal">Configurações</a></li>
-        <li ng-if="login.user.moderator == true" class="divider"></li>
-        <li class="bold" ng-if="login.user.moderator == true">
+        <li ng-if="login.company.moderator == true" class="divider"></li>
+        <li class="bold" ng-if="login.company.moderator == true">
 	        <a href="/moderator" class="collapsible-header active waves-effect waves-teal">
 	       		Moderator
 	        </a>

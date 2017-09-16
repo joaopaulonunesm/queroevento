@@ -32,7 +32,7 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
 	List<Event> getEventByKeywordIgnoreCaseOrderByEventDate(String keyword);
 
-	List<Event> findByUserIdOrderByEventDate(Long id);
+	List<Event> findByCompanyIdOrderByEventDate(Long id);
 
 	List<Event> findByEventDateAfterAndCatalogStatusAndStatusAndCategoryIdOrderByEventDate(Date date,
 			CatalogStatusEvent catalogStatus, StatusEvent status, Long idCategory);

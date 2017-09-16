@@ -12,10 +12,11 @@
 	                </div>
 	                <div class="card-content">
 	                	<a class="card-title activator grey-text text-darken-4" ng-href="#/event/title/{{ event.urlTitle }}"><strong>{{ event.title }}</strong></a>
-       	  	 			<p><h6>Data: {{ event.eventDate | date }}</h6></p>
-		            	<p><h6>Valor: R${{ event.price }}</h6></p>
-		                <p>Local: {{ event.local }}</p>
-		                <br />
+				        <p>Publicado por <a ng-href="#/company/profile/{{ event.company.nameUrl }}">{{ event.company.name }}</a></p>
+				 	 	<p>Data: {{ event.eventDate | date }}</p>
+				     	<p>Valor: R${{ event.price }}</p>
+				        <p>Local: {{ event.local }}</p>
+				        <br />
 	                    <p style="text-align: right"><a class="waves-effect waves-light btn orange" ng-href="#/event/title/{{ event.urlTitle }}">Ver mais</a></p>
 	                </div>
 	            </div>
