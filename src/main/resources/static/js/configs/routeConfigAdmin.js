@@ -34,6 +34,11 @@ angular.module("queroEventoApp").config(function ($routeProvider) {
 	$routeProvider.when("/settings", {
 		templateUrl: "views/admin/component/configuracao.html"
 	});
+
+	$routeProvider.when("/profile/:nameUrl", {
+		templateUrl: "views/admin/component/perfil.html",
+		controller: "eventByCompanyCtrl"
+	});
 		
 	$routeProvider.otherwise({redirectTo: "/"});
 	
