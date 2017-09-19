@@ -8,7 +8,7 @@ import com.queroevento.models.Login;
 @Repository
 public interface LoginRepository extends JpaRepository<Login, Long> {
 
-	Login findByEmailIgnoreCase(String email);
+	Login findByEmail(String email);
 
 	Login findByToken(String token);
 

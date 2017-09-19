@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<category id="1" name="Shows" ammount_events="10" url_name="shows" />
+	<category id="2" name="Inaugurações" ammount_events="5" url_name="inauguracoes" />
+	<category id="3" name="Palestras" ammount_events="1" url_name="palestras" />
+</dataset>

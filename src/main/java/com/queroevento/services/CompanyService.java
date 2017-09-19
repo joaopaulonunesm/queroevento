@@ -16,7 +16,7 @@ public class CompanyService {
 	private CompanyRepository companyRepository;
 
 	@Autowired
-	private LoginService companyService;
+	private LoginService loginService;
 
 	public Company save(Company user) {
 		return companyRepository.save(user);
@@ -34,14 +34,14 @@ public class CompanyService {
 		return companyRepository.findByNameIgnoreCase(name);
 	}
 
-	public Company findByToken(String token) throws ServletException {
+	public Company findByToken(String token) {
 
 		String formattedToken = token.substring(7);
-
-		Login login = companyService.findByToken(formattedToken);
+		
+		Login login = loginService.findByToken(formattedToken);
 
 		if (login == null) {
-			throw new ServletException("Token não encontrado.");
+			return null;
 		}
 
 		return login.getCompany();

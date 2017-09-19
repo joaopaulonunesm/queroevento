@@ -19,9 +19,6 @@ import com.queroevento.models.Login;
 import com.queroevento.services.CompanyService;
 import com.queroevento.services.LoginService;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-
 @Controller
 public class LoginController {
 
@@ -110,26 +107,21 @@ public class LoginController {
 	@RequestMapping(value = "/logins/authenticate", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Login> authenticatedLogin(@RequestBody Login login) throws ServletException {
 
-		Login existenceLogin = loginService.validateLogin(login);
-
-		if (existenceLogin.getExpirationTokenDate() != null
-				&& existenceLogin.getExpirationTokenDate().after(new Date())) {
-
-			return new ResponseEntity<>(existenceLogin, HttpStatus.OK);
-
-		} else if (existenceLogin.getExpirationTokenDate() == null
-				|| existenceLogin.getExpirationTokenDate().before(new Date())) {
-
-			Date expirationDate = new Date(System.currentTimeMillis() + 240 * 60 * 1000);
-
-			String token = Jwts.builder().setSubject(existenceLogin.getEmail())
-					.signWith(SignatureAlgorithm.HS512, "autenticando").setExpiration(expirationDate).compact();
-
-			existenceLogin.setToken(token);
-			existenceLogin.setExpirationTokenDate(expirationDate);
+		if (login.getEmail() == null || login.getPassword() == null) {
+			throw new ServletException("Username e Senha é obrigatório.");
 		}
 
-		return new ResponseEntity<>(loginService.save(existenceLogin), HttpStatus.OK);
+		Login existenceLogin = loginService.findByEmail(login.getEmail());
+
+		if (existenceLogin == null) {
+			throw new ServletException("Empresa não encontrada.");
+		}
+
+		if (!login.getPassword().equals(existenceLogin.getPassword())) {
+			throw new ServletException("Username ou Password inválido.");
+		}
+
+		return new ResponseEntity<>(loginService.authenticateLogin(existenceLogin), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "v1/logins", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -146,5 +138,4 @@ public class LoginController {
 
 		return new ResponseEntity<>(login, HttpStatus.OK);
 	}
-
 }

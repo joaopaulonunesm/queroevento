@@ -6,13 +6,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import javax.servlet.ServletException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.queroevento.models.Category;
-import com.queroevento.models.Company;
 import com.queroevento.models.Event;
 import com.queroevento.repositories.EventRepository;
 import com.queroevento.utils.CatalogStatusEvent;
@@ -24,7 +21,7 @@ public class EventService {
 
 	@Autowired
 	private EventRepository eventRepository;
-	
+
 	public Event save(Event event) {
 		return eventRepository.save(event);
 	}
@@ -184,51 +181,12 @@ public class EventService {
 		events.sort(comparator);
 	}
 
-	public void addAmmountEventsInCategory(Category category) {
+	public void refreshAmmountEventsInCategory(Category category) {
 
 		List<Event> eventsByCategory = findByEventDateAfterAndCatalogStatusAndStatusAndCategoryIdOrderByEventDate(
 				new Date(), CatalogStatusEvent.PUBLISHED, StatusEvent.ACTIVE, category.getId());
 
 		category.setAmmountEvents(eventsByCategory.size());
-	}
-
-	public void validateEventFields(Event event, Company company) throws ServletException {
-		
-		// Verifica se a company existe pelo token informado
-		if (company == null) {
-			throw new ServletException("Empresa não existente.");
-		}
-
-		// Verifica se o titulo é vazio ou nulo
-		if (event.getTitle() == null || event.getTitle().isEmpty()) {
-			throw new ServletException("O título não pode ser nulo ou vazio. Por favor informe o título.");
-		}
-
-		// Verifica se existe data no evento
-		if (event.getEventDate() == null) {
-			throw new ServletException("Por favor informe uma data para o evento.");
-		}
-
-		// Verifica se a data do evento é antes da data atual
-		if (event.getEventDate().before(new Date())) {
-			throw new ServletException(
-					"A data não pode ser menor do que a data atual. Por favor informe uma data futura.");
-		}
-
-		// Verifica se o preço está nulo
-		if (event.getPrice() == null) {
-			throw new ServletException("Por favor informe um preço que seja maior que zero.");
-		}
-
-		// Verifica se a categoria está nula
-		if (event.getCategory() == null) {
-			throw new ServletException("Por favor informe uma categoria.");
-		}
-
-		// Verifica se o local é vazio ou nulo
-		if (event.getLocal().isEmpty() || event.getLocal() == null) {
-			throw new ServletException("Por favor informe o local do evento.");
-		}
 	}
 
 }

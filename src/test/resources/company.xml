@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<company id="1" name="Quero Evento" name_url="quero-evento" />
+	<company id="2" name="Lojão Brasil" name_url="lojao-brasil" />
+	<company id="3" name="Wood's Bar" name_url="woods-bar" />
+</dataset>

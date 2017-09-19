@@ -47,7 +47,7 @@ public class EventController {
 
 		Company company = companyService.findByToken(token);
 
-		eventService.validateEventFields(event, company);
+		validateEventFields(event, company);
 
 		Category category = categoryService.findOne(event.getCategory().getId());
 
@@ -75,7 +75,7 @@ public class EventController {
 
 		Company company = companyService.findByToken(token);
 
-		eventService.validateEventFields(event, company);
+		validateEventFields(event, company);
 
 		Category category = categoryService.findOne(event.getCategory().getId());
 
@@ -206,7 +206,7 @@ public class EventController {
 
 		Category category = existenceEvent.getCategory();
 
-		eventService.addAmmountEventsInCategory(category);
+		eventService.refreshAmmountEventsInCategory(category);
 		categoryService.save(category);
 
 		return new ResponseEntity<>(existenceEvent, HttpStatus.OK);
@@ -221,17 +221,17 @@ public class EventController {
 		if (company == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		
+
 		Event existenceEvent = eventService.findOne(id);
 
 		if (existenceEvent == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 
-		if(company != existenceEvent.getCompany()){
+		if (company != existenceEvent.getCompany()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		
+
 		// Implementar regras para nao permitir turbinar se usuário não pagou
 
 		if (event.getTurbineType() == null) {
@@ -472,6 +472,45 @@ public class EventController {
 		Collections.shuffle(events);
 
 		return new ResponseEntity<>(events, HttpStatus.OK);
+	}
+
+	private void validateEventFields(Event event, Company company) throws ServletException {
+
+		// Verifica se a company existe pelo token informado
+		if (company == null) {
+			throw new ServletException("Empresa não existente.");
+		}
+
+		// Verifica se o titulo é vazio ou nulo
+		if (event.getTitle() == null || event.getTitle().isEmpty()) {
+			throw new ServletException("O título não pode ser nulo ou vazio. Por favor informe o título.");
+		}
+
+		// Verifica se existe data no evento
+		if (event.getEventDate() == null) {
+			throw new ServletException("Por favor informe uma data para o evento.");
+		}
+
+		// Verifica se a data do evento é antes da data atual
+		if (event.getEventDate().before(new Date())) {
+			throw new ServletException(
+					"A data não pode ser menor do que a data atual. Por favor informe uma data futura.");
+		}
+
+		// Verifica se o preço está nulo
+		if (event.getPrice() == null) {
+			throw new ServletException("Por favor informe um preço que seja maior que zero.");
+		}
+
+		// Verifica se a categoria está nula
+		if (event.getCategory() == null) {
+			throw new ServletException("Por favor informe uma categoria.");
+		}
+
+		// Verifica se o local é vazio ou nulo
+		if (event.getLocal().isEmpty() || event.getLocal() == null) {
+			throw new ServletException("Por favor informe o local do evento.");
+		}
 	}
 
 }

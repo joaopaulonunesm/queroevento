@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<login 	id="1" 
+			id_company="1" 
+			email="queroevento@queroevento.com" 
+			password="queroevento" 
+			token="tokendoqueroevento" />
+	<login 	id="2" 
+			id_company="2" 
+			email="lojaobrasil@lojaobrasil.com" 
+			password="lojaobrasil" 
+			token="tokendolojaobrasil"/>
+	<login 	id="3" 
+			id_company="3" 
+			email="woodsbar@woodsbar.com" 
+			password="woodsbar" 
+			token="tokendawoodsbar"/>
+</dataset>

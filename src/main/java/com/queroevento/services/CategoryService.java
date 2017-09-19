@@ -26,12 +26,12 @@ public class CategoryService {
 		return categoryRepository.findOne(id);
 	}
 
-	public List<Category> findByOrderByAmmountEventsDesc() {
-		return categoryRepository.findByOrderByAmmountEventsDesc();
-	}
-
 	public Category findByUrlNameIgnoreCase(String urlName) {
 		return categoryRepository.findByUrlNameIgnoreCase(urlName);
+	}
+
+	public List<Category> findByOrderByAmmountEventsDesc() {
+		return categoryRepository.findByOrderByAmmountEventsDesc();
 	}
 
 	public String nameToUrlName(String name) {

@@ -1,4 +1,4 @@
-package com.queroevento.queroevento;
+package com.queroevento;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
