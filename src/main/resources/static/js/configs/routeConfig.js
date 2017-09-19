@@ -23,7 +23,7 @@ angular.module("queroEventoApp").config(function ($routeProvider) {
 		templateUrl: "views/index/buscaEvento.html",
 	});
 	
-	$routeProvider.when("/company/profile/:nameUrl", {
+	$routeProvider.when("/:nameUrl", {
 		templateUrl: "views/index/perfilEmpresa.html",
 		controller: "eventByCompanyCtrl"
 	});

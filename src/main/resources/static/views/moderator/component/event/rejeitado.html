@@ -39,7 +39,7 @@
                     <p>{{ event.completeDescription }}</p>
                     <br />
                     <p>Empresa</p>
-                    <p><a ng-href="/#/company/profile/{{ event.company.nameUrl }}">{{ event.company.name }}</a></p>
+                    <p><a ng-href="/#/{{ event.company.nameUrl }}">{{ event.company.name }}</a></p>
                     <p ng-if="event.showPhoneNumber == true">Celular: {{ event.company.cellPhoneNumber }}</p>
                     <p ng-if="event.showPhoneNumber == true">Telefone: {{ event.company.phoneNumber }}</p>
                     <p ng-if="event.showEmail == true">Email: {{ event.company.contactEmail }}</p>

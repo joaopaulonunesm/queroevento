@@ -4,8 +4,13 @@ angular.module("queroEventoApp").factory("companyAPI", function ($http, configs)
 		return $http.put(configs.baseUrl + configs.version + '/companies', company);
 	}
 	
+	var _getCompanyByNameUrl = function (nameUrl){
+		return $http.get(configs.baseUrl + '//companies/' + nameUrl);
+	}
+	
     return {
-    	putCompany: _putCompany
+    	putCompany: _putCompany,
+    	getCompanyByNameUrl: _getCompanyByNameUrl
     };
 	
 });

@@ -13,6 +13,8 @@
 		    	</div>
 		    </nav>
 
+			<h5>O link para divulgação da sua página é <a ng-href="/#/{{ login.company.nameUrl }}">www.queroevento.com/{{ login.company.nameUrl }}</a></h5>
+
 	        <div class="card hoverable" ng-repeat="event in myEvents">
 	            <div class="card-image">
 	                <img ng-src="{{ event.imageUrl }}">
@@ -38,15 +40,18 @@
         
          	<div class="card" style="background-color: #283E4B">
                 <div class="card-content white-text">
-                	<img ng-if="company.imageUrl != null" class="responsive-img" ng-src="{{ login.company.imageUrl }}">
-                    <span class="card-title"><h5>{{ company.name }}</h5></span>
-                    <p ng-if="company.phoneNumber != null">Celular: {{ login.company.phoneNumber }}</p>
-	            	<p ng-if="company.cellPhoneNumber != null">Telefone: {{ logincompany.cellPhoneNumber }}</p>
-	                <p ng-if="company.contactEmail != null">Email: {{ login.company.contactEmail }}</p>
+                	<img ng-if="login.company.imageUrl != null" class="responsive-img" ng-src="{{ login.company.imageUrl }}">
+                    <span class="card-title"><h5>{{ login.company.name }}</h5></span>
+                    <p ng-if="login.company.phoneNumber != null">Celular: {{ login.company.phoneNumber }}</p>
+	            	<p ng-if="login.company.cellPhoneNumber != null">Telefone: {{ login.company.cellPhoneNumber }}</p>
+	                <p ng-if="login.company.contactEmail != null">Email: {{ login.company.contactEmail }}</p>
 	                <br ng-if="eventsByCompany > 1">
-	                <p ng-if="eventsByCompany > 1">{{ login.eventsByCompany.length }} Publicações</p>
+	                <p ng-if="eventsByCompany > 1">{{ eventsByCompany.length }} Publicações</p>
                 </div>
-            </div>
+             	<div class="card-action" style="text-align: right;">
+	                <a class="waves-effect waves-light btn orange" ng-href="#/settings">Editar Perfil</a>
+	            </div>
+            </div>         	
 
         </div>
     </div>

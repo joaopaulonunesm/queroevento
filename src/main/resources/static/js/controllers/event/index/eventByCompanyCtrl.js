@@ -1,4 +1,4 @@
-angular.module("queroEventoApp").controller("eventByCompanyCtrl", function ($scope, $http, eventAPI, categoryAPI, $routeParams) {
+angular.module("queroEventoApp").controller("eventByCompanyCtrl", function ($scope, $http, eventAPI, categoryAPI, companyAPI, $routeParams) {
 
 	$scope.eventsByCompany = [];
 	
@@ -10,8 +10,6 @@ angular.module("queroEventoApp").controller("eventByCompanyCtrl", function ($sco
 			
 			$scope.eventsByCompany = response.data;
 			
-			$scope.company = response.data[0].company;
-			
 		}, function(response) {
 			console.log(response.data);
 			console.log(response.status);
@@ -20,5 +18,20 @@ angular.module("queroEventoApp").controller("eventByCompanyCtrl", function ($sco
 	};
 
 	$scope.getEventByCompany($routeParams.nameUrl);
+	
+	$scope.getCompanyByNameUrl = function(url) {
+		
+		companyAPI.getCompanyByNameUrl(url).then(function(response) {
+			
+			$scope.company = response.data;
+			
+		}, function(response) {
+			console.log(response.data);
+			console.log(response.status);
+		});
+
+	};
+	
+	$scope.getCompanyByNameUrl($routeParams.nameUrl);
 
 });

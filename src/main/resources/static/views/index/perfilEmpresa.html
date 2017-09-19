@@ -40,11 +40,12 @@
                 <div class="card-content white-text">
                 	<img ng-if="company.imageUrl != null" class="responsive-img" ng-src="{{ company.imageUrl }}">
                     <span class="card-title"><h5>{{ company.name }}</h5></span>
+                    <br>
                     <p ng-if="company.phoneNumber != null">Celular: {{ company.phoneNumber }}</p>
 	            	<p ng-if="company.cellPhoneNumber != null">Telefone: {{ company.cellPhoneNumber }}</p>
 	                <p ng-if="company.contactEmail != null">Email: {{ company.contactEmail }}</p>
-	                <br ng-if="eventsByCompany > 1">
-	                <p ng-if="eventsByCompany > 1">{{ eventsByCompany.length }} Publicações</p>
+	                <br ng-if="eventsByCompany.length > 1">
+	                <p ng-if="eventsByCompany.length > 1">{{ eventsByCompany.length }} Publicações</p>
                 </div>
             </div>
 

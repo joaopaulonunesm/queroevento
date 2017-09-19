@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
-	<event	id="1" 
+	<event	id="1"
 		    id_company="1" 
 		    title="Inauguração de Loja"
 			url_title="inauguracao-de-loja" 
@@ -14,7 +14,7 @@
 			status="0" 
 			catalog_status="1"
 			turbine_type="2" />
-	<event	id="2" 
+	<event	id="2"
 		    id_company="1" 
 		    title="Inauguração de Restaurante"
 			url_title="inauguracao-de-restaurante" 

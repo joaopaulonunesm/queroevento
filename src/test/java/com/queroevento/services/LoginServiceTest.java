@@ -5,21 +5,13 @@ import org.junit.Assert;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
-import com.github.springtestdbunit.DbUnitTestExecutionListener;
-import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.queroevento.models.Company;
 import com.queroevento.models.Login;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class,
-	TransactionalTestExecutionListener.class, DbUnitTestExecutionListener.class })
 public class LoginServiceTest {
 
 	@Autowired
@@ -49,7 +41,7 @@ public class LoginServiceTest {
 	@Test
 	public void shouldAuthenticateLogin() {
 
-		Login login = factoryLogin("queroevento4@hotmail.com", "queroevento", "Quero Evento");
+		Login login = factoryLogin("queroevento2@hotmail.com", "queroevento", "Quero Evento");
 		loginService.save(login);
 
 		loginService.authenticateLogin(login);
@@ -62,7 +54,7 @@ public class LoginServiceTest {
 	@Test
 	public void shouldFindOneLoginById() {
 
-		Login login = factoryLogin("queroevento2@hotmail.com", "queroevento", "Quero Evento");
+		Login login = factoryLogin("queroevento3@hotmail.com", "queroevento", "Quero Evento");
 		loginService.save(login);
 
 		Assert.assertNotNull(loginService.findOne(login.getId()));
@@ -71,18 +63,22 @@ public class LoginServiceTest {
 	@Test
 	public void shouldFindOneLoginByEmail() {
 
-		Login login = factoryLogin("queroevento3@hotmail.com", "queroevento", "Quero Evento");
+		Login login = factoryLogin("queroevento4@hotmail.com", "queroevento", "Quero Evento");
 		loginService.save(login);
 
 		Assert.assertNotNull(loginService.findByEmail(login.getEmail()));
 	}
 
 	@Test
-	@DatabaseSetup("/company.xml")
-	@DatabaseSetup("/login.xml")
 	public void shouldFindOneLoginByToken() {
 
-		Assert.assertNotNull(loginService.findByToken("tokendoqueroevento"));
+		Login login = factoryLogin("queroevento5@hotmail.com", "queroevento", "Quero Evento");
+		loginService.save(login);
+
+		loginService.authenticateLogin(login);
+		loginService.save(login);
+		
+		Assert.assertNotNull(loginService.findByToken(login.getToken()));
 	}
 
 	private Login factoryLogin(String email, String password, String companyName) {

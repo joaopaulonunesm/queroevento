@@ -360,7 +360,8 @@ public class EventController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		List<Event> events = eventService.findByCompanyId(company.getId());
+		List<Event> events = eventService.findByCompanyIdAndEventDateAfterAndCatalogStatusAndStatusOrderByEventDate(company.getId(),
+				new Date(), CatalogStatusEvent.PUBLISHED, StatusEvent.ACTIVE);
 
 		return new ResponseEntity<>(events, HttpStatus.OK);
 	}
@@ -377,6 +378,7 @@ public class EventController {
 		return new ResponseEntity<>(events, HttpStatus.OK);
 	}
 
+	// Verificar necessidade de filtrar por Data, Status de catalogação e Status
 	@RequestMapping(value = "/events/keyword/{keyword}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Event>> getEventByKeywordIgnoreCase(String keyword) throws ServletException {
 
@@ -430,6 +432,7 @@ public class EventController {
 				HttpStatus.OK);
 	}
 
+	// Verificar necessidade de filtrar por Data, Status de catalogação e Status
 	@RequestMapping(value = "/events/estimate", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Event>> getAllEventOrderByConfirmedPresenceDesc() throws ServletException {
 

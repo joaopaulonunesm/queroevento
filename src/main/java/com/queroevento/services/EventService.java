@@ -118,6 +118,12 @@ public class EventService {
 				date, catalogEvent, status, word);
 	}
 
+	public List<Event> findByCompanyIdAndEventDateAfterAndCatalogStatusAndStatusOrderByEventDate(Long idCompany,
+			Date date, CatalogStatusEvent catalogStatus, StatusEvent status) {
+		return eventRepository.findByCompanyIdAndEventDateAfterAndCatalogStatusAndStatusOrderByEventDate(idCompany,
+				date, catalogStatus, status);
+	}
+
 	public String titleToUrlTitle(Event event) {
 
 		String urlTitle = event.getTitle().replaceAll(" ", "-").replaceAll("[ãâàáä]", "a").replaceAll("[êèéë]", "e")

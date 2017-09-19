@@ -21,7 +21,7 @@
 	                </span>
 	            </div>
 	            <div class="card-content">
-	            	<p>Publicado por <a ng-href="#/company/profile/{{ event.company.nameUrl }}">{{ event.company.name }}</a></p>
+	            	<p>Publicado por <a ng-href="#/{{ event.company.nameUrl }}">{{ event.company.name }}</a></p>
 	            	<p>Data: {{ event.eventDate | date }}</p>
 	            	<p>Valor: R${{ event.price }}</p>
 	                <p>Local: {{ event.local }}</p>
@@ -58,10 +58,10 @@
                             Preço                     
                         </div>
                         <div class="input-field col s6">
-                            <input placeholder="Mínimo" type="number" class="validate">
+                            <input placeholder="Mínimo" type="text" class="validate">
                         </div>
                         <div class="input-field col s6">
-                            <input placeholder="Máximo" type="number" class="validate">
+                            <input placeholder="Máximo" type="text" class="validate">
                         </div>
 
                         <div class="input-field col s12">
