@@ -37,9 +37,10 @@
 			                </div>
 			                <div class="col s8">
 			                    <span class="title"><h5>{{ event.title }}</h5></span>
-			                    <p>Data: {{ event.eventDate | date }}</p>
+			                    <p>Data: {{ event.eventDate | date:"dd/MM/yyyy 'às' HH:mm" }}</p>
 			                    <p>Local: {{ event.local }} </p>
-			                    <p>Valor: R${{ event.price }}</p>
+								<p ng-if="event.price > 0">Preço: R${{ event.price }}</p>
+								<p ng-if="event.price == 0">Preço: DE GRAÇA</p>
 			                    <p>Estimativa: {{ event.peopleEstimate }} Pessoas</p>
 			                </div>
 			                <div class="col s8 right-align">

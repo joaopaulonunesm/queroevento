@@ -24,8 +24,9 @@
                     </span>
                 </div>
                 <div class="card-content">
-                    <p>Data: {{ event.eventDate | date }}</p>                    
-                    <p>Preço: {{ event.price }}</p>
+                    <p>Data: {{ event.eventDate | date:"dd/MM/yyyy 'às' HH:mm" }}</p>                    
+                    <p ng-if="event.price > 0">Preço: R${{ event.price }}</p>
+                    <p ng-if="event.price == 0">Preço: DE GRAÇA</p>
                     <p>Local: {{ event.local }}</p>
                     <p>Cidade: {{ event.city }}</p>
                     <p>Estado: {{ event.state }}</p>

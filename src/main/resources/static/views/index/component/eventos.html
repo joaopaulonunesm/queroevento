@@ -13,8 +13,9 @@
             </div>
             <div class="card-content">
 		        <p>Publicado por <a ng-href="#/{{ event.company.nameUrl }}">{{ event.company.name }}</a></p>
-		 	 	<p>Data: {{ event.eventDate | date }}</p>
-		     	<p>Valor: R${{ event.price }}</p>
+		 	 	<p>Data: {{ event.eventDate | date:"dd/MM/yyyy 'às' HH:mm" }}</p>
+                <p ng-if="event.price > 0">Preço: R${{ event.price }}</p>
+                <p ng-if="event.price == 0">Preço: DE GRAÇA</p>
 		        <p>Local: {{ event.local }}</p>
 		        <br />
 				<p>{{ event.shortDescription }}</p>                

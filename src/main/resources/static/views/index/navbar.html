@@ -4,28 +4,27 @@
         <div class="nav-wrapper">
             <div class="container">
             	<div class="col s2">
-                <a href="#/" class="brand-logo"><img style="margin-top: 15px" src="images/navlogo.png" alt="Logo"></a>
+                    <a href="#/" class="brand-logo"><img style="margin-top: 15px" src="images/navlogo.png" alt="Logo"></a>
                 </div>
-                <div class="col s10">
-                <ul class="right hide-on-med-and-down">
-                	
-                	<li>
-	 					<div class="input-field col s12">
-				          <i class="material-icons prefix">search</i>
-				          <input id="icon_prefix" ng-keyup="getEventsByWord()" ng-enter="getEventsByWord()" ng-model="search.word" placeholder="Onde você quer ir?" type="text">
-				        </div>
-					</li>
-                
-                    <li><a href="#/">Top Eventos</a></li>
-                    <li>
-                        <a class="waves-effect waves-light btn orange" href="" ng-controller="loginCtrl" ng-click="openLogin()">
-                            Publicar
-                        </a>
-                    </li>
-                </ul>
-                <a href="#" id="button-collapse" data-closeonclick="false" data-activates="slide-out" data-sidenav="left" data-menuwidth="300">
-                    <i class="material-icons">menu</i>
-                </a>
+                <div class="col s12">
+                    <ul class="right hide-on-med-and-down">
+                        
+                        <li>
+                            <div class="input-field">
+                                <i class="material-icons prefix">search</i>
+                                <input id="icon_prefix" ng-keyup="getEventsByWord()" ng-enter="getEventsByWord()" ng-model="search.word" placeholder="Onde você quer ir?" type="text">
+                            </div>
+                        </li>
+                    
+                        <li>
+                            <a class="waves-effect waves-light btn orange" href="" ng-controller="loginCtrl" ng-click="openLogin()">
+                                Publicar
+                            </a>
+                        </li>
+                    </ul>
+                    <a href="#" id="button-collapse" data-closeonclick="false" data-activates="slide-out" data-sidenav="left" data-menuwidth="300">
+                        <i class="material-icons">menu</i>
+                    </a>
             </div>
             </div>
         </div>
@@ -39,15 +38,7 @@
             <img style="margin-top: 15px" src="images/navlogo.png" alt="Logo">
         </li>
         
-        <li>
-			<div class="input-field">
-            	<i class="material-icons prefix">search</i>
-	          	<input id="icon_prefix" placeholder="Onde você quer ir?" type="text" class="validate">
-	        </div>
-		</li>
-        
         <li class="bold"><a href="#/" class="collapsible-header waves-effect waves-teal">Home</a></li>
-        <li class="bold"><a href="#/" class="collapsible-header waves-effect waves-teal">Top Eventos</a></li>
         <li><div  class="divider"></div></li>
         <li class="bold"><a href="" ng-click="openLogin()" class="collapsible-header waves-effect waves-teal">Publique seus eventos!</a></li>
     </ul>

@@ -7,7 +7,7 @@
       	     <nav style="margin-top: 10px">
 		    	<div class="nav-wrapper">
 	        		<div class="col s12">
-			        	<a href="#!" class="breadcrumb">Home</a>
+			        	<a href="#/" class="breadcrumb">Home</a>
 			        	<a ng-href="#/category/{{ eventByUrl.category.urlName }}" class="breadcrumb">{{ eventByUrl.category.name }}</a>
 			        	<a href="" class="breadcrumb">Event</a>
 		      		</div>
@@ -22,14 +22,18 @@
                     </span>
                 </div>
                 <div class="card-content">
-                    <p>Data: {{ eventByUrl.eventDate | date }}</p>                    
-                    <p>Preço: {{ eventByUrl.price }}</p>
+                    <p>Publicado por <a ng-href="#/{{ eventByUrl.company.nameUrl }}">{{ eventByUrl.company.name }}</a></p>
+                    <p>{{ eventByUrl.views }} Visualizações</p>
+                    <br />
+                    <p>Data: {{ eventByUrl.eventDate | date:"dd/MM/yyyy 'às' HH:mm" }}</p>                    
+                    <p ng-if="eventByUrl.price > 0">Preço: R${{ eventByUrl.price }}</p>
+                    <p ng-if="eventByUrl.price == 0">Preço: DE GRAÇA</p>
                     <p>Local: {{ eventByUrl.local }}</p>
                     <p>Cidade: {{ eventByUrl.city }}</p>
                     <p>Estado: {{ eventByUrl.state }}</p>
                     <br />
                     <p>Categoria: {{ eventByUrl.category.name }}</p>
-                    <p>Palavra Chave: {{ eventByUrl.keyword }}</p>
+                    <p>Palavras-Chaves: {{ eventByUrl.keyword }}</p>
                     <p>Quantidade estimada de pessoas: {{ eventByUrl.peopleEstimate }}</p>
                     <br />
 					<p>Descrição Curta</p>
@@ -37,9 +41,8 @@
                     <br />
                     <p>Descrição Detalhada</p>
                     <p>{{ eventByUrl.completeDescription }}</p>
-                    <br />
-                    <p>Empresa</p>
-                    <p><a ng-href="#/{{ eventByUrl.company.nameUrl }}">{{ eventByUrl.company.name }}</a></p>
+                    <br ng-if="event.showPhoneNumber == true || event.showPhoneNumber == true || event.showEmail == true" />
+                    <p ng-if="event.showPhoneNumber == true || event.showPhoneNumber == true || event.showEmail == true">Contatos</p>
                     <p ng-if="event.showPhoneNumber == true">Celular: {{ eventByUrl.company.cellPhoneNumber }}</p>
                     <p ng-if="event.showPhoneNumber == true">Telefone: {{ eventByUrl.company.phoneNumber }}</p>
                     <p ng-if="event.showEmail == true">Email: {{ eventByUrl.company.contactEmail }}</p>
