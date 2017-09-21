@@ -1,25 +1,25 @@
 .blue {
-  background-color: #3A5994 !important;
+  background-color: #BF120E !important;
 }
 
 .blue-text {
-  color: #3A5994 !important;
+  color: #BF120E !important;
 }
 
 .blue.darken-1 {
-  background-color: #0083FF !important;
+  background-color: #A62622 !important;
 }
 
 .blue-text.text-darken-1 {
-  color: #0083FF !important;
+  color: #A62622 !important;
 }
 
 .orange {
-  background-color: #0492F4 !important;
+  background-color: #BF120E !important;
 }
 
 .orange-text {
-  color: #0492F4 !important;
+  color: #BF120E !important;
 }
 
 .black {
@@ -44,4 +44,18 @@
 
 .transparent-text {
   color: transparent !important;
+}
+
+.font-bold {
+ font-weight: bold;
+}
+
+html {
+  font-family: sans-serif;
+
+  /* 1 */
+  -ms-text-size-adjust: 100%;
+  /* 2 */
+  -webkit-text-size-adjust: 100%;
+  /* 2 */
 }

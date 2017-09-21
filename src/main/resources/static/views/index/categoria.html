@@ -7,8 +7,8 @@
      	    <nav style="margin-top: 8px">
 		    	<div class="nav-wrapper blue">
 	        		<div class="col s12">
-			        	<a href="#/" class="breadcrumb">Home</a>
-			        	<a href="#/category/nome" class="breadcrumb">{{ category.name }}</a>
+			        	<a href="#/" class="breadcrumb font-bold">HOME</a>
+			        	<a href="#/category/nome" class="breadcrumb font-bold">{{ category.name | uppercase }}</a>
 		      		</div>
 		    	</div>
 		    </nav>
@@ -22,7 +22,8 @@
 	            </div>
 	            <div class="card-content">
 	            	<p>Publicado por <a ng-href="#/{{ event.company.nameUrl }}">{{ event.company.name }}</a></p>
-	            	<p>Data: {{ event.eventDate | date:"dd/MM/yyyy 'às' HH:mm" }}</p>
+                    <br />
+                    <p>Data: {{ event.eventDate | date:"dd/MM/yyyy 'às' HH:mm" }}</p>
                     <p ng-if="event.price > 0">Preço: R${{ event.price }}</p>
                     <p ng-if="event.price == 0">Preço: DE GRAÇA</p>
 	                <p>Local: {{ event.local }}</p>
@@ -39,9 +40,9 @@
         <div class="col s4">
 
             <div class="card blue">
-                <div class="card-content white-text">
+                <div class="card-content white-text font-bold">
 
-                    <span class="card-title"><h5>Filtros</h5></span>
+                    <span class="card-title"><h5 class="font-bold">FILTROS</h5></span>
 
                     <div class="row">
 
@@ -59,10 +60,10 @@
                             Preço                     
                         </div>
                         <div class="input-field col s6">
-                            <input placeholder="Mínimo" type="text" class="validate">
+                            <input placeholder="Mínimo" type="number" class="validate">
                         </div>
                         <div class="input-field col s6">
-                            <input placeholder="Máximo" type="text" class="validate">
+                            <input placeholder="Máximo" type="number" class="validate">
                         </div>
 
                         <div class="input-field col s12">
@@ -100,7 +101,7 @@
                     </div>
                 </div>
                 <div class="card-action" style="text-align: right">
-                    <a class="waves-effect waves-light btn orange" href="">Filtrar</a>
+                    <a class="waves-effect waves-light btn orange font-bold" href="">Filtrar</a>
                 </div>
             </div>
 
