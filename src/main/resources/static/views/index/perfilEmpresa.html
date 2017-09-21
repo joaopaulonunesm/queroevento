@@ -4,8 +4,8 @@
 
         <div class="col s8">
 
-     	    <nav style="margin-top: 10px">
-		    	<div class="nav-wrapper">
+     	    <nav style="margin-top: 8px">
+		    	<div class="nav-wrapper blue">
 	        		<div class="col s12">
 			        	<a href="#/" class="breadcrumb">Home</a>
 			        	<a href="" class="breadcrumb">Perfil</a>
@@ -16,7 +16,7 @@
 	        <div class="card hoverable" ng-repeat="event in eventsByCompany">
 	            <div class="card-image">
 	                <img ng-src="{{ event.imageUrl }}">
-	                <span class="card-title" style="background-color: #009DC1">
+	                <span class="card-title blue">
 	                    <h5>{{ event.title }}</h5> 
 	                </span>
 	            </div>
@@ -37,7 +37,7 @@
 
         <div class="col s4">
         
-         	<div class="card" style="background-color: #283E4B">
+         	<div class="card blue">
                 <div class="card-content white-text">
                 	<img ng-if="company.imageUrl != null" class="responsive-img" ng-src="{{ company.imageUrl }}">
                     <span class="card-title"><h5>{{ company.name }}</h5></span>
