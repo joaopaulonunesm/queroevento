@@ -7,17 +7,17 @@
      	    <nav style="margin-top: 8px">
 		    	<div class="nav-wrapper blue">
 	        		<div class="col s12">
-			        	<a href="#/" class="breadcrumb">Home</a>
-			        	<a href="" class="breadcrumb">Perfil</a>
+			        	<a href="#/" class="breadcrumb font-bold">HOME</a>
+			        	<a href="" class="breadcrumb font-bold">PERFIL</a>
 		      		</div>
 		    	</div>
 		    </nav>
 
 	        <div class="card hoverable" ng-repeat="event in eventsByCompany">
 	            <div class="card-image">
-	                <img ng-src="{{ event.imageUrl }}">
+	                <img materialboxed class="materialboxed responsive-img" alt="" ng-src="{{ event.imageUrl }}">
 	                <span class="card-title blue">
-	                    <h5>{{ event.title }}</h5> 
+	                    <h5 class="font-bold">{{ event.title }}</h5> 
 	                </span>
 	            </div>
 	            <div class="card-content">
@@ -40,7 +40,7 @@
          	<div class="card blue">
                 <div class="card-content white-text">
                 	<img ng-if="company.imageUrl != null" class="responsive-img" ng-src="{{ company.imageUrl }}">
-                    <span class="card-title"><h5>{{ company.name }}</h5></span>
+                    <span class="card-title"><h5 class="font-bold">{{ company.name }}</h5></span>
                     <br>
                     <p ng-if="company.phoneNumber != null">Celular: {{ company.phoneNumber }}</p>
 	            	<p ng-if="company.cellPhoneNumber != null">Telefone: {{ company.cellPhoneNumber }}</p>

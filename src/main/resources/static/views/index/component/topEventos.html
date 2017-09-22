@@ -11,8 +11,11 @@
 	                    <a ng-href="#/event/title/{{ event.urlTitle }}"><img class="activator responsive-img" ng-src="{{ event.imageUrl }}"></a>
 	                </div>
 	                <div class="card-content">
-	                	<a class="card-title activator grey-text text-darken-4" ng-href="#/event/title/{{ event.urlTitle }}"><strong>{{ event.title }}</strong></a>
+	                	<a class="card-title activator grey-text text-darken-4" ng-href="#/event/title/{{ event.urlTitle }}">
+	                		<h5 class="font-bold">{{ event.title }}</h5>
+	                	</a>
 				        <p>Publicado por <a ng-href="#/{{ event.company.nameUrl }}">{{ event.company.name }}</a></p>
+				        <br />
 				 	 	<p>Data: {{ event.eventDate | date:"dd/MM/yyyy 'às' HH:mm" }}</p>
 						<p ng-if="event.price > 0">Preço: R${{ event.price }}</p>
 						<p ng-if="event.price == 0">Preço: DE GRAÇA</p>
