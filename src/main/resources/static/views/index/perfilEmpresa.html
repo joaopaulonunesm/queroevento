@@ -5,10 +5,10 @@
         <div class="col s8">
 
      	    <nav style="margin-top: 8px">
-		    	<div class="nav-wrapper blue">
+		    	<div class="nav-wrapper white">
 	        		<div class="col s12">
-			        	<a href="#/" class="breadcrumb font-bold">HOME</a>
-			        	<a href="" class="breadcrumb font-bold">PERFIL</a>
+			        	<a href="#/" class="breadcrumb red-text font-bold">HOME</a>
+			        	<a href="" class="breadcrumb red-text font-bold">PERFIL</a>
 		      		</div>
 		    	</div>
 		    </nav>
@@ -16,7 +16,7 @@
 	        <div class="card hoverable" ng-repeat="event in eventsByCompany">
 	            <div class="card-image">
 	                <img materialboxed class="materialboxed responsive-img" alt="" ng-src="{{ event.imageUrl }}">
-	                <span class="card-title blue">
+	                <span class="card-title red">
 	                    <h5 class="font-bold">{{ event.title }}</h5> 
 	                </span>
 	            </div>
@@ -29,7 +29,7 @@
 					<p>{{ event.shortDescription }}</p>                
 	            </div>
 	            <div class="card-action" style="text-align: right;">
-	                <a class="waves-effect waves-light btn orange" ng-href="#/event/title/{{ event.urlTitle }}">Ver mais</a>
+	                <a class="waves-effect waves-light btn red" ng-href="#/event/title/{{ event.urlTitle }}">Ver mais</a>
 	            </div>
 	        </div>
 
@@ -37,7 +37,7 @@
 
         <div class="col s4">
         
-         	<div class="card blue">
+         	<div class="card red">
                 <div class="card-content white-text">
                 	<img ng-if="company.imageUrl != null" class="responsive-img" ng-src="{{ company.imageUrl }}">
                     <span class="card-title"><h5 class="font-bold">{{ company.name }}</h5></span>

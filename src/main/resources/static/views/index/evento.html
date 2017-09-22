@@ -4,12 +4,12 @@
 
         <div class="col s8">
         
-      	     <nav style="margin-top: 8px">
-		    	<div class="nav-wrapper blue">
+     	    <nav style="margin-top: 8px">
+		    	<div class="nav-wrapper white">
 	        		<div class="col s12">
-			        	<a href="#/" class="breadcrumb font-bold">HOME</a>
-			        	<a ng-href="#/category/{{ eventByUrl.category.urlName }}" class="breadcrumb font-bold">{{ eventByUrl.category.name | uppercase }}</a>
-			        	<a href="" class="breadcrumb font-bold">EVENTO</a>
+			        	<a href="#/" class="breadcrumb red-text font-bold">HOME</a>
+			        	<a ng-href="#/category/{{ eventByUrl.category.urlName }}" class="breadcrumb red-text font-bold">{{ eventByUrl.category.name | uppercase }}</a>
+			        	<a class="breadcrumb red-text font-bold">EVENTO</a>
 		      		</div>
 		    	</div>
 		    </nav>
@@ -17,7 +17,7 @@
             <div class="card hoverable">
                 <div class="card-image">
                     <img materialboxed class="materialboxed responsive-img" ng-src="{{ eventByUrl.imageUrl }}" alt="">
-                    <span class="card-title blue"><h5 class="font-bold">{{ eventByUrl.title }}</h5></span>
+                    <span class="card-title red"><h5 class="font-bold">{{ eventByUrl.title }}</h5></span>
                 </div>
                 <div class="card-content">
                     <p>Publicado por <a ng-href="#/{{ eventByUrl.company.nameUrl }}">{{ eventByUrl.company.name }}</a></p>
@@ -46,7 +46,7 @@
                     <p ng-if="event.showEmail == true">Email: {{ eventByUrl.company.contactEmail }}</p>
                 </div>
                 <div class="card-action" style="text-align: right">
-                    <a class="waves-effect waves-light btn orange"><i class="material-icons left">check</i>Marcar Presença</a>
+                    <a class="waves-effect waves-light btn red"><i class="material-icons left">check</i>Marcar Presença</a>
                 </div>
             </div>
 

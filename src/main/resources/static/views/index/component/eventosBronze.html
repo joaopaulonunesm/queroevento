@@ -7,7 +7,7 @@
         <div class="card hoverable" ng-repeat="event in eventsBronze | limitTo: 10">
             <div class="card-image">
                 <img materialboxed class="materialboxed responsive-img" alt="" ng-src="{{ event.imageUrl }}">
-                <span class="card-title blue">
+                <span class="card-title red">
                     <h5 class="font-bold">{{ event.title }}</h5> 
                 </span>
             </div>
@@ -22,7 +22,7 @@
 				<p>{{ event.shortDescription }}</p>                
             </div>
             <div class="card-action" style="text-align: right;">
-                <a class="waves-effect waves-light btn orange" ng-href="#/event/title/{{ event.urlTitle }}">Ver mais</a>
+                <a class="waves-effect waves-light btn red" ng-href="#/event/title/{{ event.urlTitle }}">Ver mais</a>
             </div>
         </div>
 

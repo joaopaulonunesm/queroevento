@@ -4,7 +4,7 @@
 
 		<div class="col s12">
 		    <nav style="margin-top: 8px">
-		    	<div class="nav-wrapper blue">
+		    	<div class="nav-wrapper red">
 	        		<div class="col s12">
 			        	<a href="#!" class="breadcrumb">Home</a>
 			        	<a href="#/event/list" class="breadcrumb">Meus Eventos</a>
@@ -19,7 +19,7 @@
             <div class="card hoverable">
                 <div class="card-image">
                     <img ng-src="{{ event.imageUrl }}">
-                    <span class="card-title blue">
+                    <span class="card-title red">
                     	{{ event.title }}
                     </span>
                 </div>
@@ -53,16 +53,16 @@
 
         <div class="col s4">
 
-            <div class="card blue">
+            <div class="card red">
                 <div class="card-content white-text">
 
                     <span class="card-title"><h5>Opções</h5></span>
 					
-					<a class="waves-effect waves-light btn orange" style="margin-top: 20px" href=""><i class="material-icons left">flash_on</i> Turbinar</a>
+					<a class="waves-effect waves-light btn red" style="margin-top: 20px" href=""><i class="material-icons left">flash_on</i> Turbinar</a>
 					<br>
-					<a class="waves-effect waves-light btn orange" style="margin-top: 20px" ng-href="#/event/edit/{{ event.urlTitle }}"><i class="material-icons left">edit</i> Editar</a>
+					<a class="waves-effect waves-light btn red" style="margin-top: 20px" ng-href="#/event/edit/{{ event.urlTitle }}"><i class="material-icons left">edit</i> Editar</a>
 					<br>
-					<a class="waves-effect waves-light btn orange" style="margin-top: 20px" href="" ng-click="deleteEvent(event.id)"><i class="material-icons left">delete</i> Excluir</a>
+					<a class="waves-effect waves-light btn red" style="margin-top: 20px" href="" ng-click="deleteEvent(event.id)"><i class="material-icons left">delete</i> Excluir</a>
 
                 </div>
             </div>

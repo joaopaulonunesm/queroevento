@@ -1,0 +1,65 @@
+<meta charset="UTF-8" />            
+<div class="card hoverable white">
+    <div class="card-content red-text">
+
+        <span class="card-title"><h5 class="font-bold">FILTROS</h5></span>
+
+        <div class="row">
+
+            <div class="input-field col s12">
+                <input placeholder="Palavra-chave" type="text" class="validate black-text">
+            </div>
+
+            <div class="input-field col s12">
+                <input  placeholder="Cidade" type="text" class="validate black-text">
+            </div>
+
+            <div class="input-field col s12 font-bold">   
+                Preço                     
+            </div>
+            <div class="input-field col s6">
+                <input placeholder="Mínimo" type="text" class="validate black-text">
+            </div>
+            <div class="input-field col s6">
+                <input placeholder="Máximo" type="text" class="validate black-text">
+            </div>
+
+            <div class="input-field col s12">
+                <i class="material-icons prefix">date_range</i>
+                <label for="inputCreated">Data do Evento</label>
+                
+                <input input-date
+                    type="text"
+                    class="black-text"
+                    name="created"
+                    id="inputCreated"
+                    ng-model="currentTime"
+                    container=""
+                    format="dd/mm/yyyy"
+                    months-full="{{ month }}"
+                    months-short="{{ monthShort }}"
+                    weekdays-full="{{ weekdaysFull }}"
+                    weekdays-short="{{ weekdaysShort }}"
+                    weekdays-letter="{{ weekdaysLetter }}"
+                    disable="disable"
+                    min="{{ minDate }}"
+                    max="{{ maxDate }}"
+                    today="today"
+                    first-day="1"
+                    clear="clear"
+                    close="close"
+                    select-years="15"
+                    on-start="onStart()"
+                    on-render="onRender()"
+                    on-open="onOpen()"
+                    on-close="onClose()"
+                    on-set="onSet()"
+                    on-stop="onStop()" />
+            </div>
+
+        </div>
+    </div>
+    <div class="card-action" style="text-align: right">
+        <a class="waves-effect waves-light btn red font-bold" href="">Filtrar</a>
+    </div>
+</div>

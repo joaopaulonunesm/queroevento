@@ -5,7 +5,7 @@
         <div class="col s8">
 
      	    <nav style="margin-top: 8px">
-		    	<div class="nav-wrapper blue">
+		    	<div class="nav-wrapper red">
 	        		<div class="col s12">
 			        	<a href="#/" class="breadcrumb">Home</a>
 			        	<a href="" class="breadcrumb">Meu Perfil</a>
@@ -18,7 +18,7 @@
 	        <div class="card hoverable" ng-repeat="event in myEvents">
 	            <div class="card-image">
 	                <img ng-src="{{ event.imageUrl }}">
-	                <span class="card-title blue">
+	                <span class="card-title red">
 	                    <h5>{{ event.title }}</h5> 
 	                </span>
 	            </div>
@@ -31,7 +31,7 @@
 					<p>{{ event.shortDescription }}</p>                
 	            </div>
 	            <div class="card-action" style="text-align: right;">
-	                <a class="waves-effect waves-light btn orange" ng-href="#/event/title/{{ event.urlTitle }}">Ver mais</a>
+	                <a class="waves-effect waves-light btn red" ng-href="#/event/title/{{ event.urlTitle }}">Ver mais</a>
 	            </div>
 	        </div>
 
@@ -39,7 +39,7 @@
 
         <div class="col s4">
         
-         	<div class="card blue">
+         	<div class="card red">
                 <div class="card-content white-text">
                 	<img ng-if="login.company.imageUrl != null" class="responsive-img" ng-src="{{ login.company.imageUrl }}">
                     <span class="card-title"><h5>{{ login.company.name }}</h5></span>
@@ -50,7 +50,7 @@
 	                <p ng-if="eventsByCompany > 1">{{ eventsByCompany.length }} Publicações</p>
                 </div>
              	<div class="card-action" style="text-align: right;">
-	                <a class="waves-effect waves-light btn orange" ng-href="#/settings">Editar Perfil</a>
+	                <a class="waves-effect waves-light btn red" ng-href="#/settings">Editar Perfil</a>
 	            </div>
             </div>         	
 

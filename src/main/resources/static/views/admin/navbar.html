@@ -1,7 +1,7 @@
 <meta charset="UTF-8" />
 
 <nav >
-    <div class="nav-wrapper blue">
+    <div class="nav-wrapper red">
         <div class="container">
             <a href="#/" class="brand-logo"><img style="margin-top: 15px" src="images/navlogo.png" alt="Logo"></a>
             <ul class="right hide-on-med-and-down">
@@ -11,7 +11,7 @@
                     </a>
                 </li>
                 <li>
-                    <a class="btn orange waves-effect waves-light" href="#" id="button-collapse" data-activates="slide-out" data-sidenav="left" data-menuwidth="300" data-closeonclick="false">
+                    <a class="btn red waves-effect waves-light" href="#" id="button-collapse" data-activates="slide-out" data-sidenav="left" data-menuwidth="300" data-closeonclick="false">
                         Menu
                     </a>
                 </li>
@@ -30,8 +30,8 @@
         	<img style="margin-top: 15px" src="images/navlogo.png" alt="Logo">
         </li></a>
 
-        <li class="bold active"><a href="#/" class="collapsible-header active waves-effect waves-teal">Home</a></li>
-        <li class="bold active"><a class="collapsible-header active wavess-effect waves-teal">Eventos</a>
+        <li class="bold active"><a href="#/" class="collapsible-header active waves-effect waves-red">Home</a></li>
+        <li class="bold active"><a class="collapsible-header active wavess-effect waves-red">Eventos</a>
             <div class="collapsible-body" style="display: block;">
             <ul>
                 <li><a href="#/event/insert">Novo Evento</a></li>
@@ -39,15 +39,15 @@
             </ul>
             </div>
         </li>
-        <li class="bold"><a href="#/settings" class="collapsible-header active waves-effect waves-teal">Configurações</a></li>
+        <li class="bold"><a href="#/settings" class="collapsible-header active waves-effect waves-red">Configurações</a></li>
         <li ng-if="login.company.moderator == true" class="divider"></li>
         <li class="bold" ng-if="login.company.moderator == true">
-	        <a href="/moderator" class="collapsible-header active waves-effect waves-teal">
+	        <a href="/moderator" class="collapsible-header active waves-effect waves-red">
 	       		Moderator
 	        </a>
         </li>
         <li class="divider"></li>
-        <li class="bold"><a href="" ng-click="logout()" class="collapsible-header active waves-effect waves-teal">Sair</a></li>
+        <li class="bold"><a href="" ng-click="logout()" class="collapsible-header active waves-effect waves-red">Sair</a></li>
     </ul>
 </ul>
 

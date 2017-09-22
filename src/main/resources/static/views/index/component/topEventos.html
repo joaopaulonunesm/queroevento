@@ -1,6 +1,6 @@
 <meta charset="UTF-8" />
-<ul class="collection with-header">
-    <li class="collection-header blue white-text"><h5 class="font-bold" style="text-align: center;">MAIS ESPERADOS</h5></li>
+<ul class="collection hoverable with-header">
+    <li class="collection-header red white-text"><h5 class="font-bold" style="text-align: center;">MAIS ESPERADOS</h5></li>
     <li class="collection-item">
 
         <div class="row">
@@ -21,7 +21,7 @@
 						<p ng-if="event.price == 0">Preço: DE GRAÇA</p>
 				        <p>Local: {{ event.local }}</p>
 				        <br />
-	                    <p style="text-align: right"><a class="waves-effect waves-light btn orange" ng-href="#/event/title/{{ event.urlTitle }}">Ver mais</a></p>
+	                    <p style="text-align: right"><a class="waves-effect waves-light btn red" ng-href="#/event/title/{{ event.urlTitle }}">Ver mais</a></p>
 	                </div>
 	            </div>
             </div>

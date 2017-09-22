@@ -1,7 +1,7 @@
 <meta charset="UTF-8" />
 <div class="navbar-fixed">
     <nav>
-        <div class="nav-wrapper blue">
+        <div class="nav-wrapper white">
             <div class="container">
             	<div class="col s2">
                     <a href="#/" class="brand-logo"><img style="margin-top: 15px" src="images/navlogo.png" alt="Logo"></a>
@@ -10,14 +10,14 @@
                     <ul class="right hide-on-med-and-down">
                         
                         <li>
-                            <div class="input-field">
+                            <div class="input-field" style="margin-right: 5px">
                                 <i class="material-icons prefix">search</i>
-                                <input class="font-bold" id="icon_prefix" ng-keyup="getEventsByWord()" ng-enter="getEventsByWord()" ng-model="search.word" placeholder="Onde você quer ir?" type="text">
+                                <input class="black-text" id="icon_prefix" ng-keyup="getEventsByWord()" ng-enter="getEventsByWord()" ng-model="search.word" placeholder="Onde você quer ir?" type="text">
                             </div>
                         </li>
                     
                         <li>
-                            <a class=" font-bold" href="" ng-controller="loginCtrl" ng-click="openLogin()">
+                            <a class="font-bold" href="" ng-controller="loginCtrl" ng-click="openLogin()">
                                 Publicar
                             </a>
                         </li>
@@ -38,8 +38,10 @@
             <img style="margin-top: 15px" src="images/navlogo.png" alt="Logo">
         </li>
         
-        <li class="bold"><a href="#/" class="collapsible-header waves-effect waves-teal font-bold">Home</a></li>
+        <li><a href="#/" class="collapsible-header waves-effect waves-red"><i class="material-icons">home</i>HOME</a></li>
         <li><div  class="divider"></div></li>
-        <li class="bold"><a href="" ng-click="openLogin()" class="collapsible-header waves-effect waves-teal">Publique seus eventos!</a></li>
+        <li><a ng-href="#/category/{{ category.urlName }}" class="collapsible-header waves-effect waves-red" ng-repeat="category in categories">{{ category.name | uppercase }}</a></li>
+        <li><div  class="divider"></div></li>
+        <li><a href="" ng-click="openLogin()" class="collapsible-header waves-effect waves-red"><i class="material-icons">cloud_upload</i>PUBLICAR EVENTO</a></li>
     </ul>
 </ul>

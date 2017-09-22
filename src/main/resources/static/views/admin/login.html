@@ -7,23 +7,23 @@
             <div class="card ">
                 <div class="card-content white-text">
                 
-                    <span class="card-title blue-text" style="text-align: center"><h3>Inscrever-se</h3></span>
+                    <span class="card-title red-text" style="text-align: center"><h3>Inscrever-se</h3></span>
                     <div class="row">
                         <form name="signupForm" class="col s12">
                         <div class="row">
                         
                             <div class="input-field col s12">
-                                <i class="material-icons prefix blue-text">account_circle</i>
+                                <i class="material-icons prefix red-text">account_circle</i>
                                 <input id="icon_prefix" type="text" class="validate black-text" required ng-model="login.company.name">
                                 <label for="icon_prefix">Nome</label>
                             </div>
                             <div class="input-field col s12">
-                                <i class="material-icons prefix blue-text">email</i>
+                                <i class="material-icons prefix red-text">email</i>
                                 <input id="icon_prefix" type="email" class="validate black-text" required ng-model="login.email">
                                 <label for="icon_prefix">Email</label>
                             </div>
                             <div class="input-field col s12">
-                                <i class="material-icons prefix blue-text">lock</i>
+                                <i class="material-icons prefix red-text">lock</i>
                                 <input id="icon_telephone" type="password" class="validate black-text" required ng-model="login.password">
                                 <label for="icon_telephone">Senha</label>
                             </div>
@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 <div class="card-action" style="text-align: right">
-                    <a class="waves-effect waves-light btn orange" ng-href="{{ admin }}" ng-disabled="signupForm.$invalid" ng-click="createLogin()">Inscrever-se</a>
+                    <a class="waves-effect waves-light btn red" ng-href="{{ admin }}" ng-disabled="signupForm.$invalid" ng-click="createLogin()">Inscrever-se</a>
                 </div>
             </div>
                 <div ng-include="'views/index/component/ofertas.html'"></div>
@@ -40,7 +40,7 @@
 
         <div class="col s4">
             <div class="row">
-                <div class="card blue">
+                <div class="card red">
                     <div class="card-content white-text">
 
                         <span class="card-title" style="text-align: center"><h3>Entrar</h3></span>
@@ -63,7 +63,7 @@
                         </div>
                     </div>
                     <div class="card-action" style="text-align: center">
-                        <a class="waves-effect waves-light btn orange" href="" ng-disabled="loginForm.$invalid" ng-click="authentication()">Entrar</a>
+                        <a class="waves-effect waves-light btn red" href="" ng-disabled="loginForm.$invalid" ng-click="authentication()">Entrar</a>
                     </div>
                 </div>
             </div>

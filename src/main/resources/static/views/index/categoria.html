@@ -5,10 +5,10 @@
         <div class="col s8">
 
      	    <nav style="margin-top: 8px">
-		    	<div class="nav-wrapper blue">
+		    	<div class="nav-wrapper white">
 	        		<div class="col s12">
-			        	<a href="#/" class="breadcrumb font-bold">HOME</a>
-			        	<a href="#/category/nome" class="breadcrumb font-bold">{{ category.name | uppercase }}</a>
+			        	<a href="#/" class="breadcrumb red-text font-bold">HOME</a>
+			        	<a class="breadcrumb red-text font-bold">{{ category.name | uppercase }}</a>
 		      		</div>
 		    	</div>
 		    </nav>
@@ -16,7 +16,7 @@
 	        <div class="card hoverable" ng-repeat="event in eventsByCategory">
 	            <div class="card-image">
 	                <img materialboxed class="materialboxed responsive-img" alt="" ng-src="{{ event.imageUrl }}">
-	                <span class="card-title blue">
+	                <span class="card-title red">
 	                    <h5 class="font-bold">{{ event.title }}</h5> 
 	                </span>
 	            </div>
@@ -31,7 +31,7 @@
 					<p>{{ event.shortDescription }}</p>                
 	            </div>
 	            <div class="card-action" style="text-align: right;">
-	                <a class="waves-effect waves-light btn orange" ng-href="#/event/title/{{ event.urlTitle }}">Ver mais</a>
+	                <a class="waves-effect waves-light btn red" ng-href="#/event/title/{{ event.urlTitle }}">Ver mais</a>
 	            </div>
 	        </div>
 
@@ -39,71 +39,7 @@
 
         <div class="col s4">
 
-            <div class="card blue">
-                <div class="card-content white-text font-bold">
-
-                    <span class="card-title"><h5 class="font-bold">FILTROS</h5></span>
-
-                    <div class="row">
-
-                        <div class="input-field col s12">
-                            <input id="keyword" type="text" class="validate">
-                            <label for="keyword">Palavra chave</label>
-                        </div>
-
-                        <div class="input-field col s12">
-                            <input id="keyword" type="text" class="validate">
-                            <label for="keyword">Cidade</label>
-                        </div>
-
-                        <div class="input-field col s12">   
-                            Preço                     
-                        </div>
-                        <div class="input-field col s6">
-                            <input placeholder="Mínimo" type="number" class="validate">
-                        </div>
-                        <div class="input-field col s6">
-                            <input placeholder="Máximo" type="number" class="validate">
-                        </div>
-
-                        <div class="input-field col s12">
-                            <i class="material-icons prefix">date_range</i>
-                            <label for="inputCreated">Data do Evento</label>
-                            
-                            <input input-date
-                                type="text"
-                                name="created"
-                                id="inputCreated"
-                                ng-model="currentTime"
-                                container=""
-                                format="dd/mm/yyyy"
-                                months-full="{{ month }}"
-                                months-short="{{ monthShort }}"
-                                weekdays-full="{{ weekdaysFull }}"
-                                weekdays-short="{{ weekdaysShort }}"
-                                weekdays-letter="{{ weekdaysLetter }}"
-                                disable="disable"
-                                min="{{ minDate }}"
-                                max="{{ maxDate }}"
-                                today="today"
-                                first-day="1"
-                                clear="clear"
-                                close="close"
-                                select-years="15"
-                                on-start="onStart()"
-                                on-render="onRender()"
-                                on-open="onOpen()"
-                                on-close="onClose()"
-                                on-set="onSet()"
-                                on-stop="onStop()" />
-                        </div>
-
-                    </div>
-                </div>
-                <div class="card-action" style="text-align: right">
-                    <a class="waves-effect waves-light btn orange font-bold" href="">Filtrar</a>
-                </div>
-            </div>
+            <div ng-include="'views/index/component/filtros.html'"></div>
 
             <div ng-include="'views/index/component/bannerTopEventos.html'"></div>
                 
