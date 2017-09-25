@@ -12,8 +12,10 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 
 	Category findByUrlNameIgnoreCase(String urlName);
 
-	List<Category> findByOrderByAmmountEventsDesc();
+	List<Category> findByAmmountEventsGreaterThanOrderByAmmountEventsDesc(int greaterThen);
 
 	Category findByName(String name);
+
+	List<Category> findByOrderByAmmountEventsDesc();
 
 }

@@ -66,7 +66,7 @@ public class CategoryServiceTest {
 	@DatabaseSetup("/category.xml")
 	public void shouldFindAllCategoriesOrderByAmmountEvent(){
 		
-		List<Category> categories = categoryService.findByOrderByAmmountEventsDesc();
+		List<Category> categories = categoryService.findByAmmountEventsGreaterThanOrderByAmmountEventsDesc(0);
 		
 		Assert.assertEquals(3, categories.size());
 		Assert.assertEquals("Shows", categories.get(0).getName());

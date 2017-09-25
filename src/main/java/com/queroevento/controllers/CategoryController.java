@@ -132,11 +132,18 @@ public class CategoryController {
 
 		return new ResponseEntity<>(category, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/categories/greaterthanzero", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Category>> getCategoriesGreaterThanZero() throws ServletException {
+		
+		return new ResponseEntity<>(categoryService.findByAmmountEventsGreaterThanOrderByAmmountEventsDesc(0), HttpStatus.OK);
+	}
 
 	@RequestMapping(value = "/categories", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Category>> getCategories() throws ServletException {
 
 		return new ResponseEntity<>(categoryService.findByOrderByAmmountEventsDesc(), HttpStatus.OK);
 	}
+
 
 }

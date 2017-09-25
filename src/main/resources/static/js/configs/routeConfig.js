@@ -1,7 +1,8 @@
 angular.module("queroEventoApp").config(function ($routeProvider) {
 	
 	$routeProvider.when("/", {
-		templateUrl: "views/index/home.html"
+		templateUrl: "views/index/home.html",
+		controller: "eventCtrl"
 	});
 
 	$routeProvider.when("/login", {

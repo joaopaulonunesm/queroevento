@@ -11,12 +11,12 @@ angular.module("queroEventoApp").config(function ($routeProvider) {
 	
 	$routeProvider.when("/category/list", {
 		templateUrl: "views/moderator/component/categoria.html",
-		controller: "categoryCtrl"
+		controller: "categoryModeratorCtrl"
 	});
 	
 	$routeProvider.when("/category/insert", {
 		templateUrl: "views/moderator/component/novaCategoria.html",
-		controller: "categoryCtrl"
+		controller: "categoryModeratorCtrl"
 	});
 	
 	$routeProvider.when("/category/edit/:url", {

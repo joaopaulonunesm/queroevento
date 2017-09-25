@@ -1,8 +1,8 @@
 angular.module("queroEventoApp").controller("eventCtrl", function ($scope, $http, eventAPI, $location) {
 	
-	$scope.events = [];
-	
 	$scope.eventsGold = [];
+	
+	$scope.sliderImgs = [];
 	
 	$scope.eventsSilver = [];
 	
@@ -11,27 +11,25 @@ angular.module("queroEventoApp").controller("eventCtrl", function ($scope, $http
 	$scope.search = {word: ""};
 	
 	$scope.eventsByWord = [];
-
-	$scope.getPublishedEvents = function() {
-		
-		eventAPI.getEvents().then(function(response) {
-			
-			$scope.events = response.data;
-			
-		}, function(response) {
-			console.log(response.data);
-			console.log(response.status);
-		});
-
-	};
-
-	$scope.getPublishedEvents();
 	
 	$scope.getEventsGold = function() {
 		
 		eventAPI.getEventsGold().then(function(response) {
 			
 			$scope.eventsGold = response.data;
+			
+			angular.forEach(response.data, function(element) {
+				
+				var img = {
+							route: element.imageUrl,
+							caption: element.title,
+							slogan: element.shortDescription,
+							align: 'center'
+						  };
+				
+				$scope.sliderImgs.push(img);
+
+			});
 			
 		}, function(response) {
 			console.log(response.data);
@@ -90,8 +88,6 @@ angular.module("queroEventoApp").controller("eventCtrl", function ($scope, $http
 			$location.path("/");
 		}
 		
-
 	};
-	
 
 });

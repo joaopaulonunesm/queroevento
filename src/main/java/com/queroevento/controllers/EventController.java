@@ -360,8 +360,8 @@ public class EventController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		List<Event> events = eventService.findByCompanyIdAndEventDateAfterAndCatalogStatusAndStatusOrderByEventDate(company.getId(),
-				new Date(), CatalogStatusEvent.PUBLISHED, StatusEvent.ACTIVE);
+		List<Event> events = eventService.findByCompanyIdAndEventDateAfterAndCatalogStatusAndStatusOrderByEventDate(
+				company.getId(), new Date(), CatalogStatusEvent.PUBLISHED, StatusEvent.ACTIVE);
 
 		return new ResponseEntity<>(events, HttpStatus.OK);
 	}
@@ -426,10 +426,13 @@ public class EventController {
 
 		Category category = categoryService.findByUrlNameIgnoreCase(url);
 
-		return new ResponseEntity<>(
-				eventService.findByEventDateAfterAndCatalogStatusAndStatusAndCategoryIdOrderByEventDate(new Date(),
-						CatalogStatusEvent.PUBLISHED, StatusEvent.ACTIVE, category.getId()),
-				HttpStatus.OK);
+		List<Event> events = eventService.findByEventDateAfterAndCatalogStatusAndStatusAndCategoryIdOrderByEventDate(
+				new Date(), CatalogStatusEvent.PUBLISHED, StatusEvent.ACTIVE, category.getId());
+
+		category.setAmmountEvents(events.size());
+		categoryService.save(category);
+
+		return new ResponseEntity<>(events, HttpStatus.OK);
 	}
 
 	// Verificar necessidade de filtrar por Data, Status de catalogação e Status
@@ -455,11 +458,6 @@ public class EventController {
 
 		List<Event> events = eventService.findByCatalogStatusAndTurbineTypeAndEventDateAfterOrderByEventDate(
 				CatalogStatusEvent.PUBLISHED, TurbineType.SILVER, new Date());
-
-		List<Event> eventsGold = eventService.findByCatalogStatusAndTurbineTypeAndEventDateAfterOrderByEventDate(
-				CatalogStatusEvent.PUBLISHED, TurbineType.GOLD, new Date());
-
-		events.addAll(eventsGold);
 
 		Collections.shuffle(events);
 

@@ -53,7 +53,7 @@ angular.module("queroEventoApp").factory("eventAPI", function ($http, configs){
 	}
 	
 	var _getEvents = function (){
-		return $http.get(configs.baseUrl + '/events/');
+		return $http.get(configs.baseUrl + '/events');
 	}
 	
 	var _getEventsPast = function (){

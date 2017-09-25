@@ -30,6 +30,14 @@ public class CategoryService {
 		return categoryRepository.findByUrlNameIgnoreCase(urlName);
 	}
 
+	public List<Category> findByAmmountEventsGreaterThanOrderByAmmountEventsDesc(int greaterThen) {
+		return categoryRepository.findByAmmountEventsGreaterThanOrderByAmmountEventsDesc(greaterThen);
+	}
+
+	public Category findByName(String name) {
+		return categoryRepository.findByName(name);
+	}
+
 	public List<Category> findByOrderByAmmountEventsDesc() {
 		return categoryRepository.findByOrderByAmmountEventsDesc();
 	}
@@ -43,10 +51,6 @@ public class CategoryService {
 				.replace('ñ', 'n').replace('Ñ', 'N');
 
 		return urlName.toLowerCase();
-	}
-
-	public Category findByName(String name) {
-		return categoryRepository.findByName(name);
 	}
 
 }

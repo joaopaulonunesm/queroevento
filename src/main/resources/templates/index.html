@@ -20,11 +20,13 @@
 <script src="js/configs/baseUrl.js"></script>
 
 <script src="js/directives/ngEnterDirective.js"></script>
+<script src="js/directives/sliderDirective.js"></script>
 
 <script src="js/interceptors/tokenInterceptor.js"></script>
 
 <script src="js/controllers/login/loginCtrl.js"></script>
 <script src="js/controllers/event/index/eventCtrl.js"></script>
+<script src="js/controllers/event/index/searchEventCtrl.js"></script>
 <script src="js/controllers/event/index/eventByCategoryCtrl.js"></script>
 <script src="js/controllers/event/index/eventByUrlTitleCtrl.js"></script>
 <script src="js/controllers/event/index/eventByCompanyCtrl.js"></script>
@@ -40,15 +42,15 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 
 </head>
-<body ng-controller="eventCtrl">
+<body ng-controller="searchEventCtrl">
 	
-	<div ng-controller="categoryCtrl">
+	<div ng-controller= "categoryCtrl">
 	
 		<div ng-include="'views/index/navbar.html'"></div>
 	
 		<ng-view></ng-view>
 		
 	</div>
-
+	
 </body>
 </html>

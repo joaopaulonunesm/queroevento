@@ -23,6 +23,10 @@ angular.module("queroEventoApp").factory("categoryAPI", function ($http, configs
 	var _getCategories = function (){
 		return $http.get(configs.baseUrl + '/categories');
 	}
+	
+	var _getCategoriesGreaterThanZero = function (){
+		return $http.get(configs.baseUrl + '/categories/greaterthanzero');
+	}
 
 	return {
 		postCategory: _postCategory,
@@ -30,7 +34,8 @@ angular.module("queroEventoApp").factory("categoryAPI", function ($http, configs
 		putCategory: _putCategory,
 		getCategoryById: _getCategoryById,
 		getCategoryByUrlName: _getCategoryByUrlName,
-		getCategories: _getCategories
+		getCategories: _getCategories,
+		getCategoriesGreaterThanZero: _getCategoriesGreaterThanZero
     };
 	
 });
