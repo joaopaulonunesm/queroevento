@@ -19,9 +19,15 @@
                 <div class="col s8">
                     <img materialboxed class="materialboxed responsive-img" ng-src="{{ event.imageUrl }}" alt="">
                 </div>
-                <div class="col s7">
+                <div class="col s12">
                 	<p>Status de catalogação: {{ event.catalogStatus }}</p>
-                	<p>Status: {{ event.status }}</p>
+                    <p>Status: {{ event.status }}</p>
+                    <br />
+                    <p>Publicado por <a ng-href="/#/{{ event.company.nameUrl }}">{{ event.company.name }}</a></p>
+                    <p ng-if="event.showPhoneNumber == true">Celular: {{ event.company.cellPhoneNumber }}</p>
+                    <p ng-if="event.showPhoneNumber == true">Telefone: {{ event.company.phoneNumber }}</p>
+                    <p ng-if="event.showEmail == true">Email: {{ event.company.contactEmail }}</p>
+                    <br />
                     <p>Data: {{ event.eventDate | date:"dd/MM/yyyy 'às' HH:mm" }}</p>                    
                     <p>Preço: {{ event.price }}</p>
                     <p>Local: {{ event.local }}</p>
@@ -37,12 +43,6 @@
                     <br />
                     <p>Descrição Detalhada</p>
                     <p>{{ event.completeDescription }}</p>
-                    <br />
-                    <p>Empresa</p>
-                    <p><a ng-href="/#/{{ event.company.nameUrl }}">{{ event.company.name }}</a></p>
-                    <p ng-if="event.showPhoneNumber == true">Celular: {{ event.company.cellPhoneNumber }}</p>
-                    <p ng-if="event.showPhoneNumber == true">Telefone: {{ event.company.phoneNumber }}</p>
-                    <p ng-if="event.showEmail == true">Email: {{ event.company.contactEmail }}</p>
                 </div>
             </div>
             <div class="divider"></div>

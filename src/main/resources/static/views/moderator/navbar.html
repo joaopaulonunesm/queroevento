@@ -1,12 +1,12 @@
 <meta charset="UTF-8" />
 <nav >
-    <div class="nav-wrapper red">
+    <div class="nav-wrapper white">
         <div class="container">
             <a href="#/" class="brand-logo"><img style="margin-top: 15px" src="images/navlogo.png" alt="Logo"></a>
             <ul class="right hide-on-med-and-down">
                 <li>
-                    <a href="/admin">
-                        Admin
+                    <a class="font-bold" href="/admin">
+                        ADMIN
                     </a>
                 </li>
                 <li>
@@ -31,17 +31,17 @@
         	</li>
         </a>
 
-        <li class="bold active"><a href="#/" class="collapsible-header active waves-effect waves-red">Home</a></li>
-        <li class="bold active"><a href="#/events" class="collapsible-header active wavess-effect waves-red">Eventos</a></li>
-        <li class="bold active"><a href="#/category/list" class="collapsible-header active wavess-effect waves-red">Categorias</a>
-        <li class="bold"><a href="#/settings" class="collapsible-header active waves-effect waves-red">Configurações</a></li>
+        <li class="bold active"><a href="#/" class="collapsible-header active waves-effect waves-red">HOME</a></li>
+        <li class="bold active"><a href="#/events" class="collapsible-header active wavess-effect waves-red">EVENTOS</a></li>
+        <li class="bold active"><a href="#/category/list" class="collapsible-header active wavess-effect waves-red">CATEGORIAS</a>
+        <li class="bold"><a href="#/settings" class="collapsible-header active waves-effect waves-red">CONFIGURAÇÕES</a></li>
         <li ng-if="login.company.moderator == true" class="divider"></li>
         <li class="bold" ng-if="login.company.moderator == true">
 	        <a href="/admin" class="collapsible-header active waves-effect waves-red">
-	       		Admin
+	       		ADMIN
 	        </a>
         </li>
         <li class="divider"></li>
-        <li class="bold"><a href="" ng-click="logout()" class="collapsible-header active waves-effect waves-red">Sair</a></li>
+        <li class="bold"><a href="" ng-click="logout()" class="collapsible-header active waves-effect waves-red">SAIR</a></li>
     </ul>
 </ul>

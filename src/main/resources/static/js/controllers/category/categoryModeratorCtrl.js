@@ -1,4 +1,4 @@
-angular.module("queroEventoApp").controller("categoryCtrl", function ($scope, $location, categoryAPI) {
+angular.module("queroEventoApp").controller("categoryModeratorCtrl", function ($scope, $location, categoryAPI) {
 
 	$scope.categories = [];
 	

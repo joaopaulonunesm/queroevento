@@ -1,10 +1,4 @@
 <meta charset="UTF-8" />
-<h4 style="text-align: center">Categorias</h4>
-
-<div class="divider"></div>
-
-<br />
-
 <div class="row">
     <div class="col s6">
         <a class="btn red" href="#/category/insert">Nova Categoria</a>
@@ -34,8 +28,8 @@
             <div class="divider"></div>
             <br />
             <div style="text-align: right;">
-	            <a class="waves-effect waves-light btn red" ng-click="deleteCategory(category.id)"><i class="material-icons left">remove</i>Excluir</a>
-	            <a class="waves-effect waves-light btn red" ng-href="#/category/edit/{{ category.urlName }}"><i class="material-icons left">edit</i>Editar</a>
+	            <a class="waves-effect waves-light btn grey" ng-click="deleteCategory(category.id)"><i class="material-icons left">remove</i>Excluir</a>
+	            <a class="waves-effect waves-light btn blue red" ng-href="#/category/edit/{{ category.urlName }}"><i class="material-icons left">edit</i>Editar</a>
             </div>
         </div>
         

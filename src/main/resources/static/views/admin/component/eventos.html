@@ -5,10 +5,10 @@
     
     	<div class="col s12">
 			<nav style="margin-top: 8px">
-				<div class="nav-wrapper red">
+				<div class="nav-wrapper white">
 			   		<div class="col s12">
-			     	<a href="#/" class="breadcrumb">Home</a>
-			     	<a href="" class="breadcrumb">Meus Eventos</a>
+			     	<a href="#/" class="breadcrumb red-text font-bold">HOME</a>
+			     	<a class="breadcrumb red-text font-bold">MEUS EVENTOS</a>
 			  		</div>
 				</div>
 			</nav>
@@ -47,10 +47,10 @@
 			                    <h6>Evento {{ event.status}}</h6>
 			                    <h6>Status: {{ event.catalogStatus }}</h6>
 			                    <br/>
-			                    <a tooltipped href="" ng-click="deleteEvent(event.id)" class="btn-floating waves-effect waves-light red" data-position="top" data-tooltip="Deletar evento">
+			                    <a tooltipped href="" ng-click="deleteEvent(event.id)" class="btn-floating waves-effect waves-light grey" data-position="top" data-tooltip="Deletar evento">
 			                        <i class="material-icons">remove</i>
 			                    </a>
-			                    <a tooltipped ng-href="#/event/preview/{{ event.urlTitle }}" class="btn-floating waves-effect waves-light red" data-position="top" data-tooltip="Visualizar evento">
+			                    <a tooltipped ng-href="#/event/preview/{{ event.urlTitle }}" class="btn-floating waves-effect waves-light orange" data-position="top" data-tooltip="Visualizar evento">
 			                        <i class="material-icons">visibility</i>
 			                    </a>
 			                    <a tooltipped ng-href="#/event/edit/{{ event.urlTitle }}" class="btn-floating waves-effect waves-light red" data-position="top" data-tooltip="Editar evento">

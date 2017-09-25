@@ -155,6 +155,41 @@ nav ul a:hover {
   background-color: #BF120E;
 }
 
+.dropdown-content li > a, .dropdown-content li > span {
+  font-size: 16px;
+  color: #BF120E;
+  display: block;
+  line-height: 22px;
+  padding: 14px 16px;
+}
+
+.tabs .tab a:hover, .tabs .tab a.active {
+  background-color: transparent;
+  color: #BF120E;
+  font-weight: bold;
+}
+
+.tabs .tab a {
+  color: #BF120E;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0 24px;
+  font-size: 14px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-transition: color .28s ease;
+  transition: color .28s ease;
+}
+
+.tabs .indicator {
+  position: absolute;
+  bottom: 0;
+  height: 2px;
+  background-color: #BF120E;
+  will-change: left, right;
+}
+
 /* ==========================================================================
    INPUT DE DATA
    $BASE-PICKER
