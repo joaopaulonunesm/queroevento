@@ -1,1 +1,13 @@
-<div class="slider" data-images="sliderImgs"></div>
+<div slider>
+	<ul class="slides">	
+		<li ng-repeat="event in eventsGold | limitTo: 5">
+			<img ng-src="{{ event.imageUrl }}" style="opacity: 0.3">
+			<div class="caption center-align">
+				<h3 class="font-bold">{{ event.title }}</h3>
+				<h5>{{ event.shortDescription }}</h5>
+				<br />
+				<a ng-href="#/event/title/{{ event.urlTitle }}" class="waves-effect waves-light btn orange">Ver mais</a>
+			</div>
+		</li>
+	</ul>
+</div>

@@ -2,8 +2,6 @@ angular.module("queroEventoApp").controller("eventCtrl", function ($scope, $http
 	
 	$scope.eventsGold = [];
 	
-	$scope.sliderImgs = [];
-	
 	$scope.eventsSilver = [];
 	
 	$scope.eventsBronze = [];
@@ -17,19 +15,8 @@ angular.module("queroEventoApp").controller("eventCtrl", function ($scope, $http
 		eventAPI.getEventsGold().then(function(response) {
 			
 			$scope.eventsGold = response.data;
-			
-			angular.forEach(response.data, function(element) {
-				
-				var img = {
-							route: element.imageUrl,
-							caption: element.title,
-							slogan: element.shortDescription,
-							align: 'center'
-						  };
-				
-				$scope.sliderImgs.push(img);
 
-			});
+			console.log($scope.eventsGold);
 			
 		}, function(response) {
 			console.log(response.data);
