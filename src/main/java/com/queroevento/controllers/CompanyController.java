@@ -52,10 +52,10 @@ public class CompanyController {
 		return new ResponseEntity<>(companyService.save(existenceCompany), HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/companies/{nameUrl}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Company> findByUrlName(@PathVariable String nameUrl) {
+	@RequestMapping(value = "/companies/{urlName}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Company> findByUrlName(@PathVariable String urlName) {
 
-		Company company = companyService.findByNameUrl(nameUrl);
+		Company company = companyService.findByUrlName(urlName);
 
 		if (company == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);

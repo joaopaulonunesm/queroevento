@@ -49,7 +49,7 @@ public class LoginController {
 		login.setCreateDate(new Date());
 		login.setActive(true);
 
-		company.setNameUrl(companyService.nameToUrlName(company.getName()));
+		company.setUrlName(companyService.nameToUrlName(company.getName()));
 
 		return new ResponseEntity<>(loginService.save(login), HttpStatus.CREATED);
 	}

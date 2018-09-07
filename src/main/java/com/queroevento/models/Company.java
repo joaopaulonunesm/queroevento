@@ -18,9 +18,9 @@ public class Company {
 	@Column(nullable = false)
 	private String name;
 
-	private String nameUrl;
+	private String urlName;
 
-	private String imageUrl;
+	private String urlImage;
 
 	private String state;
 
@@ -52,20 +52,20 @@ public class Company {
 		this.name = name;
 	}
 
-	public String getNameUrl() {
-		return nameUrl;
+	public String getUrlName() {
+		return urlName;
 	}
 
-	public void setNameUrl(String nameUrl) {
-		this.nameUrl = nameUrl;
+	public void setUrlName(String urlName) {
+		this.urlName = urlName;
 	}
 
-	public String getImageUrl() {
-		return imageUrl;
+	public String getUrlImage() {
+		return urlImage;
 	}
 
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
+	public void setUrlImage(String urlImage) {
+		this.urlImage = urlImage;
 	}
 
 	public String getState() {

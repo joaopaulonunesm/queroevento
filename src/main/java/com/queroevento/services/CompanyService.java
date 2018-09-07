@@ -24,8 +24,8 @@ public class CompanyService {
 		return companyRepository.findOne(id);
 	}
 
-	public Company findByNameUrl(String url) {
-		return companyRepository.findByNameUrl(url);
+	public Company findByUrlName(String urlName) {
+		return companyRepository.findByUrlName(urlName);
 	}
 
 	public Company findByNameIgnoreCase(String name) {

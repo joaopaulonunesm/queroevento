@@ -8,7 +8,7 @@ import com.queroevento.models.Company;
 @Repository
 public interface CompanyRepository extends JpaRepository<Company, Long> {
 
-	Company findByNameUrl(String url);
+	Company findByUrlName(String urlName);
 
 	Company findByNameIgnoreCase(String name);
 

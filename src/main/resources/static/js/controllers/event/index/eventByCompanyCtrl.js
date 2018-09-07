@@ -17,11 +17,11 @@ angular.module("queroEventoApp").controller("eventByCompanyCtrl", function ($sco
 
 	};
 
-	$scope.getEventByCompany($routeParams.nameUrl);
+	$scope.getEventByCompany($routeParams.urlName);
 	
-	$scope.getCompanyByNameUrl = function(url) {
+	$scope.getCompanyByUrlName = function(url) {
 		
-		companyAPI.getCompanyByNameUrl(url).then(function(response) {
+		companyAPI.getCompanyByUrlName(url).then(function(response) {
 			
 			$scope.company = response.data;
 			
@@ -32,6 +32,6 @@ angular.module("queroEventoApp").controller("eventByCompanyCtrl", function ($sco
 
 	};
 	
-	$scope.getCompanyByNameUrl($routeParams.nameUrl);
+	$scope.getCompanyByUrlName($routeParams.urlName);
 
 });

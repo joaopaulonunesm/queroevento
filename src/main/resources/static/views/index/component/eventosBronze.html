@@ -4,7 +4,7 @@
 
     <div class="col s12">
 
-        <div class="card hoverable" ng-repeat="event in eventsBronze | limitTo: 10">
+        <div class="card hoverable" ng-repeat="event in events | limitTo: 10">
             <div class="card-image">
                 <img materialboxed class="materialboxed responsive-img" alt="" ng-src="{{ event.imageUrl }}">
                 <span class="card-title red">
@@ -12,7 +12,7 @@
                 </span>
             </div>
             <div class="card-content">
-		        <p>Publicado por <a ng-href="#/{{ event.company.nameUrl }}">{{ event.company.name }}</a></p>
+		        <p>Publicado por <a ng-href="#/{{ event.company.urlName }}">{{ event.company.name }}</a></p>
 		        <br />
 		 	 	<p>Data: {{ event.eventDate | date:"dd/MM/yyyy 'às' HH:mm" }}</p>
                 <p ng-if="event.price > 0">Preço: R${{ event.price }}</p>

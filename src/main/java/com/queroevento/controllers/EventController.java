@@ -354,7 +354,7 @@ public class EventController {
 	@RequestMapping(value = "/events/company/{url}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Event>> getEventsCompanyByUrl(@PathVariable String url) throws ServletException {
 
-		Company company = companyService.findByNameUrl(url);
+		Company company = companyService.findByUrlName(url);
 
 		if (company == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

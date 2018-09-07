@@ -1,6 +1,8 @@
 <meta charset="UTF-8" />
 <div class="row">
 
+	<br/>
+
 	<div class="col s3" ng-repeat="category in categories | limitTo: 4">
 		<a ng-href="#/category/{{ category.urlName }}">
 			<div class="card-panel center-align hoverable red white-text font-bold">
@@ -9,7 +11,7 @@
 		</a>
 	</div>
 
-	<div class="col s12">
+	<!--<div class="col s12">
 		<div ng-include="'views/index/component/bannerTopEventos.html'"></div>
-	</div>
+	</div>-->
 </div>
