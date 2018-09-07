@@ -77,9 +77,9 @@ public class CategoryController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "v1/categories/{url}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "v1/categories/{urlName}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Category> putCategory(@RequestHeader(value = "Authorization") String token,
-			@RequestBody Category category, @PathVariable String url) throws ServletException {
+			@RequestBody Category category, @PathVariable String urlName) throws ServletException {
 
 		Company company = companyService.findByToken(token);
 
@@ -91,7 +91,7 @@ public class CategoryController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		Category existingCategory = categoryService.findByUrlNameIgnoreCase(url);
+		Category existingCategory = categoryService.findByUrlNameIgnoreCase(urlName);
 
 		if (existingCategory == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -102,26 +102,7 @@ public class CategoryController {
 		return new ResponseEntity<>(categoryService.save(category), HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/categories/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Category> getOneCategory(@RequestHeader(value = "Authorization") String token,
-			@PathVariable Long id) throws ServletException {
-
-		Company company = companyService.findByToken(token);
-
-		if (company == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-
-		Category category = categoryService.findOne(id);
-
-		if (category == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-
-		return new ResponseEntity<>(category, HttpStatus.OK);
-	}
-
-	@RequestMapping(value = "/categories/urlname/{urlName}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/categories/{urlName}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Category> getOneCategoryByUrlName(@PathVariable String urlName) throws ServletException {
 
 		Category category = categoryService.findByUrlNameIgnoreCase(urlName);

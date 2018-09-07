@@ -12,27 +12,22 @@ angular.module("queroEventoApp").factory("categoryAPI", function ($http, configs
 		return $http.put(configs.baseUrl + configs.version + '/categories/' + urlName, category);
 	}
 	
-	var _getCategoryById = function (id){
-		return $http.get(configs.baseUrl + '/categories/' + id);
-	}
-	
 	var _getCategoryByUrlName = function (urlName){
-		return $http.get(configs.baseUrl + '/categories/urlname/' + urlName);
-	}
-	
-	var _getCategories = function (){
-		return $http.get(configs.baseUrl + '/categories');
+		return $http.get(configs.baseUrl + '/categories/' + urlName);
 	}
 	
 	var _getCategoriesGreaterThanZero = function (){
 		return $http.get(configs.baseUrl + '/categories/greaterthanzero');
 	}
 
+	var _getCategories = function (){
+		return $http.get(configs.baseUrl + '/categories');
+	}
+
 	return {
 		postCategory: _postCategory,
 		deleteCategory: _deleteCategory,
 		putCategory: _putCategory,
-		getCategoryById: _getCategoryById,
 		getCategoryByUrlName: _getCategoryByUrlName,
 		getCategories: _getCategories,
 		getCategoriesGreaterThanZero: _getCategoriesGreaterThanZero

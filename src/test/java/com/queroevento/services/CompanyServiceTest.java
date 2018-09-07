@@ -65,13 +65,13 @@ public class CompanyServiceTest {
 	}
 
 	@Test
-	public void shouldFindOneCompanyByNameUrl() {
+	public void shouldFindOneCompanyByUrlName() {
 
 		Login login = factoryLoginAndCompany("queroevento1@hotmail.com", "queroevento1", "Quero Evento1");
 		Company company = login.getCompany();
-		company.setNameUrl(companyService.nameToUrlName(company.getName()));
+		company.setUrlName(companyService.nameToUrlName(company.getName()));
 		companyService.save(company);
-		Assert.assertNotNull(companyService.findByNameUrl(company.getNameUrl()));
+		Assert.assertNotNull(companyService.findByUrlName(company.getUrlName()));
 	}
 
 	@Test

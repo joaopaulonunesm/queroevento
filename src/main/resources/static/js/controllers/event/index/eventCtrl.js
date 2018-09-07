@@ -1,5 +1,7 @@
 angular.module("queroEventoApp").controller("eventCtrl", function ($scope, $http, eventAPI, $location) {
 	
+	$scope.events = [];
+
 	$scope.eventsGold = [];
 	
 	$scope.eventsSilver = [];
@@ -56,6 +58,21 @@ angular.module("queroEventoApp").controller("eventCtrl", function ($scope, $http
 	};
 
 	$scope.getEventsBronze();
+
+	$scope.getEvents = function() {
+		
+		eventAPI.getEvents().then(function(response) {
+			
+			$scope.events = response.data;
+			
+		}, function(response) {
+			console.log(response.data);
+			console.log(response.status);
+		});
+
+	};
+
+	$scope.getEvents();
 	
 	$scope.getEventsByWord = function() {
 		

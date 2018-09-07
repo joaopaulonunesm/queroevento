@@ -20,7 +20,7 @@
                     <span class="card-title red"><h5 class="font-bold">{{ eventByUrl.title }}</h5></span>
                 </div>
                 <div class="card-content">
-                    <p>Publicado por <a ng-href="#/{{ eventByUrl.company.nameUrl }}">{{ eventByUrl.company.name }}</a></p>
+                    <p>Publicado por <a ng-href="#/{{ eventByUrl.company.urlName }}">{{ eventByUrl.company.name }}</a></p>
                     <p>{{ eventByUrl.views }} Visualizações</p>
                     <br />
                     <p>Data: {{ eventByUrl.eventDate | date:"dd/MM/yyyy 'às' HH:mm" }}</p>                    

@@ -65,9 +65,13 @@
 			                    <label for="email">Email para Contato</label>
 			                </div>
 						</div>
+						<div class="col s6">
+							<input type="checkbox" class="filled-in" id="moderator" checked="checked" ng-model="login.company.moderator" />
+							<label for="moderator">Moderador</label>
+						</div>
 			            <div class="row">
 			                <div class="col s12" style="text-align: right">
-								<a ng-href="#/profile/{{ login.company.nameUrl }}" class="waves-effect waves-light btn grey">Pré-visualizar Perfil</a>
+								<a ng-href="#/profile/{{ login.company.urlName }}" class="waves-effect waves-light btn grey">Pré-visualizar Perfil</a>
 			                    <a href="#/" class="waves-effect waves-light btn grey">Cancelar</a>
 			                    <a class="waves-effect waves-light btn red" ng-click="putCompany()">Salvar</a>
 			                </div>
