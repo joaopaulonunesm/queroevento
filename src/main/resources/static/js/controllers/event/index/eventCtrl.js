@@ -17,8 +17,6 @@ angular.module("queroEventoApp").controller("eventCtrl", function ($scope, $http
 		eventAPI.getEventsGold().then(function(response) {
 			
 			$scope.eventsGold = response.data;
-
-			console.log($scope.eventsGold);
 			
 		}, function(response) {
 			console.log(response.data);

@@ -2,6 +2,8 @@ package com.queroevento.services;
 
 import java.util.Date;
 
+import javax.servlet.ServletException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +27,7 @@ public class LoginService {
 		loginRepository.delete(login);
 	}
 
-	public Login authenticateLogin(Login login) {
+	public Login authenticate(Login login) {
 
 		if (login.getExpirationTokenDate() != null && login.getExpirationTokenDate().after(new Date())) {
 
@@ -53,7 +55,18 @@ public class LoginService {
 	}
 
 	public Login findByToken(String token) {
-		return loginRepository.findByToken(token);
+		return loginRepository.findByToken(token.substring(7));
+	}
+	
+	public Login validateLogin(String token) throws ServletException  {
+
+		Login login = findByToken(token);
+
+		if (login == null) {
+			throw new ServletException("Autenticação inválida!");
+		}
+
+		return login;
 	}
 
 }

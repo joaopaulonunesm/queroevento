@@ -16,17 +16,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.queroevento.models.Company;
 import com.queroevento.models.Login;
-import com.queroevento.services.CompanyService;
+import com.queroevento.services.ConfigureService;
 import com.queroevento.services.LoginService;
 
 @Controller
-public class LoginController {
+public class LoginController extends ConfigureService {
 
 	@Autowired
 	private LoginService loginService;
-
-	@Autowired
-	private CompanyService companyService;
 
 	@RequestMapping(value = "/logins", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Login> postLogin(@RequestBody Login login) {
@@ -49,20 +46,16 @@ public class LoginController {
 		login.setCreateDate(new Date());
 		login.setActive(true);
 
-		company.setUrlName(companyService.nameToUrlName(company.getName()));
+		company.setUrlName(utils.stringToUrl(company.getName()));
 
 		return new ResponseEntity<>(loginService.save(login), HttpStatus.CREATED);
 	}
 
 	@RequestMapping(value = "v1/logins/password", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Login> putLoginPassword(@RequestHeader(value = "Authorization") String token,
-			@RequestBody Login login) {
+			@RequestBody Login login) throws ServletException {
 
-		Login existenceLogin = loginService.findByToken(token);
-
-		if (existenceLogin == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+		Login existenceLogin = loginService.validateLogin(token);
 
 		if (login.getPassword() == null || login.getPassword().isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -75,13 +68,9 @@ public class LoginController {
 
 	@RequestMapping(value = "v1/logins/active", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Login> putLoginActive(@RequestHeader(value = "Authorization") String token,
-			@RequestBody Login login) {
+			@RequestBody Login login) throws ServletException {
 
-		Login existenceLogin = loginService.findByToken(token);
-
-		if (existenceLogin == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+		Login existenceLogin = loginService.validateLogin(token);
 
 		if (login.getActive() != null && login.getActive() != existenceLogin.getActive()) {
 			existenceLogin.setActive(login.getActive());
@@ -91,13 +80,10 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "v1/logins", method = RequestMethod.DELETE)
-	public ResponseEntity<Login> deleteLogin(@RequestHeader(value = "Authorization") String token) {
+	public ResponseEntity<Login> deleteLogin(@RequestHeader(value = "Authorization") String token)
+			throws ServletException {
 
-		Login existenceLogin = loginService.findByToken(token);
-
-		if (existenceLogin == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+		Login existenceLogin = loginService.validateLogin(token);
 
 		loginService.delete(existenceLogin);
 
@@ -121,16 +107,14 @@ public class LoginController {
 			throw new ServletException("Username ou Password inválido.");
 		}
 
-		return new ResponseEntity<>(loginService.authenticateLogin(existenceLogin), HttpStatus.OK);
+		return new ResponseEntity<>(loginService.authenticate(existenceLogin), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "v1/logins", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Login> getOneEvent(@RequestHeader(value = "Authorization") String token)
 			throws ServletException {
 
-		String formattedToken = token.substring(7);
-
-		Login login = loginService.findByToken(formattedToken);
+		Login login = loginService.validateLogin(token);
 
 		if (login == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -138,4 +122,5 @@ public class LoginController {
 
 		return new ResponseEntity<>(login, HttpStatus.OK);
 	}
+
 }
