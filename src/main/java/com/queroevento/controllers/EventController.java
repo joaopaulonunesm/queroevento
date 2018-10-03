@@ -20,34 +20,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.queroevento.models.Category;
-import com.queroevento.models.Event;
 import com.queroevento.models.Company;
-import com.queroevento.services.CategoryService;
+import com.queroevento.models.Event;
+import com.queroevento.services.ConfigureService;
 import com.queroevento.services.EventService;
-import com.queroevento.services.CompanyService;
 import com.queroevento.utils.CatalogStatusEvent;
 import com.queroevento.utils.StatusEvent;
 import com.queroevento.utils.TurbineType;
 
 @Controller
-public class EventController {
+public class EventController extends ConfigureService {
 
 	@Autowired
 	private EventService eventService;
-
-	@Autowired
-	private CompanyService companyService;
-
-	@Autowired
-	private CategoryService categoryService;
 
 	@RequestMapping(value = "v1/events", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Event> postEvent(@RequestHeader(value = "Authorization") String token,
 			@RequestBody Event event) throws ServletException {
 
-		Company company = companyService.findByToken(token);
+		Company company = companyService.validateCompanyByToken(token);
 
-		validateEventFields(event, company);
+		eventService.validateEventFields(event);
 
 		Category category = categoryService.findOne(event.getCategory().getId());
 
@@ -59,7 +52,7 @@ public class EventController {
 		event.setCategory(category);
 		event.setPeopleEstimate(0);
 		event.setCreateEventDate(new Date());
-		event.setUrlTitle(eventService.titleToUrlTitle(event));
+		event.setUrlTitle(utils.stringToUrl(event, event.getTitle()));
 		event.setCatalogStatus(CatalogStatusEvent.CATALOGING);
 		event.setStatus(StatusEvent.ACTIVE);
 		event.setViews(0L);
@@ -73,12 +66,12 @@ public class EventController {
 	public ResponseEntity<Event> putEvent(@RequestHeader(value = "Authorization") String token,
 			@RequestBody Event event, @PathVariable String urlTitle) throws ServletException {
 
-		Company company = companyService.findByToken(token);
+		Company company = companyService.validateCompanyByToken(token);
 
-		validateEventFields(event, company);
+		eventService.validateEventFields(event);
 
 		Category category = categoryService.findOne(event.getCategory().getId());
-
+		
 		// Verifica se a categoria informada existe
 		if (category == null) {
 			throw new ServletException("Categoria não existente. Por favor informe uma categoria existente.");
@@ -108,7 +101,7 @@ public class EventController {
 		event.setCatalogStatus(existenceEvent.getCatalogStatus());
 		event.setCompany(company);
 		event.setCatalogStatus(CatalogStatusEvent.CATALOGING);
-		event.setUrlTitle(eventService.titleToUrlTitle(event));
+		event.setUrlTitle(utils.stringToUrl(event, event.getTitle()));
 		event.setCategory(category);
 
 		Category oldCategory = existenceEvent.getCategory();
@@ -122,11 +115,7 @@ public class EventController {
 	public ResponseEntity<Event> putEventPeopleEstimate(@RequestHeader(value = "Authorization") String token,
 			@PathVariable Long id) throws ServletException {
 
-		Company comapany = companyService.findByToken(token);
-
-		if (comapany == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+		Company comapany = companyService.validateCompanyByToken(token);
 
 		Event existenceEvent = eventService.findOne(id);
 
@@ -149,11 +138,7 @@ public class EventController {
 	public ResponseEntity<Event> putEventStatus(@RequestHeader(value = "Authorization") String token,
 			@RequestBody Event event, @PathVariable Long id) throws ServletException {
 
-		Company company = companyService.findByToken(token);
-
-		if (company == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+		Company company = companyService.validateCompanyByToken(token);
 
 		Event existenceEvent = eventService.findOne(id);
 
@@ -180,20 +165,12 @@ public class EventController {
 	public ResponseEntity<Event> putEventStatusCalog(@RequestHeader(value = "Authorization") String token,
 			@RequestBody Event event, @PathVariable Long id) throws ServletException {
 
-		Company company = companyService.findByToken(token);
-
-		if (company == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+		companyService.validateCompanyModeratorByToken(token);
 
 		Event existenceEvent = eventService.findOne(id);
 
 		if (existenceEvent == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-
-		if (!company.getModerator()) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
 		if (event.getCatalogStatus() == null) {
@@ -206,7 +183,7 @@ public class EventController {
 
 		Category category = existenceEvent.getCategory();
 
-		eventService.refreshAmmountEventsInCategory(category);
+		eventService.updateAmmountEventsInCategory(category);
 		categoryService.save(category);
 
 		return new ResponseEntity<>(existenceEvent, HttpStatus.OK);
@@ -216,11 +193,7 @@ public class EventController {
 	public ResponseEntity<Event> putEventTurbineType(@RequestHeader(value = "Authorization") String token,
 			@RequestBody Event event, @PathVariable Long id) throws ServletException {
 
-		Company company = companyService.findByToken(token);
-
-		if (company == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+		Company company = companyService.validateCompanyByToken(token);
 
 		Event existenceEvent = eventService.findOne(id);
 
@@ -249,11 +222,7 @@ public class EventController {
 	public ResponseEntity<Event> deleteEvent(@RequestHeader(value = "Authorization") String token,
 			@PathVariable Long id) throws ServletException {
 
-		Company company = companyService.findByToken(token);
-
-		if (company == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+		Company company = companyService.validateCompanyByToken(token);
 
 		Event event = eventService.findOne(id);
 
@@ -274,15 +243,7 @@ public class EventController {
 	public ResponseEntity<List<Event>> getEventByCatalogStatusPending(
 			@RequestHeader(value = "Authorization") String token) throws ServletException {
 
-		Company company = companyService.findByToken(token);
-
-		if (company == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-
-		if (!company.getModerator()) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+		companyService.validateCompanyModeratorByToken(token);
 
 		List<Event> events = eventService.findByCatalogStatusOrderByEventDate(CatalogStatusEvent.CATALOGING);
 
@@ -293,15 +254,7 @@ public class EventController {
 	public ResponseEntity<List<Event>> getEventByCatalogStatusRefused(
 			@RequestHeader(value = "Authorization") String token) throws ServletException {
 
-		Company company = companyService.findByToken(token);
-
-		if (company == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-
-		if (!company.getModerator()) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+		companyService.validateCompanyModeratorByToken(token);
 
 		List<Event> events = eventService.findByCatalogStatusOrderByEventDate(CatalogStatusEvent.REFUSED);
 
@@ -312,15 +265,7 @@ public class EventController {
 	public ResponseEntity<List<Event>> getEventByStatus(@RequestHeader(value = "Authorization") String token)
 			throws ServletException {
 
-		Company company = companyService.findByToken(token);
-
-		if (company == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-
-		if (!company.getModerator()) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+		companyService.validateCompanyModeratorByToken(token);
 
 		List<Event> events = eventService.findByStatusOrderByEventDate(StatusEvent.CANCELED);
 
@@ -331,11 +276,7 @@ public class EventController {
 	public ResponseEntity<List<Event>> getEventByCompany(@RequestHeader(value = "Authorization") String token)
 			throws ServletException {
 
-		Company company = companyService.findByToken(token);
-
-		if (company == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+		Company company = companyService.validateCompanyByToken(token);
 
 		List<Event> events = eventService.findByCompanyId(company.getId());
 
@@ -345,14 +286,14 @@ public class EventController {
 	// Publicos
 
 	@RequestMapping(value = "/events", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Event>> getAllEventOrderByDate() throws ServletException {
+	public ResponseEntity<List<Event>> getAllEventOrderByDate() {
 
 		return new ResponseEntity<>(eventService.findByEventDateAfterAndCatalogStatusAndStatusOrderByEventDate(
 				new Date(), CatalogStatusEvent.PUBLISHED, StatusEvent.ACTIVE), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/events/company/{url}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Event>> getEventsCompanyByUrl(@PathVariable String url) throws ServletException {
+	public ResponseEntity<List<Event>> getEventsCompanyByUrl(@PathVariable String url) {
 
 		Company company = companyService.findByUrlName(url);
 
@@ -367,9 +308,9 @@ public class EventController {
 	}
 
 	@RequestMapping(value = "/events/search/{word}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Set<Event>> getAllEventsByWord(@PathVariable String word) throws ServletException {
+	public ResponseEntity<Set<Event>> getAllEventsByWord(@PathVariable String word) {
 
-		List<Event> eventsList = eventService.findWordInTitleAndCategoryAndKeywordAndStateAndCity(word);
+		List<Event> eventsList = eventService.findByWord(word);
 
 		Set<Event> events = new LinkedHashSet<>();
 
@@ -380,7 +321,7 @@ public class EventController {
 
 	// Verificar necessidade de filtrar por Data, Status de catalogação e Status
 	@RequestMapping(value = "/events/keyword/{keyword}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Event>> getEventByKeywordIgnoreCase(String keyword) throws ServletException {
+	public ResponseEntity<List<Event>> getEventByKeywordIgnoreCase(String keyword) {
 
 		List<Event> events = eventService.getEventByKeywordIgnoreCaseOrderByEventDate(keyword);
 
@@ -388,7 +329,7 @@ public class EventController {
 	}
 
 	@RequestMapping(value = "/events/urltitle/{url}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Event> getEventByUrlTitle(@PathVariable String url) throws ServletException {
+	public ResponseEntity<Event> getEventByUrlTitle(@PathVariable String url) {
 
 		Event event = eventService.findByUrlTitle(url);
 
@@ -403,7 +344,7 @@ public class EventController {
 	}
 
 	@RequestMapping(value = "/events/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Event> getOneEvent(@PathVariable Long id) throws ServletException {
+	public ResponseEntity<Event> getOneEvent(@PathVariable Long id) {
 
 		Event event = eventService.findOne(id);
 
@@ -415,14 +356,14 @@ public class EventController {
 	}
 
 	@RequestMapping(value = "/events/past", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Event>> getAllPastEventOrderByDate() throws ServletException {
+	public ResponseEntity<List<Event>> getAllPastEventOrderByDate() {
 
 		return new ResponseEntity<>(eventService.findByEventDateBeforeAndCatalogStatusOrderByEventDateDesc(new Date(),
 				CatalogStatusEvent.PUBLISHED), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/events/category/{url}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Event>> getAllEventByCategory(@PathVariable String url) throws ServletException {
+	public ResponseEntity<List<Event>> getAllEventByCategory(@PathVariable String url) {
 
 		Category category = categoryService.findByUrlNameIgnoreCase(url);
 
@@ -437,13 +378,13 @@ public class EventController {
 
 	// Verificar necessidade de filtrar por Data, Status de catalogação e Status
 	@RequestMapping(value = "/events/estimate", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Event>> getAllEventOrderByConfirmedPresenceDesc() throws ServletException {
+	public ResponseEntity<List<Event>> getAllEventOrderByConfirmedPresenceDesc() {
 
 		return new ResponseEntity<>(eventService.findByOrderByPeopleEstimateDesc(), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/events/type/turbine/gold", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Event>> getByTurbineTypeGold() throws ServletException {
+	public ResponseEntity<List<Event>> getByTurbineTypeGold() {
 
 		List<Event> events = eventService.findByCatalogStatusAndTurbineTypeAndEventDateAfterOrderByEventDate(
 				CatalogStatusEvent.PUBLISHED, TurbineType.GOLD, new Date());
@@ -454,7 +395,7 @@ public class EventController {
 	}
 
 	@RequestMapping(value = "/events/type/turbine/silver", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Event>> getByTurbineTypeSilver() throws ServletException {
+	public ResponseEntity<List<Event>> getByTurbineTypeSilver() {
 
 		List<Event> events = eventService.findByCatalogStatusAndTurbineTypeAndEventDateAfterOrderByEventDate(
 				CatalogStatusEvent.PUBLISHED, TurbineType.SILVER, new Date());
@@ -465,7 +406,7 @@ public class EventController {
 	}
 
 	@RequestMapping(value = "/events/type/turbine/bronze", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Event>> getByTurbineTypeBronze() throws ServletException {
+	public ResponseEntity<List<Event>> getByTurbineTypeBronze() {
 
 		List<Event> events = eventService.findByCatalogStatusAndTurbineTypeAndEventDateAfterOrderByEventDate(
 				CatalogStatusEvent.PUBLISHED, TurbineType.BRONZE, new Date());
@@ -473,45 +414,6 @@ public class EventController {
 		Collections.shuffle(events);
 
 		return new ResponseEntity<>(events, HttpStatus.OK);
-	}
-
-	private void validateEventFields(Event event, Company company) throws ServletException {
-
-		// Verifica se a company existe pelo token informado
-		if (company == null) {
-			throw new ServletException("Empresa não existente.");
-		}
-
-		// Verifica se o titulo é vazio ou nulo
-		if (event.getTitle() == null || event.getTitle().isEmpty()) {
-			throw new ServletException("O título não pode ser nulo ou vazio. Por favor informe o título.");
-		}
-
-		// Verifica se existe data no evento
-		if (event.getEventDate() == null) {
-			throw new ServletException("Por favor informe uma data para o evento.");
-		}
-
-		// Verifica se a data do evento é antes da data atual
-		if (event.getEventDate().before(new Date())) {
-			throw new ServletException(
-					"A data não pode ser menor do que a data atual. Por favor informe uma data futura.");
-		}
-
-		// Verifica se o preço está nulo
-		if (event.getPrice() == null) {
-			throw new ServletException("Por favor informe um preço que seja maior que zero.");
-		}
-
-		// Verifica se a categoria está nula
-		if (event.getCategory() == null) {
-			throw new ServletException("Por favor informe uma categoria.");
-		}
-
-		// Verifica se o local é vazio ou nulo
-		if (event.getLocal().isEmpty() || event.getLocal() == null) {
-			throw new ServletException("Por favor informe o local do evento.");
-		}
 	}
 
 }

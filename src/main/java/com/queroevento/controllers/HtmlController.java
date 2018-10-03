@@ -15,7 +15,7 @@ public class HtmlController {
 	public String admin() {
 		return "admin";
 	}
-	
+
 	@RequestMapping("/moderator")
 	public String moderator() {
 		return "moderator";

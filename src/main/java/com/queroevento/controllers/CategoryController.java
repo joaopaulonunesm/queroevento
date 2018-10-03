@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,38 +15,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.queroevento.models.Category;
-import com.queroevento.models.Company;
-import com.queroevento.services.CategoryService;
-import com.queroevento.services.CompanyService;
+import com.queroevento.services.ConfigureService;
 
 @Controller
-public class CategoryController {
-
-	@Autowired
-	private CategoryService categoryService;
-
-	@Autowired
-	private CompanyService companyService;
+public class CategoryController extends ConfigureService {
 
 	@RequestMapping(value = "v1/categories", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Category> postCategory(@RequestHeader(value = "Authorization") String token,
 			@RequestBody Category category) throws ServletException {
 
-		Company company = companyService.findByToken(token);
+		companyService.validateCompanyModeratorByToken(token);
 
-		if (company == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-
-		if (!company.getModerator()) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-		
 		if(categoryService.findByName(category.getName()) != null ){
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		category.setUrlName(categoryService.nameToUrlName(category.getName()));
+		category.setUrlName(utils.stringToUrl(category.getName()));
 
 		return new ResponseEntity<>(categoryService.save(category), HttpStatus.CREATED);
 	}
@@ -56,15 +39,7 @@ public class CategoryController {
 	public ResponseEntity<Category> deleteCategory(@RequestHeader(value = "Authorization") String token,
 			@PathVariable Long id) throws ServletException {
 
-		Company company = companyService.findByToken(token);
-
-		if (company == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-
-		if (company.getModerator() == false) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+		companyService.validateCompanyModeratorByToken(token);
 
 		Category category = categoryService.findOne(id);
 
@@ -81,15 +56,7 @@ public class CategoryController {
 	public ResponseEntity<Category> putCategory(@RequestHeader(value = "Authorization") String token,
 			@RequestBody Category category, @PathVariable String urlName) throws ServletException {
 
-		Company company = companyService.findByToken(token);
-
-		if (company == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-
-		if (company.getModerator() == false) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+		companyService.validateCompanyModeratorByToken(token);
 
 		Category existingCategory = categoryService.findByUrlNameIgnoreCase(urlName);
 
@@ -103,7 +70,7 @@ public class CategoryController {
 	}
 
 	@RequestMapping(value = "/categories/{urlName}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Category> getOneCategoryByUrlName(@PathVariable String urlName) throws ServletException {
+	public ResponseEntity<Category> getOneCategoryByUrlName(@PathVariable String urlName) {
 
 		Category category = categoryService.findByUrlNameIgnoreCase(urlName);
 
@@ -115,13 +82,13 @@ public class CategoryController {
 	}
 	
 	@RequestMapping(value = "/categories/greaterthanzero", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Category>> getCategoriesGreaterThanZero() throws ServletException {
+	public ResponseEntity<List<Category>> getCategoriesGreaterThanZero() {
 		
 		return new ResponseEntity<>(categoryService.findByAmmountEventsGreaterThanOrderByAmmountEventsDesc(0), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/categories", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Category>> getCategories() throws ServletException {
+	public ResponseEntity<List<Category>> getCategories() {
 
 		return new ResponseEntity<>(categoryService.findByOrderByAmmountEventsDesc(), HttpStatus.OK);
 	}

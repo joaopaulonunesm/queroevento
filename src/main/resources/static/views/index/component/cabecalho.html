@@ -15,3 +15,12 @@
 		<div ng-include="'views/index/component/bannerTopEventos.html'"></div>
 	</div>-->
 </div>
+
+<div class="row">
+
+	<div class="container input-field col s12">
+		<i class="material-icons prefix">search</i>
+		<input class="black-text" id="icon_prefix" ng-keyup="getEventsByWord()" ng-enter="getEventsByWord()" ng-model="search.word" placeholder="Onde você quer ir?" type="text" />
+	</div>
+
+</div>
