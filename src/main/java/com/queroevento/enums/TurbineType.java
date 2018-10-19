@@ -1,4 +1,4 @@
-package com.queroevento.utils;
+package com.queroevento.enums;
 
 public enum TurbineType {
 

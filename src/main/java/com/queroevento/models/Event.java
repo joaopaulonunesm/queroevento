@@ -16,9 +16,9 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Type;
 
-import com.queroevento.utils.CatalogStatusEvent;
-import com.queroevento.utils.StatusEvent;
-import com.queroevento.utils.TurbineType;
+import com.queroevento.enums.CatalogStatusEvent;
+import com.queroevento.enums.StatusEvent;
+import com.queroevento.enums.TurbineType;
 
 @Entity
 public class Event {

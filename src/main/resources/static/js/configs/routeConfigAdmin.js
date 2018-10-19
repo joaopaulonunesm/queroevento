@@ -22,6 +22,11 @@ angular.module("queroEventoApp").config(function ($routeProvider) {
 		controller: "adminEditEventCtrl"
 	});
 
+	$routeProvider.when("/event/turbine/:url", {
+		templateUrl: "views/admin/component/turbinarEvento.html",
+		controller: "adminEditEventCtrl"
+	});
+
 	$routeProvider.when("/event/preview/:url", {
 		templateUrl: "views/admin/component/visualizarEvento.html",
 		controller: "adminEditEventCtrl"

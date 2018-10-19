@@ -1,32 +1,30 @@
 <meta charset="UTF-8" />
-<ul class="collection hoverable with-header">
-    <li class="collection-header red white-text"><h5 class="font-bold" style="text-align: center;">MAIS ESPERADOS</h5></li>
-    <li class="collection-item">
 
-        <div class="row">
+<div class="row">
 
-            <div class="col s4" ng-repeat="event in eventsSilver | limitTo: 6">
-	            <div class="card hoverable">
-	                <div class="card-image waves-effect waves-block waves-light">
-	                    <a ng-href="#/event/title/{{ event.urlTitle }}"><img class="activator responsive-img" ng-src="{{ event.imageUrl }}"></a>
-	                </div>
-	                <div class="card-content">
-	                	<a class="card-title activator grey-text text-darken-4" ng-href="#/event/title/{{ event.urlTitle }}">
-	                		<h5 class="font-bold">{{ event.title }}</h5>
-	                	</a>
-				        <p>Publicado por <a ng-href="#/{{ event.company.urlName }}">{{ event.company.name }}</a></p>
-				        <br />
-				 	 	<p>Data: {{ event.eventDate | date:"dd/MM/yyyy 'às' HH:mm" }}</p>
-						<p ng-if="event.price > 0">Preço: R${{ event.price }}</p>
-						<p ng-if="event.price == 0">Preço: DE GRAÇA</p>
-				        <p>Local: {{ event.local }}</p>
-				        <br />
-	                    <p style="text-align: right"><a class="waves-effect waves-light btn red" ng-href="#/event/title/{{ event.urlTitle }}">Ver mais</a></p>
-	                </div>
-	            </div>
+    <div class="col s12">
+
+        <div class="card hoverable" ng-repeat="event in eventsSilver | limitTo: 5">
+            <div class="card-image">
+                <img materialboxed class="materialboxed responsive-img" alt="" ng-src="{{ event.imageUrl }}">
+                <span class="card-title red">
+                    <h5 class="font-bold">{{ event.title }}</h5> 
+                </span>
             </div>
-
+            <div class="card-content">
+		        <p>Publicado por <a ng-href="#/{{ event.company.urlName }}">{{ event.company.name }}</a></p>
+		        <br />
+		 	 	<p>Data: {{ event.eventDate | date:"dd/MM/yyyy 'às' HH:mm" }}</p>
+                <p ng-if="event.price > 0">Preço: R${{ event.price }}</p>
+                <p ng-if="event.price == 0">Preço: DE GRAÇA</p>
+		        <p>Local: {{ event.local }}</p>
+		        <br />
+				<p>{{ event.shortDescription }}</p>                
+            </div>
+            <div class="card-action" style="text-align: right;">
+                <a class="waves-effect waves-light btn red" ng-href="#/event/title/{{ event.urlTitle }}">Ver mais</a>
+            </div>
         </div>
 
-    </li>
-</ul>
+    </div>
+</div>

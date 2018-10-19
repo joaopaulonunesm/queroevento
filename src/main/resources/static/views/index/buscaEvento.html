@@ -8,7 +8,7 @@
 		    	<div class="nav-wrapper white">
 	        		<div class="col s12">
 			        	<a href="#/" class="breadcrumb red-text font-bold">HOME</a>
-			        	<a class="breadcrumb red-text font-bold">BUSCA</a>
+			        	<a class="breadcrumb red-text font-bold">BUSCA ({{ eventsByWord.length }})</a>
 		      		</div>
 		    	</div>
 		    </nav>
@@ -37,12 +37,7 @@
 
         </div>
 
-        <div class="col s4">
-
-		  	<div>
-		    	<h5 class="right-align"><i class="material-icons red-text">add</i> {{ eventsByWord.length }}</h5>
-			  </div>
-				  
+        <div class="col s4" ng-controller="eventCtrl">
 		  
             <div ng-include="'views/index/component/filtros.html'"></div>
 
@@ -52,7 +47,13 @@
             
             <br/>
 
-            <div ng-include="'views/index/component/bannerTopEventos.html'"></div>
+			<div ng-include="'views/index/component/bannerTopEventos.html'"></div>
+			
+            <br/>
+            
+            <div class="divider"></div>
+            
+            <br/>
             
 			<div ng-include="'views/index/component/topEventosPage.html'"></div>
 

@@ -1,4 +1,4 @@
-package com.queroevento;
+package com.queroevento.utils;
 
 import java.io.IOException;
 
@@ -15,13 +15,6 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-/**
- *
- * More details:
- * https://spring.io/blog/2015/01/20/the-resource-server-angular-js-and-spring-
- * security-part-iii#cors-negotiation
- *
- */
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class CorsFilter implements Filter {
@@ -45,11 +38,11 @@ public class CorsFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) {
-		// doNothing
+	
 	}
 
 	@Override
 	public void destroy() {
-		// doNothing
+
 	}
 }

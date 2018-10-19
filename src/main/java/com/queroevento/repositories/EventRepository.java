@@ -7,10 +7,10 @@ import java.util.Set;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.queroevento.enums.CatalogStatusEvent;
+import com.queroevento.enums.StatusEvent;
+import com.queroevento.enums.TurbineType;
 import com.queroevento.models.Event;
-import com.queroevento.utils.CatalogStatusEvent;
-import com.queroevento.utils.StatusEvent;
-import com.queroevento.utils.TurbineType;
 
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {

@@ -31,6 +31,21 @@ angular.module("queroEventoApp").controller("adminEditEventCtrl", function ($sco
 		});
 
 	};
+
+	$scope.putEventTurbineType = function(id, turbineType) {
+
+		$scope.event.turbineType = turbineType;
+		
+		eventAPI.putEventTurbineType(id, $scope.event).then(function(response) {
+
+			$location.path("/event/list");
+			
+		}, function(response) {
+			console.log(response.data);
+			console.log(response.status);
+		});
+
+	};
 	
 	function stringToDate(date, time) {
 		

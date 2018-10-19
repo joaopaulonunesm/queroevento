@@ -33,7 +33,7 @@
 			        <div class="card-panel hoverable grey lighten-5 z-depth-1">
 			            <div class="row valign-wrapper">
 			                <div class="col s8">
-			                    <img materialboxed class="materialboxed responsive-img" ng-src="{{ event.imageUrl }}" alt="">
+			                    <img materialboxed class="materialboxed responsive-img" ng-src="{{ event.imageUrl }}" alt="" >
 			                </div>
 			                <div class="col s8">
 			                    <span class="title"><h5>{{ event.title }}</h5></span>
@@ -55,7 +55,10 @@
 			                    </a>
 			                    <a tooltipped ng-href="#/event/edit/{{ event.urlTitle }}" class="btn-floating waves-effect waves-light red" data-position="top" data-tooltip="Editar evento">
 			                        <i class="material-icons">edit</i>
-			                    </a>
+								</a>
+								<br/>
+								<br/>
+								<a class="btn red" margin-top=5px ng-href="#/event/turbine/{{ event.urlTitle }}">TURBINAR</a>
 			                </div>
 			            </div>
 			        </div>

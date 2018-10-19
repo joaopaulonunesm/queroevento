@@ -11,12 +11,12 @@ import javax.servlet.ServletException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.queroevento.enums.CatalogStatusEvent;
+import com.queroevento.enums.StatusEvent;
+import com.queroevento.enums.TurbineType;
 import com.queroevento.models.Category;
 import com.queroevento.models.Event;
 import com.queroevento.repositories.EventRepository;
-import com.queroevento.utils.CatalogStatusEvent;
-import com.queroevento.utils.StatusEvent;
-import com.queroevento.utils.TurbineType;
 
 @Service
 public class EventService {

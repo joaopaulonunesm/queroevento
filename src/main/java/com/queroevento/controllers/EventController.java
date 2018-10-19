@@ -19,14 +19,14 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.queroevento.enums.CatalogStatusEvent;
+import com.queroevento.enums.StatusEvent;
+import com.queroevento.enums.TurbineType;
 import com.queroevento.models.Category;
 import com.queroevento.models.Company;
 import com.queroevento.models.Event;
 import com.queroevento.services.ConfigureService;
 import com.queroevento.services.EventService;
-import com.queroevento.utils.CatalogStatusEvent;
-import com.queroevento.utils.StatusEvent;
-import com.queroevento.utils.TurbineType;
 
 @Controller
 public class EventController extends ConfigureService {
