@@ -1,4 +1,4 @@
-angular.module("queroEventoApp").controller("eventByCompanyCtrl", function ($scope, $http, eventAPI, categoryAPI, companyAPI, $routeParams) {
+angular.module("queroEventoApp").controller("eventByCompanyCtrl", function ($scope, $http, eventAPI, categoryAPI, companyAPI, $routeParams, $location) {
 
 	$scope.eventsByCompany = [];
 	
@@ -26,6 +26,7 @@ angular.module("queroEventoApp").controller("eventByCompanyCtrl", function ($sco
 			$scope.company = response.data;
 			
 		}, function(response) {
+			$location.path("/");
 			console.log(response.data);
 			console.log(response.status);
 		});

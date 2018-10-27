@@ -7,8 +7,10 @@ import javax.servlet.ServletException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.queroevento.models.Company;
 import com.queroevento.models.Login;
 import com.queroevento.repositories.LoginRepository;
+import com.queroevento.utils.Utils;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -18,6 +20,12 @@ public class LoginService {
 
 	@Autowired
 	private LoginRepository loginRepository;
+	
+	@Autowired
+	public CompanyService companyService;
+	
+	@Autowired
+	public Utils utils;
 
 	public Login save(Login login) {
 		return loginRepository.save(login);
@@ -27,13 +35,110 @@ public class LoginService {
 		loginRepository.delete(login);
 	}
 
-	public Login authenticate(Login login) {
+	public Login authenticate(Login login) throws ServletException {
 
-		if (login.getExpirationTokenDate() != null && login.getExpirationTokenDate().after(new Date())) {
+		if (login.getEmail() == null || login.getPassword() == null) {
+			throw new ServletException("Informe seu Email e Senha.");
+		}
 
-			return login;
+		Login existenceLogin = getOneByEmail(login.getEmail());
 
-		} else if (login.getExpirationTokenDate() == null || login.getExpirationTokenDate().before(new Date())) {
+		if (!login.getPassword().equals(existenceLogin.getPassword())) {
+			throw new ServletException("Email ou Senha inválido, favor tente novamente.");
+		}
+		
+		validateExpirationTokenDate(existenceLogin);
+		
+		return existenceLogin;
+	}
+	
+	public Login validateLogin(String token) throws ServletException  {
+
+		Login login = findByToken(token);
+
+		if (login == null) {
+			throw new ServletException("Login não encontrado.");
+		}
+		
+		validateExpirationTokenDate(login);
+
+		return login;
+	}
+
+	public Login postLogin(Login login) throws ServletException {
+
+		Company company = login.getCompany();
+
+		validateLogin(login, company);
+
+		login.setCreateDate(new Date());
+		login.setActive(true);
+
+		company.setUrlName(utils.stringToUrl(company.getName()));
+		
+		return save(login);
+	}
+
+	public Login putLoginPassword(Login login, Login existenceLogin) throws ServletException {
+
+		if (login.getPassword() == null || login.getPassword().isEmpty()) {
+			throw new ServletException("É necessário informar uma senha.");
+		}
+
+		existenceLogin.setPassword(login.getPassword());
+		
+		return save(existenceLogin);
+	}
+
+	public Login putLoginActive(Login login, Login existenceLogin) throws ServletException {
+
+		if(login.getActive() == null) {
+			throw new ServletException("Informe se o login esta Ativo.");
+		}
+		
+		existenceLogin.setActive(login.getActive());
+		
+		return save(existenceLogin);
+	}
+	
+	private Login findByEmail(String email) {
+		return loginRepository.findByEmail(email);
+	}
+	
+	private Login findByToken(String token) {
+		return loginRepository.findByToken(token.substring(7));
+	}
+
+	private Login getOneByEmail(String email) throws ServletException {
+		
+		Login login = findByEmail(email);
+		
+		if(login == null) {
+			throw new ServletException("Email não encontrado.");
+		}
+		
+		return login;
+	}
+	
+	private void validateLogin(Login login, Company company) throws ServletException {
+		
+		if (login.getEmail() == null || login.getPassword() == null || company.getName() == null
+				|| company.getName().isEmpty()) {
+			throw new ServletException("Email, Senha e Nome da Empresa são informações obrigatórias.");
+		}
+
+		if (findByEmail(login.getEmail()) != null) {
+			throw new ServletException("Email já cadastrado no Quero Evento!");
+		}
+
+		if (companyService.findByNameIgnoreCase(company.getName()) != null) {
+			throw new ServletException("Já existe uma empresa cadastrada com o nome informado.");
+		}
+	}
+
+	private void validateExpirationTokenDate(Login login) {
+		
+		if (login.getExpirationTokenDate() == null || login.getExpirationTokenDate().before(new Date())) {
 
 			Date expirationDate = new Date(System.currentTimeMillis() + 240 * 60 * 1000);
 
@@ -42,31 +147,9 @@ public class LoginService {
 
 			login.setToken(token);
 			login.setExpirationTokenDate(expirationDate);
+			
+			loginRepository.save(login);
 		}
-		return loginRepository.save(login);
-	}
-
-	public Login findOne(Long id) {
-		return loginRepository.findOne(id);
-	}
-
-	public Login findByEmail(String email) {
-		return loginRepository.findByEmail(email);
-	}
-
-	public Login findByToken(String token) {
-		return loginRepository.findByToken(token.substring(7));
-	}
-	
-	public Login validateLogin(String token) throws ServletException  {
-
-		Login login = findByToken(token);
-
-		if (login == null) {
-			throw new ServletException("Autenticação inválida!");
-		}
-
-		return login;
 	}
 
 }

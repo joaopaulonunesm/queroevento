@@ -22,14 +22,6 @@ public class CompanyService {
 		return companyRepository.save(user);
 	}
 
-	public Company findOne(Long id) {
-		return companyRepository.findOne(id);
-	}
-
-	public Company findByUrlName(String urlName) {
-		return companyRepository.findByUrlName(urlName);
-	}
-
 	public Company findByNameIgnoreCase(String name) {
 		return companyRepository.findByNameIgnoreCase(name);
 	}
@@ -46,10 +38,35 @@ public class CompanyService {
 		Company company = validateCompanyByToken(token);
 		
 		if(!company.getModerator()) {
-			throw new ServletException("Acesso negado! Entre em contato com o moderador do site.");
+			throw new ServletException("Acesso negado! Entre em contato com o moderador do Quero Evento.");
 		}
 		
 		return company;
 	}
+	
+	public Company putCompany(Company company, Company existenceCompany) {
 
+		company.setId(existenceCompany.getId());
+		
+		return save(company);
+	}
+
+	public Company putCompanyModerator(Company company) {
+
+		company.setModerator(!company.getModerator());
+		
+		return save(company);
+	}
+	
+	public Company findCompanyByUrlName(String urlName) throws ServletException {
+		
+		Company company = companyRepository.findByUrlName(urlName);
+
+		if (company == null) {
+			throw new ServletException("Empresa não encontrada pelo Nome URL.");
+		}
+		
+		return company;
+	}
+	
 }

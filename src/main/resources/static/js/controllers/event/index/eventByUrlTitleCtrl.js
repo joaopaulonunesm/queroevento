@@ -1,4 +1,4 @@
-angular.module("queroEventoApp").controller("eventByUrlTitleCtrl", function ($scope, $http, eventAPI, categoryAPI, $routeParams) {
+angular.module("queroEventoApp").controller("eventByUrlTitleCtrl", function ($scope, $http, eventAPI, categoryAPI, $routeParams, $location) {
 
 	$scope.eventByUrl = [];
 	
@@ -9,6 +9,7 @@ angular.module("queroEventoApp").controller("eventByUrlTitleCtrl", function ($sc
 			$scope.eventByUrl = response.data;
 			
 		}, function(response) {
+			$location.path("/");
 			console.log(response.data);
 			console.log(response.status);
 		});

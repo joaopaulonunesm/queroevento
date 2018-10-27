@@ -73,15 +73,15 @@ angular.module("queroEventoApp").factory("eventAPI", function ($http, configs){
 	}
 	
 	var _getEventsGold = function (){
-		return $http.get(configs.baseUrl  + '/events/type/turbine/gold');
+		return $http.get(configs.baseUrl  + '/events/turbine/gold');
 	}
 	
 	var _getEventsSilver = function (){
-		return $http.get(configs.baseUrl  + '/events/type/turbine/silver');
+		return $http.get(configs.baseUrl  + '/events/turbine/silver');
 	}
 	
 	var _getEventsBronze = function (){
-		return $http.get(configs.baseUrl  + '/events/type/turbine/bronze');
+		return $http.get(configs.baseUrl  + '/events/turbine/bronze');
 	}
 
 	var _getEventsByWord = function (word){

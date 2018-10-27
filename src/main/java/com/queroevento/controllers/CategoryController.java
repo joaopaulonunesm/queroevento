@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,24 +16,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.queroevento.models.Category;
-import com.queroevento.services.ConfigureService;
+import com.queroevento.services.CategoryService;
+import com.queroevento.services.CompanyService;
 
 @Controller
-public class CategoryController extends ConfigureService {
+public class CategoryController {
 
+	@Autowired
+	private CategoryService categoryService;
+	
+	@Autowired
+	private CompanyService companyService;
+	
 	@RequestMapping(value = "v1/categories", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Category> postCategory(@RequestHeader(value = "Authorization") String token,
 			@RequestBody Category category) throws ServletException {
 
 		companyService.validateCompanyModeratorByToken(token);
 
-		if(categoryService.findByName(category.getName()) != null ){
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-
-		category.setUrlName(utils.stringToUrl(category.getName()));
-
-		return new ResponseEntity<>(categoryService.save(category), HttpStatus.CREATED);
+		return new ResponseEntity<>(categoryService.postCategory(category), HttpStatus.CREATED);
 	}
 
 	@RequestMapping(value = "v1/categories/{id}", method = RequestMethod.DELETE)
@@ -41,13 +43,7 @@ public class CategoryController extends ConfigureService {
 
 		companyService.validateCompanyModeratorByToken(token);
 
-		Category category = categoryService.findOne(id);
-
-		if (category == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-
-		categoryService.delete(category);
+		categoryService.deleteCategory(id);
 
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
@@ -58,29 +54,15 @@ public class CategoryController extends ConfigureService {
 
 		companyService.validateCompanyModeratorByToken(token);
 
-		Category existingCategory = categoryService.findByUrlNameIgnoreCase(urlName);
-
-		if (existingCategory == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-
-		category.setId(existingCategory.getId());
-
-		return new ResponseEntity<>(categoryService.save(category), HttpStatus.OK);
+		return new ResponseEntity<>(categoryService.putCategory(category, urlName), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/categories/{urlName}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Category> getOneCategoryByUrlName(@PathVariable String urlName) {
+	public ResponseEntity<Category> getOneCategoryByUrlName(@PathVariable String urlName) throws ServletException {
 
-		Category category = categoryService.findByUrlNameIgnoreCase(urlName);
-
-		if (category == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-
-		return new ResponseEntity<>(category, HttpStatus.OK);
+		return new ResponseEntity<>(categoryService.getOneCategoryByUrlName(urlName), HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/categories/greaterthanzero", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Category>> getCategoriesGreaterThanZero() {
 		
