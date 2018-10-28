@@ -5,8 +5,7 @@ angular.module("queroEventoApp").config(function ($routeProvider) {
 	});
 	
 	$routeProvider.when("/events", {
-		templateUrl: "views/moderator/component/evento.html",
-		controller: "moderatorEventCtrl"
+		templateUrl: "views/moderator/component/evento.html"
 	});
 	
 	$routeProvider.when("/category/list", {

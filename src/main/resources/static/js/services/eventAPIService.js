@@ -47,6 +47,14 @@ angular.module("queroEventoApp").factory("eventAPI", function ($http, configs){
 	var _getEventByCompany = function (){
 		return $http.get(configs.baseUrl + configs.version + '/events/company');
 	}
+
+	var _getNextEventsByCompany = function (){
+		return $http.get(configs.baseUrl + configs.version + '/events/company/next');
+	}
+
+	var _getRealizedEventsByCompany = function (){
+		return $http.get(configs.baseUrl + configs.version + '/events/company/realized');
+	}
 	
 	var _getEventById = function (id){
 		return $http.get(configs.baseUrl + '/events/' + id);
@@ -110,7 +118,9 @@ angular.module("queroEventoApp").factory("eventAPI", function ($http, configs){
     	getEventByCatalogStatusRefused: _getEventByCatalogStatusRefused,
     	getEventByStatusCanceled: _getEventByStatusCanceled,
     	getEventByKeyword: _getEventByKeyword,
-    	getEventByCompany: _getEventByCompany,
+		getEventByCompany: _getEventByCompany,
+		getNextEventsByCompany: _getNextEventsByCompany,
+		getRealizedEventsByCompany: _getRealizedEventsByCompany,
     	getEventsGold: _getEventsGold,
     	getEventsSilver: _getEventsSilver,
     	getEventsBronze: _getEventsBronze,

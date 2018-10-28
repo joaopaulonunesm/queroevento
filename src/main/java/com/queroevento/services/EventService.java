@@ -98,6 +98,17 @@ public class EventService {
 
 		return eventRepository.findByCompanyIdOrderByEventDate(id);
 	}
+	
+	public List<Event> findNextEventsByCompanyId(Long id) {
+
+		return eventRepository.findByCompanyIdAndEventDateAfterOrderByEventDate(id, new Date());
+	}
+	
+	public List<Event> findRealizedEventsByCompanyId(Long id) {
+
+		return eventRepository.findByCompanyIdAndEventDateBeforeOrderByEventDate(id, new Date());
+	}
+
 
 	public List<Event> findByTurbineType(
 			CatalogStatusEvent catalogStatus, TurbineType turbineType, Date date) {
@@ -123,19 +134,19 @@ public class EventService {
 
 	public Set<Event> findByWord(String word) {
 
-		Set<Event> byTitle = findEventTitleByWord(
+		Set<Event> byTitle = findEventByWord(
 				new Date(), CatalogStatusEvent.PUBLISHED, StatusEvent.ACTIVE, word);
 
-		Set<Event> byCategory = findEventTitleByCategory(
+		Set<Event> byCategory = findEventByCategory(
 				new Date(), CatalogStatusEvent.PUBLISHED, StatusEvent.ACTIVE, word);
 
-		Set<Event> byKeyword = findEventTitleByKeyword(
+		Set<Event> byKeyword = findEventByKeyword(
 				new Date(), CatalogStatusEvent.PUBLISHED, StatusEvent.ACTIVE, word);
 
-		Set<Event> byState = findEventTitleByState(
+		Set<Event> byState = findEventByState(
 				new Date(), CatalogStatusEvent.PUBLISHED, StatusEvent.ACTIVE, word);
 
-		Set<Event> byCity = findEventTitleByCity(
+		Set<Event> byCity = findEventByCity(
 				new Date(), CatalogStatusEvent.PUBLISHED, StatusEvent.ACTIVE, word);
 
 		List<Event> eventsList = new ArrayList<>();
@@ -252,7 +263,6 @@ public class EventService {
 		Category category = existenceEvent.getCategory();
 
 		updateAmmountEventsInCategory(category);
-		categoryService.save(category);
 
 		return existenceEvent;
 	}
@@ -320,6 +330,8 @@ public class EventService {
 				new Date(), CatalogStatusEvent.PUBLISHED, StatusEvent.ACTIVE, category.getId());
 
 		category.setAmmountEvents(eventsByCategory.size());
+		
+		categoryService.save(category);
 	}
 	
 	private Event getOneByUrlTitle(String url) throws ServletException {
@@ -334,7 +346,7 @@ public class EventService {
 		return event;
 	}
 	
-	private Set<Event> findEventTitleByWord(
+	private Set<Event> findEventByWord(
 			Date date, CatalogStatusEvent catalogEvent, StatusEvent status, String word) {
 
 		return eventRepository
@@ -342,7 +354,7 @@ public class EventService {
 						catalogEvent, status, word);
 	}
 	
-	private Set<Event> findEventTitleByCity(
+	private Set<Event> findEventByCity(
 			Date date, CatalogStatusEvent catalogEvent, StatusEvent status, String word) {
 
 		return eventRepository
@@ -350,7 +362,7 @@ public class EventService {
 				date, catalogEvent, status, word);
 	}
 	
-	private Set<Event> findEventTitleByCategory(
+	private Set<Event> findEventByCategory(
 			Date date, CatalogStatusEvent catalogEvent, StatusEvent status, String word) {
 
 		return eventRepository
@@ -358,7 +370,7 @@ public class EventService {
 						catalogEvent, status, word);
 	}
 	
-	private Set<Event> findEventTitleByKeyword(
+	private Set<Event> findEventByKeyword(
 			Date date, CatalogStatusEvent catalogEvent, StatusEvent status, String word) {
 
 		return eventRepository
@@ -367,7 +379,7 @@ public class EventService {
 	}
 	
 
-	private Set<Event> findEventTitleByState(
+	private Set<Event> findEventByState(
 			Date date, CatalogStatusEvent catalogEvent, StatusEvent status, String word) {
 
 		return eventRepository
@@ -398,36 +410,36 @@ public class EventService {
 	}
 	
 	private void validateEventFields(Event event) throws ServletException {
+		
 		// Verifica se o titulo é vazio ou nulo
-
 		if (event.getTitle() == null || event.getTitle().isEmpty()) {
-			throw new ServletException("O título não pode ser nulo ou vazio. Por favor informe o título.");
+			throw new ServletException("O Título do evento é uma informação obrigatória.");
 		}
 
 		// Verifica se existe data no evento
 		if (event.getEventDate() == null) {
-			throw new ServletException("Por favor informe uma data para o evento.");
+			throw new ServletException("Data é uma informação obrigatória para o evento.");
 		}
 
 		// Verifica se a data do evento é antes da data atual
 		if (event.getEventDate().before(new Date())) {
 			throw new ServletException(
-					"A data não pode ser menor do que a data atual. Por favor informe uma data futura.");
+					"A data do evento não pode ser menor do que a data atual. Por favor informe uma data futura.");
 		}
 
 		// Verifica se o preço está nulo
-		if (event.getPrice() == null) {
-			throw new ServletException("Por favor informe um preço que seja maior que zero.");
+		if (event.getPrice() == null || event.getPrice() < 0) {
+			throw new ServletException("É necessário informar um preço maior ou igual a zero.");
 		}
 
 		// Verifica se a categoria está nula
 		if (event.getCategory() == null) {
-			throw new ServletException("Por favor informe uma categoria.");
+			throw new ServletException("Categoria é uma informação obrigatória para o evento.");
 		}
 
 		// Verifica se o local é vazio ou nulo
 		if (event.getLocal().isEmpty() || event.getLocal() == null) {
-			throw new ServletException("Por favor informe o local do evento.");
+			throw new ServletException("Local é uma informação obrigatória para o evento.");
 		}
 	}
 	

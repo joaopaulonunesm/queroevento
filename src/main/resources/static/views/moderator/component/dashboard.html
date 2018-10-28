@@ -1,4 +1,58 @@
 <meta charset="UTF-8" />
-<h4 style="text-align: center">DASHBOARD</h4>
 
+<h4 class="font-bold">DASHBOARD</h4>
+            
 <div class="divider"></div>
+
+<br />
+
+<div class="row">
+    <div class="col s4 m4">
+        <div class="card-panel center-align red white-text font-bold teal">
+            <span>
+                PENDENTES
+                <br/>
+                <h5>{{pendingEvents.length}}</h5>
+            </span>
+        </div>
+    </div>
+    <div class="col s4 m4">
+        <div class="card-panel center-align orange white-text font-bold teal">
+            <span>
+                RECUSADOS
+                <br/>
+                <h5>{{refusedEvents.length}}</h5>
+            </span>
+        </div>
+    </div>
+    <div class="col s4 m4">
+        <div class="card-panel center-align green white-text font-bold teal">
+            <span>
+                PUBLICADOS
+                <br/>
+                <h5>{{publishedEvents.length}}</h5>
+            </span>
+        </div>
+    </div>
+</div>
+
+<div class="row" ng-controller="categoryModeratorCtrl">
+    <div class="col s6 m6">
+        <div class="card-panel center-align white black-text font-bold teal">
+            <span>
+                CATEGORIAS CRIADAS
+                <br/>
+                <h5>{{categories.length}}</h5>
+            </span>
+        </div>
+    </div>
+    <div class="col s6 m6">
+        <div class="card-panel center-align white black-text font-bold teal">
+            <span>
+                OFERTAS CONFIGURADAS
+                <br/>
+                <h5>3</h5>
+            </span>
+        </div>
+    </div>
+</div>

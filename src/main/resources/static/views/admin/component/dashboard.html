@@ -1,0 +1,56 @@
+<meta charset="UTF-8" />
+
+<h4 class="font-bold">DASHBOARD</h4>
+            
+<div class="divider"></div>
+
+<br />
+
+<div class="row">
+
+    <div class="col s8">
+
+        <h5 class="font-bold">PRÓXIMOS EVENTOS</h5>
+
+        <div class="col s12" ng-repeat="event in myNextEvents | limitTo: 5">
+            <div class="card hoverable">
+                <div class="card-image">
+                    <img ng-src="{{ event.imageUrl }}">
+                    <span class="card-title red">
+                        {{ event.title }}              
+                    </span>
+                </div>
+                <div class="card-content">
+                    <p>{{ event.shortDescription }}</p>
+                    <p>Data: {{ event.eventDate | date:"dd/MM/yyyy 'às' HH:mm" }}</p>
+                    <p>Local: {{ event.local }}</p>
+                </div>
+                <div class="card-action"  style="text-align: right">
+                    <a ng-href="/#/event/title/{{ event.urlTitle }}">Visualizar</a>
+                    <a class="btn red" ng-href="#/event/edit/{{ event.urlTitle }}">Editar</a>
+                </div>
+            </div> 
+        </div>
+
+    </div>
+
+    <div class="col s4">
+
+        <h5 style="text-align: center" class="font-bold">EVENTOS REALIZADOS</h5>
+
+        <div class="col s12" ng-repeat="event in myRealizedEvents | limitTo: 5">
+            <div class="card hoverable">
+                <div class="card-image waves-effect waves-block waves-light">
+                    <img ng-src="{{ event.imageUrl }}">
+                </div>
+                <div class="card-content">
+                    <span class="card-title activator grey-text text-darken-4">{{ event.title }}</span>
+                    <p>{{ event.views }} Visualizações no evento</p>
+                    <br />
+                    <p style="text-align: right"><a ng-href="/#/event/title/{{ event.urlTitle }}">VER MAIS</a></p>
+                </div>
+            </div>     
+        </div>
+        
+    </div>
+</div>

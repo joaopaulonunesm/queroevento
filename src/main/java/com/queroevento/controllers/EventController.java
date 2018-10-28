@@ -134,6 +134,24 @@ public class EventController {
 
 		return new ResponseEntity<>(eventService.findByCompanyId(company.getId()), HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "v1/events/company/next", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Event>> getNextEventsByCompany(@RequestHeader(value = "Authorization") String token)
+			throws ServletException {
+
+		Company company = companyService.validateCompanyByToken(token);
+
+		return new ResponseEntity<>(eventService.findNextEventsByCompanyId(company.getId()), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "v1/events/company/realized", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Event>> getRealizedEventsByCompany(@RequestHeader(value = "Authorization") String token)
+			throws ServletException {
+
+		Company company = companyService.validateCompanyByToken(token);
+
+		return new ResponseEntity<>(eventService.findRealizedEventsByCompanyId(company.getId()), HttpStatus.OK);
+	}
 
 	// Publicos
 

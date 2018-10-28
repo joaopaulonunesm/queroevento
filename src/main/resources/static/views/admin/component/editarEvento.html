@@ -1,131 +1,129 @@
 <meta charset="UTF-8" />
 
-<div class="container">
-    <div class="row">
+<div class="row">
 
-		<form class="col s12">
+	<form class="col s12">
+	
+		<nav style="margin-top: 8px">
+			<div class="nav-wrapper white">
+				<div class="col s12">
+				<a href="#/" class="breadcrumb red-text font-bold">HOME</a>
+				<a href="#/event/list" class="breadcrumb red-text font-bold">MEUS EVENTOS</a>
+				<a class="breadcrumb red-text font-bold">EDITAR EVENTO</a>
+				</div>
+			</div>
+		</nav>
 		
-			<nav style="margin-top: 8px">
-				<div class="nav-wrapper white">
-			   		<div class="col s12">
-			     	<a href="#/" class="breadcrumb red-text font-bold">HOME</a>
-			     	<a href="#/event/list" class="breadcrumb red-text font-bold">MEUS EVENTOS</a>
-			     	<a class="breadcrumb red-text font-bold">EDITAR EVENTO</a>
-			  		</div>
-				</div>
-			</nav>
+		<br />
 			
-			<br />
-			    
-			<div class="row">
-				<div class="input-field col s12">
-				    <input id="title" type="text" class="validate" ng-model="event.title">
-				    <label for="title">Título</label>
+		<div class="row">
+			<div class="input-field col s12">
+				<input id="title" type="text" class="validate" ng-model="event.title">
+				<label for="title">Título</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="input-field col s6">
+				<div input-field>
+					<i class="material-icons prefix">camera_alt</i>
+					<input id="image" type="text" ng-model="event.imageUrl">
+					<label for="image">Imagem (URL)</label>
+					<img materialboxed class="materialboxed responsive-img" width="650" ng-src="{{ event.imageUrl }}">
 				</div>
 			</div>
-			<div class="row">
-				<div class="input-field col s6">
-					<div input-field>
-				    	<i class="material-icons prefix">camera_alt</i>
-						<input id="image" type="text" ng-model="event.imageUrl">
-				        <label for="image">Imagem (URL)</label>
-				        <img materialboxed class="materialboxed responsive-img" width="650" ng-src="{{ event.imageUrl }}">
-					</div>
+			<div class="input-field col s6">
+				<div input-field>
+					<select id="category" class="" material-select watch ng-controller="categoryModeratorCtrl" ng-model="event.category.id">
+						<option ng-repeat="category in categories" ng-value="category.id"> {{ category.name }}</option>
+					</select>
+					<label for="category">Categoria</label>
 				</div>
-				<div class="input-field col s6">
-					<div input-field>
-						<select id="category" class="" material-select watch ng-controller="categoryModeratorCtrl" ng-model="event.category.id">
-				        	<option ng-repeat="category in categories" ng-value="category.id"> {{ category.name }}</option>
-				        </select>
-				        <label for="category">Categoria</label>
-				    </div>
-				    <div input-field>
-						<input id="keyword" type="text" class="validate" ng-model="event.keyword">
-						<label for="keyword">Palavra chave</label>
-					</div>
+				<div input-field>
+					<input id="keyword" type="text" class="validate" ng-model="event.keyword">
+					<label for="keyword">Palavra chave</label>
 				</div>
 			</div>
-		    <div class="row">
-		        <div class="input-field col s6">
-		            <input id="state" type="text" class="validate" ng-model="event.state">
-		            <label for="state">Estado</label>
-		        </div>
-		        <div class="input-field col s6">
-		            <input id="city" type="text" class="validate" ng-model="event.city">
-		            <label for="city">Cidade</label>
-		        </div>
-		        <div class="input-field col s12">
-		            <input id="local" type="text" class="validate" ng-model="event.local">
-		            <label for="local">Endereço</label>
-		        </div>
+		</div>
+		<div class="row">
+			<div class="input-field col s6">
+				<input id="state" type="text" class="validate" ng-model="event.state">
+				<label for="state">Estado</label>
 			</div>
-			<div class="row">
-		        <div class="input-field col s3">
-		            <i class="material-icons prefix">date_range</i>
-		            <label for="inputCreated">Data</label>
-		            
-		            <input input-date
-		                type="text"
-		                name="created"
-		                id="inputCreated"
-		                ng-model="eventDate.date"
-		                container=""
-		                format="dd/mm/yyyy"
-		                months-full="{{ month }}"
-		                months-short="{{ monthShort }}"
-		                weekdays-full="{{ weekdaysFull }}"
-		                weekdays-short="{{ weekdaysShort }}"
-		                weekdays-letter="{{ weekdaysLetter }}"
-		                disable="disable"
-		                min="{{ minDate }}"
-		                max="{{ maxDate }}"
-		                today="today"
-		                first-day="1"
-		                clear="clear"
-		                close="close"
-		                select-years="15"
-		                on-start="onStart()"
-		                on-render="onRender()"
-		                on-open="onOpen()"
-		                on-close="onClose()"
-		                on-set="onSet()"
-		                on-stop="onStop()" />
-		        </div>
-		        <div class="input-field col s3">
-		            <i class="material-icons prefix">access_time</i>
-		            <label for="input_starttime">Hora</label>
-					<input id="input_starttime" input-clock data-twelvehour="false" type="text" ng-model="eventDate.time">
-		        </div>
-		        <div class="input-field col s6">
-		            <i class="material-icons prefix">attach_money</i>
-		            <input id="price" type="text" class="validate" ng-model="event.price">
-		            <label for="price">Valor</label>
-		        </div>
-		        <div class="input-field col s12">
-		          <textarea id="short_description" class="materialize-textarea" ng-model="event.shortDescription"></textarea>
-		          <label for="short_description">Descrição Curta</label>
-		        </div>
-		        <div class="input-field col s12">
-		          <textarea id="description" class="materialize-textarea" ng-model="event.completeDescription"></textarea>
-		          <label for="description">Descrição Longa</label>
-		        </div>
-		        <div class="col s6">
-		            <input type="checkbox" class="filled-in" id="showEmail" checked="checked" ng-model="event.showEmail" />
-		            <label for="showEmail">Mostrar meu email para contato no evento.</label>
-		        </div>
-				<div class="col s6">
-				    <input type="checkbox" class="filled-in" id="showCellPhone" checked="checked" ng-model="event.showPhoneNumber" />
-				    <label for="showCellPhone">Mostrar meus telefones para contato no evento.</label>
-				</div>
+			<div class="input-field col s6">
+				<input id="city" type="text" class="validate" ng-model="event.city">
+				<label for="city">Cidade</label>
 			</div>
-			
-			<div class="row">
-			    <div class="col s6 offset-s6" style="text-align: right">
-			        <a href="#/event/list" class="waves-effect waves-light btn grey">Cancelar</a>
-			        <a class="waves-effect waves-light btn red" ng-click="putEvent(event.urlTitle)">Salvar Evento</a>
-			    </div>
+			<div class="input-field col s12">
+				<input id="local" type="text" class="validate" ng-model="event.local">
+				<label for="local">Endereço</label>
 			</div>
-		</form>
+		</div>
+		<div class="row">
+			<div class="input-field col s3">
+				<i class="material-icons prefix">date_range</i>
+				<label for="inputCreated">Data</label>
+				
+				<input input-date
+					type="text"
+					name="created"
+					id="inputCreated"
+					ng-model="eventDate.date"
+					container=""
+					format="dd/mm/yyyy"
+					months-full="{{ month }}"
+					months-short="{{ monthShort }}"
+					weekdays-full="{{ weekdaysFull }}"
+					weekdays-short="{{ weekdaysShort }}"
+					weekdays-letter="{{ weekdaysLetter }}"
+					disable="disable"
+					min="{{ minDate }}"
+					max="{{ maxDate }}"
+					today="today"
+					first-day="1"
+					clear="clear"
+					close="close"
+					select-years="15"
+					on-start="onStart()"
+					on-render="onRender()"
+					on-open="onOpen()"
+					on-close="onClose()"
+					on-set="onSet()"
+					on-stop="onStop()" />
+			</div>
+			<div class="input-field col s3">
+				<i class="material-icons prefix">access_time</i>
+				<label for="input_starttime">Hora</label>
+				<input id="input_starttime" input-clock data-twelvehour="false" type="text" ng-model="eventDate.time">
+			</div>
+			<div class="input-field col s6">
+				<i class="material-icons prefix">attach_money</i>
+				<input id="price" type="text" class="validate" ng-model="event.price">
+				<label for="price">Valor</label>
+			</div>
+			<div class="input-field col s12">
+				<textarea id="short_description" class="materialize-textarea" ng-model="event.shortDescription"></textarea>
+				<label for="short_description">Descrição Curta</label>
+			</div>
+			<div class="input-field col s12">
+				<textarea id="description" class="materialize-textarea" ng-model="event.completeDescription"></textarea>
+				<label for="description">Descrição Longa</label>
+			</div>
+			<div class="col s6">
+				<input type="checkbox" class="filled-in red" id="showEmail" checked="checked" ng-model="event.showEmail" />
+				<label for="showEmail">Mostrar meu email para contato no evento.</label>
+			</div>
+			<div class="col s6">
+				<input type="checkbox" class="filled-in" id="showCellPhone" checked="checked" ng-model="event.showPhoneNumber" />
+				<label for="showCellPhone">Mostrar meus telefones para contato no evento.</label>
+			</div>
+		</div>
 		
-	</div>
+		<div class="row">
+			<div class="col s6 offset-s6" style="text-align: right">
+				<a href="#/event/list" class="waves-effect waves-light btn grey">Cancelar</a>
+				<a class="waves-effect waves-light btn red" ng-click="putEvent(event.urlTitle)">Salvar Evento</a>
+			</div>
+		</div>
+	</form>
+	
 </div>

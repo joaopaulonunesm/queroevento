@@ -1,70 +1,69 @@
 <meta charset="UTF-8" />
 
-<div class="container">
-    <div class="row">
-    
-    	<div class="col s12">
-			<nav style="margin-top: 8px">
-				<div class="nav-wrapper white">
-			   		<div class="col s12">
-			     	<a href="#/" class="breadcrumb red-text font-bold">HOME</a>
-			     	<a class="breadcrumb red-text font-bold">EVENTOS</a>
-			  		</div>
+
+<div class="row">
+
+	<div class="col s12">
+		<nav style="margin-top: 8px">
+			<div class="nav-wrapper white">
+				<div class="col s12">
+				<a href="#/" class="breadcrumb red-text font-bold">HOME</a>
+				<a class="breadcrumb red-text font-bold">EVENTOS</a>
 				</div>
-			</nav>
-			
-			<br />
-			
-			<div class="row">
-			    <div class="col s6">
-			        <a class="btn red" href="#/event/insert">Novo Evento</a>
-			    </div>
-			    <div class="col s6">
-			        <div class="input-field col s12">
-			            <i class="material-icons prefix">search</i>
-			            <input id="first_name" type="text" ng-model="search">
-			            <label for="first_name">Procure seu evento</label>
-			        </div>
-			    </div>
 			</div>
-			
-			<div class="row">
-			    <div class="col s12" ng-repeat="event in myEvents | filter: search">
-			        <div class="card-panel hoverable grey lighten-5 z-depth-1">
-			            <div class="row valign-wrapper">
-			                <div class="col s8">
-			                    <img materialboxed class="materialboxed responsive-img" ng-src="{{ event.imageUrl }}" alt="" >
-			                </div>
-			                <div class="col s8">
-			                    <span class="title"><h5>{{ event.title }}</h5></span>
-			                    <p>Data: {{ event.eventDate | date:"dd/MM/yyyy 'às' HH:mm" }}</p>
-			                    <p>Local: {{ event.local }} </p>
-								<p ng-if="event.price > 0">Preço: R${{ event.price }}</p>
-								<p ng-if="event.price == 0">Preço: DE GRAÇA</p>
-			                    <p>Estimativa: {{ event.peopleEstimate }} Pessoas</p>
-			                </div>
-			                <div class="col s8 right-align">
-			                    <h6>Evento {{ event.status}}</h6>
-			                    <h6>Status: {{ event.catalogStatus }}</h6>
-			                    <br/>
-			                    <a tooltipped href="" ng-click="deleteEvent(event.id)" class="btn-floating waves-effect waves-light grey" data-position="top" data-tooltip="Deletar evento">
-			                        <i class="material-icons">remove</i>
-			                    </a>
-			                    <a tooltipped ng-href="#/event/preview/{{ event.urlTitle }}" class="btn-floating waves-effect waves-light orange" data-position="top" data-tooltip="Visualizar evento">
-			                        <i class="material-icons">visibility</i>
-			                    </a>
-			                    <a tooltipped ng-href="#/event/edit/{{ event.urlTitle }}" class="btn-floating waves-effect waves-light red" data-position="top" data-tooltip="Editar evento">
-			                        <i class="material-icons">edit</i>
-								</a>
-								<br/>
-								<br/>
-								<a class="btn red" margin-top=5px ng-href="#/event/turbine/{{ event.urlTitle }}">TURBINAR</a>
-			                </div>
-			            </div>
-			        </div>
-			    </div>
+		</nav>
+		
+		<br />
+		
+		<div class="row">
+			<div class="col s6">
+				<a class="btn red" href="#/event/insert">Novo Evento</a>
 			</div>
-			
+			<div class="col s6">
+				<div class="input-field col s12">
+					<i class="material-icons prefix">search</i>
+					<input id="first_name" type="text" ng-model="search">
+					<label for="first_name">Procure seu evento</label>
+				</div>
+			</div>
 		</div>
+		
+		<div class="row">
+			<div class="col s12" ng-repeat="event in myEvents | filter: search">
+				<div class="card-panel hoverable grey lighten-5 z-depth-1">
+					<div class="row valign-wrapper">
+						<div class="col s8">
+							<img materialboxed class="materialboxed responsive-img" ng-src="{{ event.imageUrl }}" alt="" >
+						</div>
+						<div class="col s8">
+							<span class="title"><h5>{{ event.title }}</h5></span>
+							<p>Data: {{ event.eventDate | date:"dd/MM/yyyy 'às' HH:mm" }}</p>
+							<p>Local: {{ event.local }} </p>
+							<p ng-if="event.price > 0">Preço: R${{ event.price }}</p>
+							<p ng-if="event.price == 0">Preço: DE GRAÇA</p>
+							<p>Estimativa: {{ event.peopleEstimate }} Pessoas</p>
+						</div>
+						<div class="col s8 right-align">
+							<h6>Evento {{ event.status}}</h6>
+							<h6>Status: {{ event.catalogStatus }}</h6>
+							<br/>
+							<a tooltipped href="" ng-click="deleteEvent(event.id)" class="btn-floating waves-effect waves-light grey" data-position="top" data-tooltip="Deletar evento">
+								<i class="material-icons">remove</i>
+							</a>
+							<a tooltipped ng-href="#/event/preview/{{ event.urlTitle }}" class="btn-floating waves-effect waves-light orange" data-position="top" data-tooltip="Visualizar evento">
+								<i class="material-icons">visibility</i>
+							</a>
+							<a tooltipped ng-href="#/event/edit/{{ event.urlTitle }}" class="btn-floating waves-effect waves-light red" data-position="top" data-tooltip="Editar evento">
+								<i class="material-icons">edit</i>
+							</a>
+							<br/>
+							<br/>
+							<a class="btn red" margin-top=5px ng-href="#/event/turbine/{{ event.urlTitle }}">TURBINAR</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
 	</div>
 </div>

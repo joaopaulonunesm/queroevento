@@ -57,5 +57,9 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 	List<Event> findByCompanyIdAndEventDateAfterAndCatalogStatusAndStatusOrderByEventDate(Long idCompany, Date date,
 			CatalogStatusEvent catalogStatus, StatusEvent status);
 
+	List<Event> findByCompanyIdAndEventDateAfterOrderByEventDate(Long id, Date date);
+
+	List<Event> findByCompanyIdAndEventDateBeforeOrderByEventDate(Long id, Date date);
+
 
 }

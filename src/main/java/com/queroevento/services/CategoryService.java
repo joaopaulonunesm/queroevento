@@ -27,7 +27,7 @@ public class CategoryService {
 	public Category postCategory(Category category) throws ServletException {
 
 		if (categoryRepository.findByName(category.getName()) != null) {
-			throw new ServletException("Categoria com o nome informado já existe.");
+			throw new ServletException("Já existe uma Categoria com o nome informado.");
 		}
 
 		category.setUrlName(utils.stringToUrl(category.getName()));

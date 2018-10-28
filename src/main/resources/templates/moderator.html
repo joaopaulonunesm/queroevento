@@ -40,11 +40,13 @@
 
 	<div ng-include="'views/moderator/navbar.html'"></div>
 	
+	<br/>
+
 	<div class="col s12 container">
 		<div ng-include="'views/moderator/home.html'"></div>
 	</div>
 
-	<div class="col s12 container">
+	<div class="col s12 container" ng-controller="moderatorEventCtrl">
 		<ng-view></ng-view>
 	</div>
 	

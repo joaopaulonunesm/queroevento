@@ -4,8 +4,8 @@
     <div class="col s12">
         <div class="input-field col s12">
             <i class="material-icons prefix">search</i>
-            <input id="first_name" type="text">
-            <label for="first_name">Procure o evento</label>
+            <input id="evento" type="text" ng-model="search">
+            <label for="evento">Procure o evento</label>
         </div>
     </div>
 </div>
@@ -13,7 +13,7 @@
 <div class="row">
     <div class="col s12">
     
-        <div class="card-panel hoverable grey lighten-5 z-depth-1" ng-repeat="event in pendingEvents">
+        <div class="card-panel hoverable grey lighten-5 z-depth-1" ng-repeat="event in pendingEvents | filter: search">
         	<h4 style="text-align: center">{{ event.title }}</h4>
             <div class="row">
                 <div class="col s8">

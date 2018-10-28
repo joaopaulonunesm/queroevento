@@ -1,105 +1,101 @@
 <meta charset="UTF-8" />
 
-<div class="container">
-    <div class="row">
-    
-    	<div class="col s12">
+<div class="row">
 
-			<nav style="margin-top: 8px">
-				<div class="nav-wrapper white">
-			   		<div class="col s12">
-			     	<a href="#/" class="breadcrumb red-text font-bold">HOME</a>
-			     	<a class="breadcrumb red-text font-bold">CONFIGURAÇÕES</a>
-			  		</div>
+	<div class="col s12">
+
+		<nav style="margin-top: 8px">
+			<div class="nav-wrapper white">
+				<div class="col s12">
+				<a href="#/" class="breadcrumb red-text font-bold">HOME</a>
+				<a class="breadcrumb red-text font-bold">CONFIGURAÇÕES</a>
 				</div>
-			</nav>
-
-			<br />
-			
-			<ul collapsible data-collapsible="accordion">
-			    <li>
-			        <div class="collapsible-header font-bold"><i class="material-icons">account_box</i>DADOS CADASTRAIS</div>
-			        <div class="collapsible-body">
-			
-			            <div class="row">
-			                <div class="input-field col s12">
-			                    <input id="first_name" type="text" class="validate" ng-model="login.company.name">
-			                    <label for="first_name">Nome</label>
-			                </div>
-			                <div class="input-field col s6">
-								<div input-field>
-							    	<i class="material-icons prefix">camera_alt</i>
-									<input id="image" type="url" class="validate" ng-model="login.company.urlImage">
-							        <label for="image">Imagem (URL)</label>
-							        <img materialboxed class="materialboxed responsive-img" width="650" ng-src="{{ login.company.urlImage }}">
-								</div>
-			                </div>
-			                <div class="input-field col s6">
-			                    <div input-field>
-			                        <i class="material-icons prefix">phone_android</i>
-			                        <input id="first_name" type="text" class="validate" ng-model="login.company.cellPhoneNumber">
-			                        <label for="first_name">Celular</label>
-			                    </div>
-			                    <div input-field>
-			                        <i class="material-icons prefix">phone</i>
-			                        <input id="first_name" type="text" class="validate" ng-model="login.company.phoneNumber">
-			                        <label for="first_name">Telefone</label>
-			                    </div>
-			                    <div input-field>
-			                        <input id="first_name" type="text" class="validate" ng-model="login.company.state">
-			                        <label for="first_name">Estado</label>
-			                    </div>
-			                    <div input-field>
-			                        <input id="first_name" type="text" class="validate" ng-model="login.company.city">
-			                        <label for="first_name">Cidade</label>
-			                    </div>
-			                </div>
-			            </div>
-			            <div class="row">
-			                <div class="input-field col s6">
-			                    <input id="first_name" type="text" class="validate" ng-model="login.company.representativeName">
-			                    <label for="first_name">Nome do representante</label>
-			                </div>
-			                <div class="input-field col s6">
-			                    <input id="email" type="email" class="validate" ng-model="login.company.contactEmail">
-			                    <label for="email">Email para Contato</label>
-			                </div>
+			</div>
+		</nav>
+		
+		<ul collapsible data-collapsible="accordion">
+			<li>
+				<div class="collapsible-header font-bold"><i class="material-icons">account_box</i>DADOS CADASTRAIS</div>
+				<div class="collapsible-body">
+		
+					<div class="row">
+						<div class="input-field col s12">
+							<input id="first_name" type="text" class="validate" ng-model="login.company.name">
+							<label for="first_name">Nome</label>
 						</div>
-						<div class="col s6">
-							<input type="checkbox" class="filled-in" id="moderator" checked="checked" ng-model="login.company.moderator" />
-							<label for="moderator">Moderador</label>
+						<div class="input-field col s6">
+							<div input-field>
+								<i class="material-icons prefix">camera_alt</i>
+								<input id="image" type="url" class="validate" ng-model="login.company.urlImage">
+								<label for="image">Imagem (URL)</label>
+								<img materialboxed class="materialboxed responsive-img" width="650" ng-src="{{ login.company.urlImage }}">
+							</div>
 						</div>
-			            <div class="row">
-			                <div class="col s12" style="text-align: right">
-								<a ng-href="#/profile/{{ login.company.urlName }}" class="waves-effect waves-light btn grey">Pré-visualizar Perfil</a>
-			                    <a href="#/" class="waves-effect waves-light btn grey">Cancelar</a>
-			                    <a class="waves-effect waves-light btn red" ng-click="putCompany()">Salvar</a>
-			                </div>
-			            </div>
-			        </div>
-			    </li>
-			</ul>
-			
-			<br />
-			
-			<ul collapsible data-collapsible="accordion">
-			    <li>
-			        <div class="collapsible-header font-bold"><i class="material-icons">settings</i>PARÂMETROS</div>
-			        <div class="collapsible-body">
-			        
-			            <div class="row">
-			                <div class="col s6" style="text-align: center">
-			                    <a href="#/" class="waves-effect waves-light btn red"><i class="material-icons left">close</i>Inativar conta</a>
-			                </div>
-			                <div class="col s6" style="text-align: center">
-			                    <a class="waves-effect waves-light btn grey lighten-2"><i class="material-icons left">do_not_disturb</i>Excluir conta</a>
-			                </div>
-			            </div>
-			
-			        </div>
-			    </li>
-			</ul>
-			
-		</div>
+						<div class="input-field col s6">
+							<div input-field>
+								<i class="material-icons prefix">phone_android</i>
+								<input id="first_name" type="text" class="validate" ng-model="login.company.cellPhoneNumber">
+								<label for="first_name">Celular</label>
+							</div>
+							<div input-field>
+								<i class="material-icons prefix">phone</i>
+								<input id="first_name" type="text" class="validate" ng-model="login.company.phoneNumber">
+								<label for="first_name">Telefone</label>
+							</div>
+							<div input-field>
+								<input id="first_name" type="text" class="validate" ng-model="login.company.state">
+								<label for="first_name">Estado</label>
+							</div>
+							<div input-field>
+								<input id="first_name" type="text" class="validate" ng-model="login.company.city">
+								<label for="first_name">Cidade</label>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col s6">
+							<input id="first_name" type="text" class="validate" ng-model="login.company.representativeName">
+							<label for="first_name">Nome do representante</label>
+						</div>
+						<div class="input-field col s6">
+							<input id="email" type="email" class="validate" ng-model="login.company.contactEmail">
+							<label for="email">Email para Contato</label>
+						</div>
+					</div>
+					<div class="col s6">
+						<input type="checkbox" class="filled-in" id="moderator" checked="checked" ng-model="login.company.moderator" />
+						<label for="moderator">Moderador</label>
+					</div>
+					<div class="row">
+						<div class="col s12" style="text-align: right">
+							<a ng-href="#/profile/{{ login.company.urlName }}" class="waves-effect waves-light btn grey">Pré-visualizar Perfil</a>
+							<a href="#/" class="waves-effect waves-light btn grey">Cancelar</a>
+							<a class="waves-effect waves-light btn red" ng-click="putCompany()">Salvar</a>
+						</div>
+					</div>
+				</div>
+			</li>
+		</ul>
+		
+		<br />
+		
+		<ul collapsible data-collapsible="accordion">
+			<li>
+				<div class="collapsible-header font-bold"><i class="material-icons">settings</i>PARÂMETROS</div>
+				<div class="collapsible-body">
+				
+					<div class="row">
+						<div class="col s6" style="text-align: center">
+							<a href="#/" class="waves-effect waves-light btn red"><i class="material-icons left">close</i>Inativar conta</a>
+						</div>
+						<div class="col s6" style="text-align: center">
+							<a class="waves-effect waves-light btn grey lighten-2"><i class="material-icons left">do_not_disturb</i>Excluir conta</a>
+						</div>
+					</div>
+		
+				</div>
+			</li>
+		</ul>
+		
 	</div>
 </div>

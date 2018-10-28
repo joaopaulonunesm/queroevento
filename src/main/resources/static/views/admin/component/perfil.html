@@ -1,61 +1,58 @@
 <meta charset="UTF-8" />
-<div class="container">
-    <div class="row">
 
-        <div class="col s8">
+<div class="row">
 
-     	    <nav style="margin-top: 8px">
-		    	<div class="nav-wrapper red">
-	        		<div class="col s12">
-			        	<a href="#/" class="breadcrumb">Home</a>
-			        	<a href="" class="breadcrumb">Meu Perfil</a>
-		      		</div>
-		    	</div>
-		    </nav>
+	<div class="col s8">
 
-			<h5>O link para divulgação da sua página é <a ng-href="/#/{{ login.company.urlName }}">www.queroevento.com/{{ login.company.urlName }}</a></h5>
+		<nav style="margin-top: 8px">
+			<div class="nav-wrapper red">
+				<div class="col s12">
+					<a href="#/" class="breadcrumb">Home</a>
+					<a href="" class="breadcrumb">Meu Perfil</a>
+				</div>
+			</div>
+		</nav>
 
-	        <div class="card hoverable" ng-repeat="event in myEvents">
-	            <div class="card-image">
-	                <img ng-src="{{ event.imageUrl }}">
-	                <span class="card-title red">
-	                    <h5>{{ event.title }}</h5> 
-	                </span>
-	            </div>
-	            <div class="card-content">
-	            	<p><h6>Data: {{ event.eventDate | date:"dd/MM/yyyy 'às' HH:mm" }}</h6></p>
-                    <p ng-if="event.price > 0">Preço: R${{ event.price }}</p>
-                    <p ng-if="event.price == 0">Preço: DE GRAÇA</p>
-	                <p>Local: {{ event.local }}</p>
-	                <br />
-					<p>{{ event.shortDescription }}</p>                
-	            </div>
-	            <div class="card-action" style="text-align: right;">
-	                <a class="waves-effect waves-light btn red" ng-href="#/event/title/{{ event.urlTitle }}">Ver mais</a>
-	            </div>
-	        </div>
+		<h5>O link para divulgação da sua página é <a ng-href="/#/{{ login.company.urlName }}">www.queroevento.com/{{ login.company.urlName }}</a></h5>
 
-        </div>
+		<div class="card hoverable" ng-repeat="event in myEvents">
+			<div class="card-image">
+				<img ng-src="{{ event.imageUrl }}">
+				<span class="card-title red">
+					<h5>{{ event.title }}</h5> 
+				</span>
+			</div>
+			<div class="card-content">
+				<p><h6>Data: {{ event.eventDate | date:"dd/MM/yyyy 'às' HH:mm" }}</h6></p>
+				<p ng-if="event.price > 0">Preço: R${{ event.price }}</p>
+				<p ng-if="event.price == 0">Preço: DE GRAÇA</p>
+				<p>Local: {{ event.local }}</p>
+				<br />
+				<p>{{ event.shortDescription }}</p>                
+			</div>
+			<div class="card-action" style="text-align: right;">
+				<a class="waves-effect waves-light btn red" ng-href="#/event/title/{{ event.urlTitle }}">Ver mais</a>
+			</div>
+		</div>
 
-        <div class="col s4">
-        
-         	<div class="card red">
-                <div class="card-content white-text">
-                	<img ng-if="login.company.urlImage != null" class="responsive-img" ng-src="{{ login.company.urlImage }}">
-                    <span class="card-title"><h5>{{ login.company.name }}</h5></span>
-                    <p ng-if="login.company.phoneNumber != null">Celular: {{ login.company.phoneNumber }}</p>
-	            	<p ng-if="login.company.cellPhoneNumber != null">Telefone: {{ login.company.cellPhoneNumber }}</p>
-	                <p ng-if="login.company.contactEmail != null">Email: {{ login.company.contactEmail }}</p>
-	                <br ng-if="eventsByCompany > 1">
-	                <p ng-if="eventsByCompany > 1">{{ eventsByCompany.length }} Publicações</p>
-                </div>
-             	<div class="card-action" style="text-align: right;">
-	                <a class="waves-effect waves-light btn red" ng-href="#/settings">Editar Perfil</a>
-	            </div>
-            </div>         	
+	</div>
 
-        </div>
-    </div>
+	<div class="col s4">
+	
+		<div class="card red">
+			<div class="card-content white-text">
+				<img ng-if="login.company.urlImage != null" class="responsive-img" ng-src="{{ login.company.urlImage }}">
+				<span class="card-title"><h5>{{ login.company.name }}</h5></span>
+				<p ng-if="login.company.phoneNumber != null">Celular: {{ login.company.phoneNumber }}</p>
+				<p ng-if="login.company.cellPhoneNumber != null">Telefone: {{ login.company.cellPhoneNumber }}</p>
+				<p ng-if="login.company.contactEmail != null">Email: {{ login.company.contactEmail }}</p>
+				<br ng-if="eventsByCompany > 1">
+				<p ng-if="eventsByCompany > 1">{{ eventsByCompany.length }} Publicações</p>
+			</div>
+			<div class="card-action" style="text-align: right;">
+				<a class="waves-effect waves-light btn red" ng-href="#/settings">Editar Perfil</a>
+			</div>
+		</div>         	
+
+	</div>
 </div>
-
-<div ng-include="'views/index/footer.html'"></div>

@@ -4,6 +4,10 @@ angular.module("queroEventoApp").controller("adminEventCtrl", function ($scope, 
 	
 	$scope.event = {};
 	
+	$scope.myNextEvents = [];
+
+	$scope.myRealizedEvents = [];
+
 	$scope.eventDate = {};
 	
 	$scope.getMyEvents = function() {
@@ -19,6 +23,34 @@ angular.module("queroEventoApp").controller("adminEventCtrl", function ($scope, 
 	};
 	
 	$scope.getMyEvents();
+
+	$scope.getMyNextEvents = function() {
+
+		eventAPI.getNextEventsByCompany().then(function(response) {
+
+			$scope.myNextEvents = response.data;
+
+		}, function(response) {
+			console.log(response.data);
+			console.log(response.status);
+		});
+	};
+
+	$scope.getMyNextEvents();
+
+	$scope.getMyRealizedEvents = function() {
+
+		eventAPI.getRealizedEventsByCompany().then(function(response) {
+
+			$scope.myRealizedEvents = response.data;
+
+		}, function(response) {
+			console.log(response.data);
+			console.log(response.status);
+		});
+	};
+
+	$scope.getMyRealizedEvents();
 	
 	$scope.createEvent = function() {
 		
