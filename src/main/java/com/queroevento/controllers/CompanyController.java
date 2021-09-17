@@ -2,6 +2,7 @@ package com.queroevento.controllers;
 
 import javax.servlet.ServletException;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,33 +18,28 @@ import com.queroevento.models.Company;
 import com.queroevento.services.CompanyService;
 
 @Controller
+@RequiredArgsConstructor
 public class CompanyController {
 
-	@Autowired
-	public CompanyService companyService;
-	
-	@RequestMapping(value = "/v1/companies", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Company> putCompany(@RequestHeader(value = "Authorization") String token,
-			@RequestBody Company company) throws ServletException {
+    public final CompanyService companyService;
 
-		Company existenceCompany = companyService.validateCompanyByToken(token);
+    @RequestMapping(value = "/v1/companies", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Company> putCompany(@RequestHeader(value = "Authorization") String token,
+                                              @RequestBody Company company) throws ServletException {
+        Company existenceCompany = companyService.validateCompanyByToken(token);
+        return new ResponseEntity<>(companyService.putCompany(company, existenceCompany), HttpStatus.OK);
+    }
 
-		return new ResponseEntity<>(companyService.putCompany(company, existenceCompany), HttpStatus.OK);
-	}
+    @RequestMapping(value = "/v1/companies/moderator", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Company> putCompanyModerator(@RequestHeader(value = "Authorization") String token,
+                                                       @RequestBody Company company) throws ServletException {
+        Company existenceCompany = companyService.validateCompanyByToken(token);
+        return new ResponseEntity<>(companyService.putCompanyModerator(existenceCompany, company), HttpStatus.OK);
+    }
 
-	@RequestMapping(value = "/v1/companies/moderator", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Company> putCompanyModerator(@RequestHeader(value = "Authorization") String token,
-			@RequestBody Company company) throws ServletException {
+    @RequestMapping(value = "/companies/{urlName}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Company> findCompany(@PathVariable String urlName) throws ServletException {
+        return new ResponseEntity<>(companyService.findCompanyByUrlName(urlName), HttpStatus.OK);
+    }
 
-		Company existenceCompany = companyService.validateCompanyByToken(token);
-
-		return new ResponseEntity<>(companyService.putCompanyModerator(existenceCompany), HttpStatus.OK);
-	}
-
-	@RequestMapping(value = "/companies/{urlName}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Company> findCompany(@PathVariable String urlName) throws ServletException {
-
-		return new ResponseEntity<>(companyService.findCompanyByUrlName(urlName), HttpStatus.OK);
-	}
-	
 }

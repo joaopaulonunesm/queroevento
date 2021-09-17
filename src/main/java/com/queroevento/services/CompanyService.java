@@ -2,6 +2,7 @@ package com.queroevento.services;
 
 import javax.servlet.ServletException;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,63 +11,52 @@ import com.queroevento.models.Login;
 import com.queroevento.repositories.CompanyRepository;
 
 @Service
+@RequiredArgsConstructor
 public class CompanyService {
 
-	@Autowired
-	private CompanyRepository companyRepository;
+    private final CompanyRepository companyRepository;
+    private final LoginService loginService;
 
-	@Autowired
-	private LoginService loginService;
-	
-	public Company save(Company user) {
-		return companyRepository.save(user);
-	}
+    public Company save(Company user) {
+        return companyRepository.save(user);
+    }
 
-	public Company findByNameIgnoreCase(String name) {
-		return companyRepository.findByNameIgnoreCase(name);
-	}
-	
-	public Company validateCompanyByToken(String token) throws ServletException {
-		
-		Login login = loginService.validateLogin(token);
-		
-		return login.getCompany();
-	}
-	
-	public Company validateCompanyModeratorByToken(String token) throws ServletException {
-		
-		Company company = validateCompanyByToken(token);
-		
-		if(!company.getModerator()) {
-			throw new ServletException("Acesso negado! Entre em contato com o moderador do Quero Evento.");
-		}
-		
-		return company;
-	}
-	
-	public Company putCompany(Company company, Company existenceCompany) {
+    public Company findByNameIgnoreCase(String name) {
+        return companyRepository.findByNameIgnoreCase(name).orElseThrow(() -> new RuntimeException("Erro ao buscar a Company por nome. Nome: " + name));
+    }
 
-		company.setId(existenceCompany.getId());
-		
-		return save(company);
-	}
+    public Company validateCompanyByToken(String token) throws ServletException {
 
-	public Company putCompanyModerator(Company company) {
+        Login login = loginService.validateLogin(token);
 
-		company.setModerator(!company.getModerator());
-		
-		return save(company);
-	}
-	
-	public Company findCompanyByUrlName(String urlName) throws ServletException {
-		
-		Company company = companyRepository.findByUrlName(urlName);
+        return login.getCompany();
+    }
 
-		if (company == null) {
-			throw new ServletException("Empresa não encontrada pelo Nome URL.");
-		}
-		
-		return company;
-	}
-	
+    public Company validateCompanyModeratorByToken(String token) throws ServletException {
+
+        Company company = validateCompanyByToken(token);
+
+        if (!company.getModerator()) {
+            throw new ServletException("Acesso negado! Entre em contato com o moderador do Quero Evento.");
+        }
+
+        return company;
+    }
+
+    public Company putCompany(Company company, Company existenceCompany) {
+
+        company.setId(existenceCompany.getId());
+
+        return save(company);
+    }
+
+    public Company putCompanyModerator(Company existenceCompany, Company company) {
+        company.setId(existenceCompany.getId());
+        company.setModerator(!company.getModerator());
+        return save(company);
+    }
+
+    public Company findCompanyByUrlName(String urlName) {
+        return companyRepository.findByUrlName(urlName).orElseThrow(() -> new RuntimeException("Empresa não encontrada pelo Nome URL. UrlName: " + urlName));
+    }
 }

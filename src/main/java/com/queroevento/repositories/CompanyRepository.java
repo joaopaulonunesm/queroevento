@@ -5,11 +5,13 @@ import org.springframework.stereotype.Repository;
 
 import com.queroevento.models.Company;
 
+import java.util.Optional;
+
 @Repository
 public interface CompanyRepository extends JpaRepository<Company, Long> {
 
-	Company findByUrlName(String urlName);
+	Optional<Company> findByUrlName(String urlName);
 
-	Company findByNameIgnoreCase(String name);
+	Optional<Company> findByNameIgnoreCase(String name);
 
 }

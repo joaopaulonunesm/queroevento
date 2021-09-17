@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import com.queroevento.filters.TokenFilter;
 
 @SpringBootApplication
-public class QueroeventoApplication {
+public class QueroEventoApplication {
 
 	@Bean
 	public FilterRegistrationBean filterJwt() {
@@ -19,6 +19,6 @@ public class QueroeventoApplication {
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(QueroeventoApplication.class, args);
+		SpringApplication.run(QueroEventoApplication.class, args);
 	}
 }

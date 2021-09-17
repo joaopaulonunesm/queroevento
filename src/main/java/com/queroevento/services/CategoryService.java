@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,13 +13,11 @@ import com.queroevento.repositories.CategoryRepository;
 import com.queroevento.utils.Utils;
 
 @Service
+@RequiredArgsConstructor
 public class CategoryService {
 
-	@Autowired
-	private CategoryRepository categoryRepository;
-
-	@Autowired
-	public Utils utils;
+	private final CategoryRepository categoryRepository;
+	private final Utils utils;
 
 	public Category save(Category category) {
 		return categoryRepository.save(category);
@@ -50,21 +49,11 @@ public class CategoryService {
 	}
 
 	public Category getOneCategoryByUrlName(String urlName) throws ServletException {
-		Category category = categoryRepository.findByUrlNameIgnoreCase(urlName);
-
-		if (category == null) {
-			throw new ServletException("Nome URL da Categoria não encontrada.");
-		}
-		return category;
+		return categoryRepository.findByUrlNameIgnoreCase(urlName).orElseThrow(() -> new ServletException("Nome URL da Categoria não encontrada."));
 	}
 	
 	public Category getOneCategoryById(Long id) throws ServletException {
-		Category category = categoryRepository.findOne(id);
-
-		if (category == null) {
-			throw new ServletException("ID da Categoria informada não encontrada.");
-		}
-		return category;
+		return categoryRepository.findById(id).orElseThrow(() -> new ServletException("ID da Categoria informada não encontrada."));
 	}
 
 	public List<Category> findByAmmountEventsGreaterThanOrderByAmmountEventsDesc(int greaterThen) {

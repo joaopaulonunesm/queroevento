@@ -28,5 +28,4 @@ public class Utils {
 
 		return urlName.toLowerCase();
 	}
-	
 }

@@ -6,18 +6,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HtmlController {
 
-	@RequestMapping("/")
-	public String index() {
-		return "index";
-	}
+    @RequestMapping("/")
+    public String index() {
+        return "index";
+    }
 
-	@RequestMapping("/admin")
-	public String admin() {
-		return "admin";
-	}
+    @RequestMapping("/admin")
+    public String admin() {
+        return "admin";
+    }
 
-	@RequestMapping("/moderator")
-	public String moderator() {
-		return "moderator";
-	}
+    @RequestMapping("/moderator")
+    public String moderator() {
+        return "moderator";
+    }
 }

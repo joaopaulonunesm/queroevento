@@ -16,8 +16,7 @@ import io.jsonwebtoken.Jwts;
 public class TokenFilter extends GenericFilterBean {
 
 	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-			throws IOException, ServletException {
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
 		HttpServletRequest req = (HttpServletRequest) request;
 
@@ -34,8 +33,6 @@ public class TokenFilter extends GenericFilterBean {
 		} catch (Exception e) {
 			((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token expirado!");
 		}
-
 		chain.doFilter(request, response);
 	}
-
 }

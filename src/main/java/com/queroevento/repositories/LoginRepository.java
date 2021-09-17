@@ -5,11 +5,13 @@ import org.springframework.stereotype.Repository;
 
 import com.queroevento.models.Login;
 
+import java.util.Optional;
+
 @Repository
 public interface LoginRepository extends JpaRepository<Login, Long> {
 
-	Login findByEmail(String email);
+	Optional<Login> findByEmail(String email);
 
-	Login findByToken(String token);
+	Optional<Login> findByToken(String token);
 
 }

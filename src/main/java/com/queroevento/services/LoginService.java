@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.servlet.ServletException;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,16 +17,12 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 @Service
+@RequiredArgsConstructor
 public class LoginService {
 
-	@Autowired
-	private LoginRepository loginRepository;
-	
-	@Autowired
-	public CompanyService companyService;
-	
-	@Autowired
-	public Utils utils;
+	private final LoginRepository loginRepository;
+	private final CompanyService companyService;
+	private final Utils utils;
 
 	public Login save(Login login) {
 		return loginRepository.save(login);
@@ -36,7 +33,6 @@ public class LoginService {
 	}
 
 	public Login authenticate(Login login) throws ServletException {
-
 		if (login.getEmail() == null || login.getPassword() == null) {
 			throw new ServletException("Informe seu Email e Senha.");
 		}
@@ -53,7 +49,6 @@ public class LoginService {
 	}
 	
 	public Login validateLogin(String token) throws ServletException  {
-
 		Login login = findByToken(token);
 
 		if (login == null) {
@@ -66,7 +61,6 @@ public class LoginService {
 	}
 
 	public Login postLogin(Login login) throws ServletException {
-
 		Company company = login.getCompany();
 
 		validateLogin(login, company);
@@ -91,7 +85,6 @@ public class LoginService {
 	}
 
 	public Login putLoginActive(Login login, Login existenceLogin) throws ServletException {
-
 		if(login.getActive() == null) {
 			throw new ServletException("Informe se o login esta Ativo.");
 		}
@@ -102,15 +95,14 @@ public class LoginService {
 	}
 	
 	private Login findByEmail(String email) {
-		return loginRepository.findByEmail(email);
+		return loginRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Erro ao buscar Login por Email. Email: " + email));
 	}
 	
 	private Login findByToken(String token) {
-		return loginRepository.findByToken(token.substring(7));
+		return loginRepository.findByToken(token.substring(7)).orElseThrow(() -> new RuntimeException("Erro ao buscar Login por Token. Token: " + token));
 	}
 
 	private Login getOneByEmail(String email) throws ServletException {
-		
 		Login login = findByEmail(email);
 		
 		if(login == null) {
@@ -121,7 +113,6 @@ public class LoginService {
 	}
 	
 	private void validateLogin(Login login, Company company) throws ServletException {
-		
 		if (login.getEmail() == null || login.getPassword() == null || company.getName() == null
 				|| company.getName().isEmpty()) {
 			throw new ServletException("Email, Senha e Nome da Empresa são informações obrigatórias.");
@@ -137,7 +128,6 @@ public class LoginService {
 	}
 
 	private void validateExpirationTokenDate(Login login) {
-		
 		if (login.getExpirationTokenDate() == null || login.getExpirationTokenDate().before(new Date())) {
 
 			Date expirationDate = new Date(System.currentTimeMillis() + 240 * 60 * 1000);
@@ -151,5 +141,4 @@ public class LoginService {
 			loginRepository.save(login);
 		}
 	}
-
 }

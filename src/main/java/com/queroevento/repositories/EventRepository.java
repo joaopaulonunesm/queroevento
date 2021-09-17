@@ -2,6 +2,7 @@ package com.queroevento.repositories;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,7 +23,7 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
 	List<Event> findByOrderByPeopleEstimateDesc();
 
-	Event findByUrlTitle(String url);
+	Optional<Event> findByUrlTitle(String url);
 
 	List<Event> findByEventDateBeforeAndCatalogStatusOrderByEventDateDesc(Date date, CatalogStatusEvent status);
 

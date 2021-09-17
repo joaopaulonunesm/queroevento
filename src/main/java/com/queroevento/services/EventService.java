@@ -19,6 +19,7 @@ import java.util.Set;
 
 import javax.servlet.ServletException;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,421 +33,391 @@ import com.queroevento.repositories.EventRepository;
 import com.queroevento.utils.Utils;
 
 @Service
+@RequiredArgsConstructor
 public class EventService {
 
-	@Autowired
-	private EventRepository eventRepository;
+    private final EventRepository eventRepository;
+    private final CategoryService categoryService;
+    private final CompanyService companyService;
+    private final Utils utils;
 
-	@Autowired
-	public CategoryService categoryService;
-	
-	@Autowired
-	public CompanyService companyService;
+    public Event save(Event event) {
+        return eventRepository.save(event);
+    }
 
-	@Autowired
-	public Utils utils;
+    public Event getOneById(Long id) throws ServletException {
+        return eventRepository.findById(id).orElseThrow(() -> new ServletException("ID Evento não encontrado."));
+    }
 
-	public Event save(Event event) {
-		return eventRepository.save(event);
-	}
+    public List<Event> getAllEventOrderByDate(Date date,
+                                              CatalogStatusEvent catalogStatusEvent, StatusEvent statusEvent) {
+        return eventRepository.findByEventDateAfterAndCatalogStatusAndStatusOrderByEventDate(date, catalogStatusEvent,
+                statusEvent);
+    }
 
-	public Event getOneById(Long id) throws ServletException {
-		
-		Event event =  eventRepository.findOne(id);
-		
-		if (event == null) {
+    public List<Event> getAllPastEventOrderByDate(Date date, CatalogStatusEvent status) {
 
-			throw new ServletException("ID Evento não encontrado.");
-		}
-		
-		return event;
-	}
-	
-	public List<Event> getAllEventOrderByDate(Date date,
-			CatalogStatusEvent catalogStatusEvent, StatusEvent statusEvent) {
+        return eventRepository.findByEventDateBeforeAndCatalogStatusOrderByEventDateDesc(date, status);
+    }
 
-		return eventRepository.findByEventDateAfterAndCatalogStatusAndStatusOrderByEventDate(date, catalogStatusEvent,
-				statusEvent);
-	}
+    public List<Event> findByOrderByPeopleEstimateDesc() {
 
-	public List<Event> getAllPastEventOrderByDate(Date date, CatalogStatusEvent status) {
+        return eventRepository.findByOrderByPeopleEstimateDesc();
+    }
 
-		return eventRepository.findByEventDateBeforeAndCatalogStatusOrderByEventDateDesc(date, status);
-	}
+    public List<Event> findByCatalogStatus(CatalogStatusEvent catalogStatus) {
 
-	public List<Event> findByOrderByPeopleEstimateDesc() {
+        return eventRepository.findByCatalogStatusOrderByEventDate(catalogStatus);
+    }
 
-		return eventRepository.findByOrderByPeopleEstimateDesc();
-	}
+    public List<Event> findByEventStatus(StatusEvent status) {
 
-	public List<Event> findByCatalogStatus(CatalogStatusEvent catalogStatus) {
+        return eventRepository.findByStatusOrderByEventDate(status);
+    }
 
-		return eventRepository.findByCatalogStatusOrderByEventDate(catalogStatus);
-	}
+    public List<Event> getEventByKeyword(String keyword) {
 
-	public List<Event> findByEventStatus(StatusEvent status) {
+        return eventRepository.getEventByKeywordIgnoreCaseOrderByEventDate(keyword);
+    }
 
-		return eventRepository.findByStatusOrderByEventDate(status);
-	}
+    public List<Event> findByCompanyId(Long id) {
 
-	public List<Event> getEventByKeyword(String keyword) {
+        return eventRepository.findByCompanyIdOrderByEventDate(id);
+    }
 
-		return eventRepository.getEventByKeywordIgnoreCaseOrderByEventDate(keyword);
-	}
+    public List<Event> findNextEventsByCompanyId(Long id) {
 
-	public List<Event> findByCompanyId(Long id) {
+        return eventRepository.findByCompanyIdAndEventDateAfterOrderByEventDate(id, new Date());
+    }
 
-		return eventRepository.findByCompanyIdOrderByEventDate(id);
-	}
-	
-	public List<Event> findNextEventsByCompanyId(Long id) {
+    public List<Event> findRealizedEventsByCompanyId(Long id) {
 
-		return eventRepository.findByCompanyIdAndEventDateAfterOrderByEventDate(id, new Date());
-	}
-	
-	public List<Event> findRealizedEventsByCompanyId(Long id) {
+        return eventRepository.findByCompanyIdAndEventDateBeforeOrderByEventDate(id, new Date());
+    }
 
-		return eventRepository.findByCompanyIdAndEventDateBeforeOrderByEventDate(id, new Date());
-	}
 
+    public List<Event> findByTurbineType(
+            CatalogStatusEvent catalogStatus, TurbineType turbineType, Date date) {
 
-	public List<Event> findByTurbineType(
-			CatalogStatusEvent catalogStatus, TurbineType turbineType, Date date) {
+        List<Event> events = eventRepository.findByCatalogStatusAndTurbineTypeAndEventDateAfterOrderByEventDate(catalogStatus,
+                turbineType, date);
 
-		List<Event> events = eventRepository.findByCatalogStatusAndTurbineTypeAndEventDateAfterOrderByEventDate(catalogStatus,
-				turbineType, date);
-		
-		Collections.shuffle(events);
-		
-		return events;
-	}
+        Collections.shuffle(events);
 
-	public List<Event> findEventsByUrlNameCategory(String url,
-			Date date, CatalogStatusEvent catalogStatus, StatusEvent status) throws ServletException {
-		
-		Company company = companyService.findCompanyByUrlName(url);
+        return events;
+    }
 
-		return eventRepository.findByCompanyIdAndEventDateAfterAndCatalogStatusAndStatusOrderByEventDate(company.getId(),
-				date, catalogStatus, status);
-	}
+    public List<Event> findEventsByUrlNameCategory(String url,
+                                                   Date date, CatalogStatusEvent catalogStatus, StatusEvent status) throws ServletException {
 
+        Company company = companyService.findCompanyByUrlName(url);
 
+        return eventRepository.findByCompanyIdAndEventDateAfterAndCatalogStatusAndStatusOrderByEventDate(company.getId(),
+                date, catalogStatus, status);
+    }
 
-	public Set<Event> findByWord(String word) {
 
-		Set<Event> byTitle = findEventByWord(
-				new Date(), CatalogStatusEvent.PUBLISHED, StatusEvent.ACTIVE, word);
+    public Set<Event> findByWord(String word) {
 
-		Set<Event> byCategory = findEventByCategory(
-				new Date(), CatalogStatusEvent.PUBLISHED, StatusEvent.ACTIVE, word);
+        Set<Event> byTitle = findEventByWord(
+                new Date(), CatalogStatusEvent.PUBLISHED, StatusEvent.ACTIVE, word);
 
-		Set<Event> byKeyword = findEventByKeyword(
-				new Date(), CatalogStatusEvent.PUBLISHED, StatusEvent.ACTIVE, word);
+        Set<Event> byCategory = findEventByCategory(
+                new Date(), CatalogStatusEvent.PUBLISHED, StatusEvent.ACTIVE, word);
 
-		Set<Event> byState = findEventByState(
-				new Date(), CatalogStatusEvent.PUBLISHED, StatusEvent.ACTIVE, word);
+        Set<Event> byKeyword = findEventByKeyword(
+                new Date(), CatalogStatusEvent.PUBLISHED, StatusEvent.ACTIVE, word);
 
-		Set<Event> byCity = findEventByCity(
-				new Date(), CatalogStatusEvent.PUBLISHED, StatusEvent.ACTIVE, word);
+        Set<Event> byState = findEventByState(
+                new Date(), CatalogStatusEvent.PUBLISHED, StatusEvent.ACTIVE, word);
 
-		List<Event> eventsList = new ArrayList<>();
-		eventsList.addAll(byTitle);
-		eventsList.addAll(byCategory);
-		eventsList.addAll(byKeyword);
-		eventsList.addAll(byState);
-		eventsList.addAll(byCity);
+        Set<Event> byCity = findEventByCity(
+                new Date(), CatalogStatusEvent.PUBLISHED, StatusEvent.ACTIVE, word);
 
-		orderEventsByDate(eventsList);
+        List<Event> eventsList = new ArrayList<>();
+        eventsList.addAll(byTitle);
+        eventsList.addAll(byCategory);
+        eventsList.addAll(byKeyword);
+        eventsList.addAll(byState);
+        eventsList.addAll(byCity);
 
-		Set<Event> events = new LinkedHashSet<>();
-		events.addAll(eventsList);
+        orderEventsByDate(eventsList);
 
-		return events;
-	}
+        Set<Event> events = new LinkedHashSet<>();
+        events.addAll(eventsList);
 
-	public Event postEvent(Event event, Company company) throws ServletException {
+        return events;
+    }
 
-		validateEventFields(event);
+    public Event postEvent(Event event, Company company) throws ServletException {
 
-		Category category = categoryService.getOneCategoryById(event.getCategory().getId());
+        validateEventFields(event);
 
-		event.setCompany(company);
-		event.setCategory(category);
-		event.setPeopleEstimate(0);
-		event.setCreateEventDate(new Date());
-		event.setUrlTitle(utils.stringToUrl(event, event.getTitle()));
-		event.setCatalogStatus(CatalogStatusEvent.CATALOGING);
-		event.setStatus(StatusEvent.ACTIVE);
-		event.setViews(0L);
+        Category category = categoryService.getOneCategoryById(event.getCategory().getId());
 
-		return save(event);
-	}
+        event.setCompany(company);
+        event.setCategory(category);
+        event.setPeopleEstimate(0);
+        event.setCreateEventDate(new Date());
+        event.setUrlTitle(utils.stringToUrl(event, event.getTitle()));
+        event.setCatalogStatus(CatalogStatusEvent.CATALOGING);
+        event.setStatus(StatusEvent.ACTIVE);
+        event.setViews(0L);
 
-	public Event putEvent(Event event, String urlTitle, Company company) throws ServletException {
+        return save(event);
+    }
 
-		validateEventFields(event);
+    public Event putEvent(Event event, String urlTitle, Company company) throws ServletException {
 
-		Category category = categoryService.getOneCategoryById(event.getCategory().getId());
+        validateEventFields(event);
 
-		Event existenceEvent = getOneByUrlTitle(urlTitle);
+        Category category = categoryService.getOneCategoryById(event.getCategory().getId());
 
-		// Verifica se company que esta alterando é a mesma do evento alterado
-		if (event.getCompany() != null && company.getId() != event.getCompany().getId()) {
-			throw new ServletException("Sua empresa é diferente da empresa que esta informando no evento.");
-		}
+        Event existenceEvent = getOneByUrlTitle(urlTitle);
 
-		// Verifica se a company que esta alterando é diferente da company do
-		// evento já existente
-		if (company.getId() != existenceEvent.getCompany().getId()) {
-			throw new ServletException("Sua empresa é diferente da empresa que criou esse evento.");
-		}
+        // Verifica se company que esta alterando é a mesma do evento alterado
+        if (event.getCompany() != null && company.getId() != event.getCompany().getId()) {
+            throw new ServletException("Sua empresa é diferente da empresa que esta informando no evento.");
+        }
 
-		event.setId(existenceEvent.getId());
-		event.setCreateEventDate(existenceEvent.getCreateEventDate());
-		event.setPeopleEstimate(existenceEvent.getPeopleEstimate());
-		event.setCatalogStatus(existenceEvent.getCatalogStatus());
-		event.setCompany(company);
-		event.setCatalogStatus(CatalogStatusEvent.CATALOGING);
-		event.setUrlTitle(utils.stringToUrl(event, event.getTitle()));
-		event.setCategory(category);
+        // Verifica se a company que esta alterando é diferente da company do
+        // evento já existente
+        if (company.getId() != existenceEvent.getCompany().getId()) {
+            throw new ServletException("Sua empresa é diferente da empresa que criou esse evento.");
+        }
 
-		Category oldCategory = existenceEvent.getCategory();
-		oldCategory.setAmmountEvents(oldCategory.getAmmountEvents() - 1);
-		categoryService.save(oldCategory);
+        event.setId(existenceEvent.getId());
+        event.setCreateEventDate(existenceEvent.getCreateEventDate());
+        event.setPeopleEstimate(existenceEvent.getPeopleEstimate());
+        event.setCatalogStatus(existenceEvent.getCatalogStatus());
+        event.setCompany(company);
+        event.setCatalogStatus(CatalogStatusEvent.CATALOGING);
+        event.setUrlTitle(utils.stringToUrl(event, event.getTitle()));
+        event.setCategory(category);
 
-		return save(event);
-	}
+        Category oldCategory = existenceEvent.getCategory();
+        oldCategory.setAmmountEvents(oldCategory.getAmmountEvents() - 1);
+        categoryService.save(oldCategory);
 
-	public Event putEventPeopleEstimate(Long id, Company company) throws ServletException {
+        return save(event);
+    }
 
-		Event event = getOneById(id);
+    public Event putEventPeopleEstimate(Long id, Company company) throws ServletException {
 
-		validateCompany(company, event);
+        Event event = getOneById(id);
 
-		event.setPeopleEstimate(event.getPeopleEstimate() + 1);
+        validateCompany(company, event);
 
-		return save(event);
-	}
+        event.setPeopleEstimate(event.getPeopleEstimate() + 1);
 
-	public Event putEventStatus(Event event, Long id, Company company) throws ServletException {
+        return save(event);
+    }
 
-		Event existenceEvent = getOneById(id);
+    public Event putEventStatus(Event event, Long id, Company company) throws ServletException {
 
-		validateCompany(company, existenceEvent);
+        Event existenceEvent = getOneById(id);
 
-		StatusEvent statusEvent = event.getStatus();
+        validateCompany(company, existenceEvent);
 
-		if (statusEvent == null || (statusEvent != ACTIVE && statusEvent != CANCELED)) {
-			throw new ServletException("Status de Evento informado é inválido.");
-		}
+        StatusEvent statusEvent = event.getStatus();
 
-		existenceEvent.setStatus(statusEvent);
+        if (statusEvent == null || (statusEvent != ACTIVE && statusEvent != CANCELED)) {
+            throw new ServletException("Status de Evento informado é inválido.");
+        }
 
-		return save(existenceEvent);
-	}
+        existenceEvent.setStatus(statusEvent);
 
-	public Event putEventStatusCalog(Event event, Long id) throws ServletException {
+        return save(existenceEvent);
+    }
 
-		Event existenceEvent = getOneById(id);
+    public Event putEventStatusCalog(Event event, Long id) throws ServletException {
 
-		CatalogStatusEvent catalogStatusEvent = event.getCatalogStatus();
+        Event existenceEvent = getOneById(id);
 
-		if (catalogStatusEvent == null || (catalogStatusEvent != CATALOGING && catalogStatusEvent != PUBLISHED
-				&& catalogStatusEvent != REFUSED)) {
-			throw new ServletException("Status de Catalogação de Evento informado é inválido.");
-		}
+        CatalogStatusEvent catalogStatusEvent = event.getCatalogStatus();
 
-		existenceEvent.setCatalogStatus(catalogStatusEvent);
+        if (catalogStatusEvent == null || (catalogStatusEvent != CATALOGING && catalogStatusEvent != PUBLISHED
+                && catalogStatusEvent != REFUSED)) {
+            throw new ServletException("Status de Catalogação de Evento informado é inválido.");
+        }
 
-		save(existenceEvent);
+        existenceEvent.setCatalogStatus(catalogStatusEvent);
 
-		Category category = existenceEvent.getCategory();
+        save(existenceEvent);
 
-		updateAmmountEventsInCategory(category);
+        Category category = existenceEvent.getCategory();
 
-		return existenceEvent;
-	}
+        updateAmmountEventsInCategory(category);
 
-	public Event putEventTurbineType(Event event, Long id, Company company) throws ServletException {
+        return existenceEvent;
+    }
 
-		Event existenceEvent = getOneById(id);
+    public Event putEventTurbineType(Event event, Long id, Company company) throws ServletException {
 
-		validateCompany(company, existenceEvent);
+        Event existenceEvent = getOneById(id);
 
-		TurbineType turbineType = event.getTurbineType();
+        validateCompany(company, existenceEvent);
 
-		if (turbineType == null || (turbineType != BRONZE && turbineType != SILVER && turbineType != GOLD)) {
-			throw new ServletException("Status de Catalogação de Evento informado é inválido.");
-		}
+        TurbineType turbineType = event.getTurbineType();
 
-		existenceEvent.setTurbineType(turbineType);
+        if (turbineType == null || (turbineType != BRONZE && turbineType != SILVER && turbineType != GOLD)) {
+            throw new ServletException("Status de Catalogação de Evento informado é inválido.");
+        }
 
-		return save(existenceEvent);
-	}
+        existenceEvent.setTurbineType(turbineType);
 
-	public void deleteEvent(Long id, Company company) throws ServletException {
+        return save(existenceEvent);
+    }
 
-		Event event = getOneById(id);
+    public void deleteEvent(Long id, Company company) throws ServletException {
 
-		validateCompany(company, event);
+        Event event = getOneById(id);
 
-		eventRepository.delete(event);
-	}
+        validateCompany(company, event);
 
-	public Event getEventByUrlTitle(String url) throws ServletException {
+        eventRepository.delete(event);
+    }
 
-		Event event = getOneByUrlTitle(url);
+    public Event getEventByUrlTitle(String url) throws ServletException {
 
-		event.setViews(event.getViews() + 1);
-		save(event);
-		
-		return event;
-	}
+        Event event = getOneByUrlTitle(url);
 
-	public List<Event> getAllEventByCategory(String url) throws ServletException {
-		
-		Category category = categoryService.getOneCategoryByUrlName(url);
+        event.setViews(event.getViews() + 1);
+        save(event);
 
-		List<Event> events = findByEventDateAfterAndCatalogStatusAndStatusAndCategoryIdOrderByEventDate(
-				new Date(), CatalogStatusEvent.PUBLISHED, StatusEvent.ACTIVE, category.getId());
+        return event;
+    }
 
-		category.setAmmountEvents(events.size());
-		categoryService.save(category);
-		
-		return events;
-	}
-	
+    public List<Event> getAllEventByCategory(String url) throws ServletException {
 
-	private List<Event> findByEventDateAfterAndCatalogStatusAndStatusAndCategoryIdOrderByEventDate(Date date,
-			CatalogStatusEvent catalogStatus, StatusEvent status, Long idCategory) {
+        Category category = categoryService.getOneCategoryByUrlName(url);
 
-		return eventRepository.findByEventDateAfterAndCatalogStatusAndStatusAndCategoryIdOrderByEventDate(date,
-				catalogStatus, status, idCategory);
-	}
-	
-	private void updateAmmountEventsInCategory(Category category) {
+        List<Event> events = findByEventDateAfterAndCatalogStatusAndStatusAndCategoryIdOrderByEventDate(
+                new Date(), CatalogStatusEvent.PUBLISHED, StatusEvent.ACTIVE, category.getId());
 
-		List<Event> eventsByCategory = findByEventDateAfterAndCatalogStatusAndStatusAndCategoryIdOrderByEventDate(
-				new Date(), CatalogStatusEvent.PUBLISHED, StatusEvent.ACTIVE, category.getId());
+        category.setAmmountEvents(events.size());
+        categoryService.save(category);
 
-		category.setAmmountEvents(eventsByCategory.size());
-		
-		categoryService.save(category);
-	}
-	
-	private Event getOneByUrlTitle(String url) throws ServletException {
-		
-		Event event = eventRepository.findByUrlTitle(url);
-		
-		if (event == null) {
+        return events;
+    }
 
-			throw new ServletException("Evento não encontrado.");
-		}
-		
-		return event;
-	}
-	
-	private Set<Event> findEventByWord(
-			Date date, CatalogStatusEvent catalogEvent, StatusEvent status, String word) {
 
-		return eventRepository
-				.findByEventDateAfterAndCatalogStatusAndStatusAndTitleIgnoreCaseContainingOrderByEventDate(date,
-						catalogEvent, status, word);
-	}
-	
-	private Set<Event> findEventByCity(
-			Date date, CatalogStatusEvent catalogEvent, StatusEvent status, String word) {
+    private List<Event> findByEventDateAfterAndCatalogStatusAndStatusAndCategoryIdOrderByEventDate(Date date,
+                                                                                                   CatalogStatusEvent catalogStatus, StatusEvent status, Long idCategory) {
 
-		return eventRepository
-				.findByEventDateAfterAndCatalogStatusAndStatusAndCityIgnoreCaseContainingOrderByEventDate(
-				date, catalogEvent, status, word);
-	}
-	
-	private Set<Event> findEventByCategory(
-			Date date, CatalogStatusEvent catalogEvent, StatusEvent status, String word) {
+        return eventRepository.findByEventDateAfterAndCatalogStatusAndStatusAndCategoryIdOrderByEventDate(date,
+                catalogStatus, status, idCategory);
+    }
 
-		return eventRepository
-				.findByEventDateAfterAndCatalogStatusAndStatusAndCategoryNameIgnoreCaseContainingOrderByEventDate(date,
-						catalogEvent, status, word);
-	}
-	
-	private Set<Event> findEventByKeyword(
-			Date date, CatalogStatusEvent catalogEvent, StatusEvent status, String word) {
+    private void updateAmmountEventsInCategory(Category category) {
 
-		return eventRepository
-				.findByEventDateAfterAndCatalogStatusAndStatusAndKeywordIgnoreCaseContainingOrderByEventDate(date,
-						catalogEvent, status, word);
-	}
-	
+        List<Event> eventsByCategory = findByEventDateAfterAndCatalogStatusAndStatusAndCategoryIdOrderByEventDate(
+                new Date(), CatalogStatusEvent.PUBLISHED, StatusEvent.ACTIVE, category.getId());
 
-	private Set<Event> findEventByState(
-			Date date, CatalogStatusEvent catalogEvent, StatusEvent status, String word) {
+        category.setAmmountEvents(eventsByCategory.size());
 
-		return eventRepository
-				.findByEventDateAfterAndCatalogStatusAndStatusAndStateIgnoreCaseContainingOrderByEventDate(date,
-						catalogEvent, status, word);
-	}
-	
-	private void orderEventsByDate(List<Event> events) {
+        categoryService.save(category);
+    }
 
-		Comparator<Event> comparator = new Comparator<Event>() {
+    private Event getOneByUrlTitle(String url) {
+        return eventRepository.findByUrlTitle(url).orElseThrow(() -> new RuntimeException("Evento não encontrado."));
+    }
 
-			@Override
-			public int compare(Event event1, Event event2) {
+    private Set<Event> findEventByWord(
+            Date date, CatalogStatusEvent catalogEvent, StatusEvent status, String word) {
 
-				if (event1.getEventDate().before(event2.getEventDate())) {
-					return -1;
-				}
+        return eventRepository
+                .findByEventDateAfterAndCatalogStatusAndStatusAndTitleIgnoreCaseContainingOrderByEventDate(date,
+                        catalogEvent, status, word);
+    }
 
-				if (event1.getEventDate().after(event2.getEventDate())) {
-					return 1;
-				}
+    private Set<Event> findEventByCity(
+            Date date, CatalogStatusEvent catalogEvent, StatusEvent status, String word) {
 
-				return 0;
-			}
-		};
+        return eventRepository
+                .findByEventDateAfterAndCatalogStatusAndStatusAndCityIgnoreCaseContainingOrderByEventDate(
+                        date, catalogEvent, status, word);
+    }
 
-		events.sort(comparator);
-	}
-	
-	private void validateEventFields(Event event) throws ServletException {
-		
-		// Verifica se o titulo é vazio ou nulo
-		if (event.getTitle() == null || event.getTitle().isEmpty()) {
-			throw new ServletException("O Título do evento é uma informação obrigatória.");
-		}
+    private Set<Event> findEventByCategory(
+            Date date, CatalogStatusEvent catalogEvent, StatusEvent status, String word) {
 
-		// Verifica se existe data no evento
-		if (event.getEventDate() == null) {
-			throw new ServletException("Data é uma informação obrigatória para o evento.");
-		}
+        return eventRepository
+                .findByEventDateAfterAndCatalogStatusAndStatusAndCategoryNameIgnoreCaseContainingOrderByEventDate(date,
+                        catalogEvent, status, word);
+    }
 
-		// Verifica se a data do evento é antes da data atual
-		if (event.getEventDate().before(new Date())) {
-			throw new ServletException(
-					"A data do evento não pode ser menor do que a data atual. Por favor informe uma data futura.");
-		}
+    private Set<Event> findEventByKeyword(
+            Date date, CatalogStatusEvent catalogEvent, StatusEvent status, String word) {
 
-		// Verifica se o preço está nulo
-		if (event.getPrice() == null || event.getPrice() < 0) {
-			throw new ServletException("É necessário informar um preço maior ou igual a zero.");
-		}
+        return eventRepository
+                .findByEventDateAfterAndCatalogStatusAndStatusAndKeywordIgnoreCaseContainingOrderByEventDate(date,
+                        catalogEvent, status, word);
+    }
 
-		// Verifica se a categoria está nula
-		if (event.getCategory() == null) {
-			throw new ServletException("Categoria é uma informação obrigatória para o evento.");
-		}
 
-		// Verifica se o local é vazio ou nulo
-		if (event.getLocal().isEmpty() || event.getLocal() == null) {
-			throw new ServletException("Local é uma informação obrigatória para o evento.");
-		}
-	}
-	
-	private void validateCompany(Company company, Event existenceEvent) throws ServletException {
-		if (company != existenceEvent.getCompany()) {
-			throw new ServletException("Empresa solicitante é diferente da empresa criadora do Evento.");
-		}
-	}
+    private Set<Event> findEventByState(
+            Date date, CatalogStatusEvent catalogEvent, StatusEvent status, String word) {
+
+        return eventRepository
+                .findByEventDateAfterAndCatalogStatusAndStatusAndStateIgnoreCaseContainingOrderByEventDate(date,
+                        catalogEvent, status, word);
+    }
+
+    private void orderEventsByDate(List<Event> events) {
+        Comparator<Event> comparator = (event1, event2) -> {
+
+            if (event1.getEventDate().before(event2.getEventDate())) {
+                return -1;
+            }
+
+            if (event1.getEventDate().after(event2.getEventDate())) {
+                return 1;
+            }
+
+            return 0;
+        };
+        events.sort(comparator);
+    }
+
+    private void validateEventFields(Event event) throws ServletException {
+
+        // Verifica se o titulo é vazio ou nulo
+        if (event.getTitle() == null || event.getTitle().isEmpty()) {
+            throw new ServletException("O Título do evento é uma informação obrigatória.");
+        }
+
+        // Verifica se existe data no evento
+        if (event.getEventDate() == null) {
+            throw new ServletException("Data é uma informação obrigatória para o evento.");
+        }
+
+        // Verifica se a data do evento é antes da data atual
+        if (event.getEventDate().before(new Date())) {
+            throw new ServletException(
+                    "A data do evento não pode ser menor do que a data atual. Por favor informe uma data futura.");
+        }
+
+        // Verifica se o preço está nulo
+        if (event.getPrice() == null || event.getPrice() < 0) {
+            throw new ServletException("É necessário informar um preço maior ou igual a zero.");
+        }
+
+        // Verifica se a categoria está nula
+        if (event.getCategory() == null) {
+            throw new ServletException("Categoria é uma informação obrigatória para o evento.");
+        }
+
+        // Verifica se o local é vazio ou nulo
+        if (event.getLocal().isEmpty() || event.getLocal() == null) {
+            throw new ServletException("Local é uma informação obrigatória para o evento.");
+        }
+    }
+
+    private void validateCompany(Company company, Event existenceEvent) throws ServletException {
+        if (company != existenceEvent.getCompany()) {
+            throw new ServletException("Empresa solicitante é diferente da empresa criadora do Evento.");
+        }
+    }
 
 }
